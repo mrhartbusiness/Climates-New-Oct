@@ -1,0 +1,19 @@
+{
+  "name": "climate-learning-hub",
+  "version": "1.0.0",
+  "description": "Interactive climate education website for UK Year 8 students",
+  "main": "public/index.html",
+  "scripts": {
+    "serve": "firebase serve",
+    "deploy": "firebase deploy"
+  },
+  "keywords": [
+    "education",
+    "climate",
+    "geography",
+    "year8",
+    "interactive"
+  ],
+  "author": "",
+  "license": "MIT"
+}

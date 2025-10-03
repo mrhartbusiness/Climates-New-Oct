@@ -1,0 +1,1662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Climate Learning Hub - Year 8 Geography</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="screen-manager.js"></script>
+</head>
+<body>
+    <!-- Progress Dot and Overlays added by screen-manager.js -->
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <h1>🌍 Climate Learning Hub</h1>
+            <p class="subtitle">Year 8 Geography - Climate & Climate Graphs</p>
+        </div>
+    </header>
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="container">
+            <div class="progress-info">
+                <span id="progressText">Module 0 of 7</span>
+                <span id="pointsDisplay">Points: 0 🏆</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div id="achievementBadges" class="achievement-badges"></div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Welcome Screen -->
+        <section id="screen-welcome" class="screen active">
+            <div class="welcome-card">
+                <h2>🌍<br>Climate Learning<br>Hub</h2>
+                <p style="font-size: 1.3rem; margin: 2rem 0; opacity: 0.9;">Master climate zones and climate graphs</p>
+
+                <div class="name-input-section">
+                    <label for="studentName" style="font-size: 1.2rem; font-weight: 600;">Enter your name to begin:</label>
+                    <input type="text" id="studentName" placeholder="Your full name" style="font-size: 1.2rem; padding: 1rem; margin: 1rem 0; width: 100%; max-width: 400px; border-radius: 12px; border: 2px solid #667eea;" />
+                    <button onclick="startCourse()" class="btn-primary btn-large" style="margin-top: 1rem;">Start Learning! →</button>
+                </div>
+
+                <p class="click-hint" id="welcome-hint" style="display: none; margin-top: 2rem;">Click anywhere to begin →</p>
+            </div>
+        </section>
+
+        <!-- Module 1: Introduction Screens -->
+        <!-- Screen 1: What is Climate? -->
+        <section id="screen-m1-1" class="screen" data-click-anywhere="true">
+            <div class="content-card">
+                <div style="font-size: 4rem; text-align: center; margin-bottom: 2rem;">🌡️</div>
+                <h2 style="font-size: 3rem; text-align: center; margin-bottom: 2rem;">What is Climate?</h2>
+                <p style="font-size: 1.5rem; text-align: center; line-height: 1.8;">
+                    Climate is the average weather conditions in a place<br>over a long period of time<br>(usually 30 years or more)
+                </p>
+                <p class="click-hint">Click anywhere to continue →</p>
+            </div>
+        </section>
+
+        <!-- Screen 2: Climate vs Weather -->
+        <section id="screen-m1-2" class="screen" data-click-anywhere="true">
+            <div class="content-card">
+                <h2 style="font-size: 2.5rem; text-align: center; margin-bottom: 3rem;">Climate vs Weather</h2>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 2rem 0;">
+                    <div style="background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; padding: 2rem; border-radius: 16px; text-align: center;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">⛅</div>
+                        <h3 style="font-size: 1.8rem; color: white; margin-bottom: 1rem;">Weather</h3>
+                        <p style="font-size: 1.2rem; color: white;">What's happening RIGHT NOW</p>
+                        <p style="font-size: 1.1rem; margin-top: 1rem; opacity: 0.9;">"It's raining today"</p>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 2rem; border-radius: 16px; text-align: center;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">🌍</div>
+                        <h3 style="font-size: 1.8rem; color: white; margin-bottom: 1rem;">Climate</h3>
+                        <p style="font-size: 1.2rem; color: white;">Pattern over MANY YEARS</p>
+                        <p style="font-size: 1.1rem; margin-top: 1rem; opacity: 0.9;">"London is usually mild and rainy"</p>
+                    </div>
+                </div>
+                <p class="click-hint">Click anywhere to continue →</p>
+            </div>
+        </section>
+
+        <!-- Screen 3: Why Climates Matter -->
+        <section id="screen-m1-3" class="screen" data-click-anywhere="true">
+            <div class="content-card">
+                <h2 style="font-size: 2.5rem; text-align: center; margin-bottom: 2rem;">Why Do Climates Matter?</h2>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 2rem 0;">
+                    <div style="font-size: 1.2rem; padding: 1.5rem; background: #f0f9ff; border-radius: 12px; border-left: 4px solid #3b82f6;">
+                        🌾 Determines what crops can grow
+                    </div>
+                    <div style="font-size: 1.2rem; padding: 1.5rem; background: #f0fdf4; border-radius: 12px; border-left: 4px solid #10b981;">
+                        🏠 Influences how we build homes
+                    </div>
+                    <div style="font-size: 1.2rem; padding: 1.5rem; background: #fef3c7; border-radius: 12px; border-left: 4px solid #f59e0b;">
+                        👕 Affects what clothes we wear
+                    </div>
+                    <div style="font-size: 1.2rem; padding: 1.5rem; background: #fce7f3; border-radius: 12px; border-left: 4px solid #ec4899;">
+                        🐾 Decides which animals live there
+                    </div>
+                </div>
+                <p class="click-hint">Click anywhere to continue →</p>
+            </div>
+        </section>
+
+        <!-- Screen 4: Quick Check Question -->
+        <section id="screen-m1-4" class="screen">
+            <div class="content-card">
+                <h3 style="font-size: 2rem; text-align: center; margin-bottom: 2rem;">Quick Check! ✓</h3>
+                <p style="font-size: 1.5rem; text-align: center; margin-bottom: 2rem;">Which describes climate?</p>
+                <div class="quiz-options" style="max-width: 700px; margin: 0 auto;">
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'It\'s raining today in Manchester', 'module1')" style="font-size: 1.2rem; padding: 1.5rem;">
+                        It's raining today in Manchester
+                    </button>
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, true, 'The Sahara Desert is hot and dry all year round', 'module1')" style="font-size: 1.2rem; padding: 1.5rem;">
+                        The Sahara Desert is hot and dry all year round ✓
+                    </button>
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'Tomorrow will be sunny', 'module1')" style="font-size: 1.2rem; padding: 1.5rem;">
+                        Tomorrow will be sunny
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Screen 5: Module 1 Complete -->
+        <section id="screen-m1-complete" class="screen" data-click-anywhere="true">
+            <div class="content-card" style="text-align: center;">
+                <div style="font-size: 5rem; margin-bottom: 1rem;">🎉</div>
+                <h2 style="font-size: 3rem; margin-bottom: 1rem; background: linear-gradient(135deg, #10b981, #059669); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Module 1 Complete!</h2>
+                <p style="font-size: 1.5rem; margin-bottom: 2rem;">You understand climate basics!</p>
+                <div style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; padding: 2rem; border-radius: 16px; font-size: 2rem; font-weight: 700; max-width: 400px; margin: 2rem auto;">
+                    +20 Points Earned! 🏆
+                </div>
+                <p class="click-hint" style="margin-top: 3rem; font-size: 1.3rem;">Click to explore Earth's climate types →</p>
+            </div>
+        </section>
+
+        <!-- MODULE 2: CLIMATE TYPES -->
+        <!-- Screen: Module 2 Intro -->
+        <section id="screen-m2-intro" class="screen" data-click-anywhere="true">
+            <div class="content-card" style="text-align: center;">
+                <div style="font-size: 6rem; margin-bottom: 1rem;">🌍</div>
+                <h2 style="font-size: 3.5rem; margin-bottom: 2rem;">5 Climate Types</h2>
+                <p style="font-size: 1.5rem; margin: 2rem 0; line-height: 1.8;">
+                    Earth has 5 major climate zones,<br>
+                    each with unique patterns of<br>
+                    temperature and rainfall
+                </p>
+                <p class="click-hint">Click to explore →</p>
+            </div>
+        </section>
+
+        <!-- Climate Card 1: Tropical -->
+        <section id="screen-m2-tropical" class="screen" data-click-anywhere="true">
+            <div class="content-card" style="text-align: center;">
+                <div style="font-size: 6rem; margin-bottom: 1rem;">🔥</div>
+                <h2 style="font-size: 3.5rem; color: #dc2626; margin-bottom: 2rem;">Tropical</h2>
+                <div style="font-size: 1.5rem; line-height: 2; background: rgba(220, 38, 38, 0.05); padding: 2rem; border-radius: 16px; max-width: 700px; margin: 0 auto;">
+                    <p style="margin-bottom: 1rem;"><strong style="color: #dc2626;">Temperature:</strong> Hot all year (25-30°C)</p>
+                    <p style="margin-bottom: 1rem;"><strong style="color: #dc2626;">Rainfall:</strong> Very high</p>
+                    <p style="margin-bottom: 1rem;"><strong style="color: #dc2626;">Seasons:</strong> Wet & dry (not hot & cold)</p>
+                    <p style="margin-bottom: 0;"><strong style="color: #dc2626;">Examples:</strong> Amazon, Singapore</p>
+                </div>
+                <div style="margin-top: 2rem; padding: 1.5rem; background: linear-gradient(135deg, #dc2626, #b91c1c); color: white; border-radius: 16px; font-size: 1.3rem; max-width: 600px; margin: 2rem auto;">
+                    "Always hot, always humid!" 💧
+                </div>
+                <p class="click-hint">Climate 1 of 5 • Click for next →</p>
+            </div>
+        </section>
+
+        <!-- Climate Card 2: Arid/Desert -->
+        <section id="screen-m2-arid" class="screen" data-click-anywhere="true">
+            <div class="content-card" style="text-align: center;">
+                <div style="font-size: 6rem; margin-bottom: 1rem;">🏜️</div>
+                <h2 style="font-size: 3.5rem; color: #f59e0b; margin-bottom: 2rem;">Arid (Desert)</h2>
+                <div style="font-size: 1.5rem; line-height: 2; background: rgba(245, 158, 11, 0.05); padding: 2rem; border-radius: 16px; max-width: 700px; margin: 0 auto;">
+                    <p style="margin-bottom: 1rem;"><strong style="color: #f59e0b;">Temperature:</strong> Very hot days, cold nights</p>
+                    <p style="margin-bottom: 1rem;"><strong style="color: #f59e0b;">Rainfall:</strong> Less than 250mm per year</p>
+                    <p style="margin-bottom: 1rem;"><strong style="color: #f59e0b;">Seasons:</strong> Hot & hotter!</p>
+                    <p style="margin-bottom: 0;"><strong style="color: #f59e0b;">Examples:</strong> Sahara, Dubai</p>
+                </div>
+                <div style="margin-top: 2rem; padding: 1.5rem; background: linear-gradient(135deg, #f59e0b, #d97706); color: white; border-radius: 16px; font-size: 1.3rem; max-width: 600px; margin: 2rem auto;">
+                    "Hot and dry, barely any rain!" ☀️
+                </div>
+                <p class="click-hint">Climate 2 of 5 • Click for next →</p>
+            </div>
+        </section>
+
+        <!-- Climate Card 3: Temperate -->
+        <section id="screen-m2-temperate" class="screen" data-click-anywhere="true">
+            <div class="content-card" style="text-align: center;">
+                <div style="font-size: 6rem; margin-bottom: 1rem;">🌳</div>
+                <h2 style="font-size: 3.5rem; color: #10b981; margin-bottom: 2rem;">Temperate</h2>
+                <div style="font-size: 1.5rem; line-height: 2; background: rgba(16, 185, 129, 0.05); padding: 2rem; border-radius: 16px; max-width: 700px; margin: 0 auto;">
+                    <p style="margin-bottom: 1rem;"><strong style="color: #10b981;">Temperature:</strong> Moderate (0-20°C)</p>
+                    <p style="margin-bottom: 1rem;"><strong style="color: #10b981;">Rainfall:</strong> Moderate all year</p>
+                    <p style="margin-bottom: 1rem;"><strong style="color: #10b981;">Seasons:</strong> Four distinct seasons</p>
+                    <p style="margin-bottom: 0;"><strong style="color: #10b981;">Examples:</strong> UK, New York</p>
+                </div>
+                <div style="margin-top: 2rem; padding: 1.5rem; background: linear-gradient(135deg, #10b981, #059669); color: white; border-radius: 16px; font-size: 1.3rem; max-width: 600px; margin: 2rem auto;">
+                    "Not too hot, not too cold!" 🍂
+                </div>
+                <p class="click-hint">Climate 3 of 5 • Click for next →</p>
+            </div>
+        </section>
+
+        <!-- Climate Card 4: Polar -->
+        <section id="screen-m2-polar" class="screen" data-click-anywhere="true">
+            <div class="content-card" style="text-align: center;">
+                <div style="font-size: 6rem; margin-bottom: 1rem;">❄️</div>
+                <h2 style="font-size: 3.5rem; color: #3b82f6; margin-bottom: 2rem;">Polar</h2>
+                <div style="font-size: 1.5rem; line-height: 2; background: rgba(59, 130, 246, 0.05); padding: 2rem; border-radius: 16px; max-width: 700px; margin: 0 auto;">
+                    <p style="margin-bottom: 1rem;"><strong style="color: #3b82f6;">Temperature:</strong> Below 10°C all year</p>
+                    <p style="margin-bottom: 1rem;"><strong style="color: #3b82f6;">Rainfall:</strong> Very low (but falls as snow)</p>
+                    <p style="margin-bottom: 1rem;"><strong style="color: #3b82f6;">Seasons:</strong> Long dark winter, short summer</p>
+                    <p style="margin-bottom: 0;"><strong style="color: #3b82f6;">Examples:</strong> Antarctica, Greenland</p>
+                </div>
+                <div style="margin-top: 2rem; padding: 1.5rem; background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; border-radius: 16px; font-size: 1.3rem; max-width: 600px; margin: 2rem auto;">
+                    "Freezing cold, icy and snowy!" 🧊
+                </div>
+                <p class="click-hint">Climate 4 of 5 • Click for next →</p>
+            </div>
+        </section>
+
+        <!-- Climate Card 5: Mediterranean -->
+        <section id="screen-m2-mediterranean" class="screen" data-click-anywhere="true">
+            <div class="content-card" style="text-align: center;">
+                <div style="font-size: 6rem; margin-bottom: 1rem;">☀️</div>
+                <h2 style="font-size: 3.5rem; color: #8b5cf6; margin-bottom: 2rem;">Mediterranean</h2>
+                <div style="font-size: 1.5rem; line-height: 2; background: rgba(139, 92, 246, 0.05); padding: 2rem; border-radius: 16px; max-width: 700px; margin: 0 auto;">
+                    <p style="margin-bottom: 1rem;"><strong style="color: #8b5cf6;">Temperature:</strong> Hot, dry summers / Mild winters</p>
+                    <p style="margin-bottom: 1rem;"><strong style="color: #8b5cf6;">Rainfall:</strong> Mostly in winter</p>
+                    <p style="margin-bottom: 1rem;"><strong style="color: #8b5cf6;">Seasons:</strong> Hot dry summer, mild wet winter</p>
+                    <p style="margin-bottom: 0;"><strong style="color: #8b5cf6;">Examples:</strong> Greece, California</p>
+                </div>
+                <div style="margin-top: 2rem; padding: 1.5rem; background: linear-gradient(135deg, #8b5cf6, #7c3aed); color: white; border-radius: 16px; font-size: 1.3rem; max-width: 600px; margin: 2rem auto;">
+                    "Sunny beaches and olive groves!" 🌊
+                </div>
+                <p class="click-hint">Climate 5 of 5 • Click to test your knowledge →</p>
+            </div>
+        </section>
+
+        <!-- Matching Game Intro -->
+        <section id="screen-m2-match-intro" class="screen" data-click-anywhere="true">
+            <div class="content-card" style="text-align: center;">
+                <div style="font-size: 5rem; margin-bottom: 1rem;">🎯</div>
+                <h2 style="font-size: 3rem; margin-bottom: 2rem;">Match the Cities!</h2>
+                <p style="font-size: 1.5rem; margin: 2rem 0;">Now let's test your knowledge!</p>
+                <p style="font-size: 1.4rem; opacity: 0.9;">Match each city to its climate type</p>
+                <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 2rem; border-radius: 16px; font-size: 2.5rem; font-weight: 700; max-width: 400px; margin: 3rem auto;">
+                    16 Cities 🌍
+                </div>
+                <p class="click-hint">Click to start matching →</p>
+            </div>
+        </section>
+
+        <!-- City Matching Screens (16 cities) -->
+
+        <!-- City 1: London -->
+        <section id="screen-m2-city-1" class="screen">
+            <div class="content-card" style="text-align: center;">
+                <p style="font-size: 1.2rem; opacity: 0.7; margin-bottom: 1rem;">City 1/16</p>
+                <h2 style="font-size: 4rem; margin: 2rem 0;">London 🇬🇧</h2>
+                <p style="font-size: 1.5rem; margin-bottom: 3rem;">Which climate type?</p>
+                <div class="quiz-options" style="max-width: 600px; margin: 0 auto;">
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'London', 1)">🔥 Tropical</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'London', 1)">🏜️ Arid</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, true, 'London', 1)">🌳 Temperate</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'London', 1)">❄️ Polar</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'London', 1)">☀️ Mediterranean</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- City 2: Singapore -->
+        <section id="screen-m2-city-2" class="screen">
+            <div class="content-card" style="text-align: center;">
+                <p style="font-size: 1.2rem; opacity: 0.7; margin-bottom: 1rem;">City 2/16</p>
+                <h2 style="font-size: 4rem; margin: 2rem 0;">Singapore 🇸🇬</h2>
+                <p style="font-size: 1.5rem; margin-bottom: 3rem;">Which climate type?</p>
+                <div class="quiz-options" style="max-width: 600px; margin: 0 auto;">
+                    <button class="quiz-option" onclick="checkCityMatch(this, true, 'Singapore', 2)">🔥 Tropical</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Singapore', 2)">🏜️ Arid</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Singapore', 2)">🌳 Temperate</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Singapore', 2)">❄️ Polar</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Singapore', 2)">☀️ Mediterranean</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- City 3: Dubai -->
+        <section id="screen-m2-city-3" class="screen">
+            <div class="content-card" style="text-align: center;">
+                <p style="font-size: 1.2rem; opacity: 0.7; margin-bottom: 1rem;">City 3/16</p>
+                <h2 style="font-size: 4rem; margin: 2rem 0;">Dubai 🇦🇪</h2>
+                <p style="font-size: 1.5rem; margin-bottom: 3rem;">Which climate type?</p>
+                <div class="quiz-options" style="max-width: 600px; margin: 0 auto;">
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Dubai', 3)">🔥 Tropical</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, true, 'Dubai', 3)">🏜️ Arid</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Dubai', 3)">🌳 Temperate</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Dubai', 3)">❄️ Polar</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Dubai', 3)">☀️ Mediterranean</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- City 4: Reykjavik -->
+        <section id="screen-m2-city-4" class="screen">
+            <div class="content-card" style="text-align: center;">
+                <p style="font-size: 1.2rem; opacity: 0.7; margin-bottom: 1rem;">City 4/16</p>
+                <h2 style="font-size: 4rem; margin: 2rem 0;">Reykjavik 🇮🇸</h2>
+                <p style="font-size: 1.5rem; margin-bottom: 3rem;">Which climate type?</p>
+                <div class="quiz-options" style="max-width: 600px; margin: 0 auto;">
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Reykjavik', 4)">🔥 Tropical</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Reykjavik', 4)">🏜️ Arid</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Reykjavik', 4)">🌳 Temperate</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, true, 'Reykjavik', 4)">❄️ Polar</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Reykjavik', 4)">☀️ Mediterranean</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- City 5: Athens -->
+        <section id="screen-m2-city-5" class="screen">
+            <div class="content-card" style="text-align: center;">
+                <p style="font-size: 1.2rem; opacity: 0.7; margin-bottom: 1rem;">City 5/16</p>
+                <h2 style="font-size: 4rem; margin: 2rem 0;">Athens 🇬🇷</h2>
+                <p style="font-size: 1.5rem; margin-bottom: 3rem;">Which climate type?</p>
+                <div class="quiz-options" style="max-width: 600px; margin: 0 auto;">
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Athens', 5)">🔥 Tropical</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Athens', 5)">🏜️ Arid</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Athens', 5)">🌳 Temperate</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Athens', 5)">❄️ Polar</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, true, 'Athens', 5)">☀️ Mediterranean</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- City 6: Manaus -->
+        <section id="screen-m2-city-6" class="screen">
+            <div class="content-card" style="text-align: center;">
+                <p style="font-size: 1.2rem; opacity: 0.7; margin-bottom: 1rem;">City 6/16</p>
+                <h2 style="font-size: 4rem; margin: 2rem 0;">Manaus 🇧🇷</h2>
+                <p style="font-size: 1.5rem; margin-bottom: 3rem;">Which climate type?</p>
+                <div class="quiz-options" style="max-width: 600px; margin: 0 auto;">
+                    <button class="quiz-option" onclick="checkCityMatch(this, true, 'Manaus', 6)">🔥 Tropical</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Manaus', 6)">🏜️ Arid</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Manaus', 6)">🌳 Temperate</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Manaus', 6)">❄️ Polar</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Manaus', 6)">☀️ Mediterranean</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- City 7: Paris -->
+        <section id="screen-m2-city-7" class="screen">
+            <div class="content-card" style="text-align: center;">
+                <p style="font-size: 1.2rem; opacity: 0.7; margin-bottom: 1rem;">City 7/16</p>
+                <h2 style="font-size: 4rem; margin: 2rem 0;">Paris 🇫🇷</h2>
+                <p style="font-size: 1.5rem; margin-bottom: 3rem;">Which climate type?</p>
+                <div class="quiz-options" style="max-width: 600px; margin: 0 auto;">
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Paris', 7)">🔥 Tropical</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Paris', 7)">🏜️ Arid</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, true, 'Paris', 7)">🌳 Temperate</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Paris', 7)">❄️ Polar</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Paris', 7)">☀️ Mediterranean</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- City 8: Phoenix -->
+        <section id="screen-m2-city-8" class="screen">
+            <div class="content-card" style="text-align: center;">
+                <p style="font-size: 1.2rem; opacity: 0.7; margin-bottom: 1rem;">City 8/16</p>
+                <h2 style="font-size: 4rem; margin: 2rem 0;">Phoenix 🇺🇸</h2>
+                <p style="font-size: 1.5rem; margin-bottom: 3rem;">Which climate type?</p>
+                <div class="quiz-options" style="max-width: 600px; margin: 0 auto;">
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Phoenix', 8)">🔥 Tropical</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, true, 'Phoenix', 8)">🏜️ Arid</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Phoenix', 8)">🌳 Temperate</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Phoenix', 8)">❄️ Polar</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Phoenix', 8)">☀️ Mediterranean</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- City 9: Berlin -->
+        <section id="screen-m2-city-9" class="screen">
+            <div class="content-card" style="text-align: center;">
+                <p style="font-size: 1.2rem; opacity: 0.7; margin-bottom: 1rem;">City 9/16</p>
+                <h2 style="font-size: 4rem; margin: 2rem 0;">Berlin 🇩🇪</h2>
+                <p style="font-size: 1.5rem; margin-bottom: 3rem;">Which climate type?</p>
+                <div class="quiz-options" style="max-width: 600px; margin: 0 auto;">
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Berlin', 9)">🔥 Tropical</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Berlin', 9)">🏜️ Arid</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, true, 'Berlin', 9)">🌳 Temperate</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Berlin', 9)">❄️ Polar</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Berlin', 9)">☀️ Mediterranean</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- City 10: Mumbai -->
+        <section id="screen-m2-city-10" class="screen">
+            <div class="content-card" style="text-align: center;">
+                <p style="font-size: 1.2rem; opacity: 0.7; margin-bottom: 1rem;">City 10/16</p>
+                <h2 style="font-size: 4rem; margin: 2rem 0;">Mumbai 🇮🇳</h2>
+                <p style="font-size: 1.5rem; margin-bottom: 3rem;">Which climate type?</p>
+                <div class="quiz-options" style="max-width: 600px; margin: 0 auto;">
+                    <button class="quiz-option" onclick="checkCityMatch(this, true, 'Mumbai', 10)">🔥 Tropical</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Mumbai', 10)">🏜️ Arid</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Mumbai', 10)">🌳 Temperate</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Mumbai', 10)">❄️ Polar</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Mumbai', 10)">☀️ Mediterranean</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- City 11: Rome -->
+        <section id="screen-m2-city-11" class="screen">
+            <div class="content-card" style="text-align: center;">
+                <p style="font-size: 1.2rem; opacity: 0.7; margin-bottom: 1rem;">City 11/16</p>
+                <h2 style="font-size: 4rem; margin: 2rem 0;">Rome 🇮🇹</h2>
+                <p style="font-size: 1.5rem; margin-bottom: 3rem;">Which climate type?</p>
+                <div class="quiz-options" style="max-width: 600px; margin: 0 auto;">
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Rome', 11)">🔥 Tropical</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Rome', 11)">🏜️ Arid</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Rome', 11)">🌳 Temperate</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Rome', 11)">❄️ Polar</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, true, 'Rome', 11)">☀️ Mediterranean</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- City 12: Cairo -->
+        <section id="screen-m2-city-12" class="screen">
+            <div class="content-card" style="text-align: center;">
+                <p style="font-size: 1.2rem; opacity: 0.7; margin-bottom: 1rem;">City 12/16</p>
+                <h2 style="font-size: 4rem; margin: 2rem 0;">Cairo 🇪🇬</h2>
+                <p style="font-size: 1.5rem; margin-bottom: 3rem;">Which climate type?</p>
+                <div class="quiz-options" style="max-width: 600px; margin: 0 auto;">
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Cairo', 12)">🔥 Tropical</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, true, 'Cairo', 12)">🏜️ Arid</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Cairo', 12)">🌳 Temperate</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Cairo', 12)">❄️ Polar</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Cairo', 12)">☀️ Mediterranean</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- City 13: New York -->
+        <section id="screen-m2-city-13" class="screen">
+            <div class="content-card" style="text-align: center;">
+                <p style="font-size: 1.2rem; opacity: 0.7; margin-bottom: 1rem;">City 13/16</p>
+                <h2 style="font-size: 4rem; margin: 2rem 0;">New York 🇺🇸</h2>
+                <p style="font-size: 1.5rem; margin-bottom: 3rem;">Which climate type?</p>
+                <div class="quiz-options" style="max-width: 600px; margin: 0 auto;">
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'New York', 13)">🔥 Tropical</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'New York', 13)">🏜️ Arid</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, true, 'New York', 13)">🌳 Temperate</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'New York', 13)">❄️ Polar</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'New York', 13)">☀️ Mediterranean</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- City 14: Bangkok -->
+        <section id="screen-m2-city-14" class="screen">
+            <div class="content-card" style="text-align: center;">
+                <p style="font-size: 1.2rem; opacity: 0.7; margin-bottom: 1rem;">City 14/16</p>
+                <h2 style="font-size: 4rem; margin: 2rem 0;">Bangkok 🇹🇭</h2>
+                <p style="font-size: 1.5rem; margin-bottom: 3rem;">Which climate type?</p>
+                <div class="quiz-options" style="max-width: 600px; margin: 0 auto;">
+                    <button class="quiz-option" onclick="checkCityMatch(this, true, 'Bangkok', 14)">🔥 Tropical</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Bangkok', 14)">🏜️ Arid</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Bangkok', 14)">🌳 Temperate</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Bangkok', 14)">❄️ Polar</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Bangkok', 14)">☀️ Mediterranean</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- City 15: Barcelona -->
+        <section id="screen-m2-city-15" class="screen">
+            <div class="content-card" style="text-align: center;">
+                <p style="font-size: 1.2rem; opacity: 0.7; margin-bottom: 1rem;">City 15/16</p>
+                <h2 style="font-size: 4rem; margin: 2rem 0;">Barcelona 🇪🇸</h2>
+                <p style="font-size: 1.5rem; margin-bottom: 3rem;">Which climate type?</p>
+                <div class="quiz-options" style="max-width: 600px; margin: 0 auto;">
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Barcelona', 15)">🔥 Tropical</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Barcelona', 15)">🏜️ Arid</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Barcelona', 15)">🌳 Temperate</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Barcelona', 15)">❄️ Polar</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, true, 'Barcelona', 15)">☀️ Mediterranean</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- City 16: Nuuk -->
+        <section id="screen-m2-city-16" class="screen">
+            <div class="content-card" style="text-align: center;">
+                <p style="font-size: 1.2rem; opacity: 0.7; margin-bottom: 1rem;">City 16/16</p>
+                <h2 style="font-size: 4rem; margin: 2rem 0;">Nuuk 🇬🇱</h2>
+                <p style="font-size: 1.5rem; margin-bottom: 3rem;">Which climate type?</p>
+                <div class="quiz-options" style="max-width: 600px; margin: 0 auto;">
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Nuuk', 16)">🔥 Tropical</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Nuuk', 16)">🏜️ Arid</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Nuuk', 16)">🌳 Temperate</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, true, 'Nuuk', 16)">❄️ Polar</button>
+                    <button class="quiz-option" onclick="checkCityMatch(this, false, 'Nuuk', 16)">☀️ Mediterranean</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Module 2 Complete -->
+        <section id="screen-m2-complete" class="screen" data-click-anywhere="true">
+            <div class="content-card" style="text-align: center;">
+                <div style="font-size: 5rem; margin-bottom: 1rem;">🌍</div>
+                <h2 style="font-size: 3rem; margin-bottom: 1rem;">Module 2 Complete!</h2>
+                <p style="font-size: 1.5rem; margin-bottom: 2rem;">You've mastered climate types!</p>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 2rem 0; max-width: 600px; margin: 2rem auto;">
+                    <div style="background: #f0f9ff; padding: 2rem; border-radius: 12px;">
+                        <div style="font-size: 3rem; color: #3b82f6; font-weight: 700;">16/16</div>
+                        <div style="font-size: 1.2rem; opacity: 0.8;">Cities Matched</div>
+                    </div>
+                    <div style="background: #fef3c7; padding: 2rem; border-radius: 12px;">
+                        <div style="font-size: 3rem; color: #f59e0b; font-weight: 700;">+80</div>
+                        <div style="font-size: 1.2rem; opacity: 0.8;">Points Earned</div>
+                    </div>
+                </div>
+                <p class="click-hint" style="margin-top: 3rem;">Click to learn about climate graphs →</p>
+            </div>
+        </section>
+
+        <!-- MODULE 3: CLIMATE GRAPHS -->
+
+        <!-- M3: Intro to Climate Graphs -->
+        <section id="screen-m3-intro" class="screen" data-click-anywhere="true">
+            <div class="content-card" style="text-align: center;">
+                <div style="font-size: 5rem; margin-bottom: 1rem;">📊</div>
+                <h2 style="font-size: 3rem; margin-bottom: 2rem;">Climate Graphs</h2>
+                <p style="font-size: 1.5rem; line-height: 1.8; max-width: 800px; margin: 0 auto;">
+                    A <strong>climate graph</strong> shows both temperature and rainfall<br>
+                    for each month of the year in one visual display
+                </p>
+                <div style="margin-top: 3rem; padding: 2rem; background: rgba(59, 130, 246, 0.1); border-radius: 16px; max-width: 700px; margin: 3rem auto;">
+                    <p style="font-size: 1.3rem;">Scientists use these graphs to understand<br>weather patterns across the entire year</p>
+                </div>
+                <p class="click-hint">Click to learn how to read them →</p>
+            </div>
+        </section>
+
+        <!-- M3: How to Read Climate Graphs -->
+        <section id="screen-m3-howto" class="screen" data-click-anywhere="true">
+            <div class="content-card" style="text-align: center;">
+                <h2 style="font-size: 2.5rem; margin-bottom: 3rem;">How to Read Climate Graphs</h2>
+                <div style="display: flex; flex-direction: column; gap: 2rem; max-width: 800px; margin: 0 auto; text-align: left;">
+                    <div style="display: flex; align-items: center; gap: 2rem; background: rgba(255, 99, 132, 0.1); padding: 2rem; border-radius: 12px;">
+                        <div style="font-size: 4rem;">🔴</div>
+                        <div>
+                            <h3 style="font-size: 1.8rem; margin-bottom: 0.5rem; color: #ff6384;">Red Line = Temperature</h3>
+                            <p style="font-size: 1.3rem;">Shows monthly temperature in °C</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 2rem; background: rgba(54, 162, 235, 0.1); padding: 2rem; border-radius: 12px;">
+                        <div style="font-size: 4rem;">🔵</div>
+                        <div>
+                            <h3 style="font-size: 1.8rem; margin-bottom: 0.5rem; color: #36a2eb;">Blue Bars = Rainfall</h3>
+                            <p style="font-size: 1.3rem;">Shows monthly rainfall in mm</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 2rem; background: rgba(153, 102, 255, 0.1); padding: 2rem; border-radius: 12px;">
+                        <div style="font-size: 4rem;">📅</div>
+                        <div>
+                            <h3 style="font-size: 1.8rem; margin-bottom: 0.5rem; color: #9966ff;">12 Months</h3>
+                            <p style="font-size: 1.3rem;">Jan to Dec across the bottom</p>
+                        </div>
+                    </div>
+                </div>
+                <p class="click-hint" style="margin-top: 3rem;">Click to see an example →</p>
+            </div>
+        </section>
+
+        <!-- M3: London Climate Graph -->
+        <section id="screen-m3-london" class="screen">
+            <div class="content-card" style="text-align: center; max-width: 1000px; margin: 0 auto;">
+                <h2 style="font-size: 2.5rem; margin-bottom: 2rem;">London Climate Graph</h2>
+                <div style="background: white; padding: 2rem; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+                    <canvas id="exampleGraph" style="max-height: 400px;"></canvas>
+                </div>
+                <div style="margin-top: 2rem; text-align: left; max-width: 700px; margin: 2rem auto;">
+                    <p style="font-size: 1.3rem; line-height: 1.8;">
+                        <strong>Notice:</strong> Temperatures are warmest in summer (June-Aug)<br>
+                        and coolest in winter (Dec-Feb). Rainfall stays fairly<br>
+                        consistent throughout the year.
+                    </p>
+                </div>
+                <button onclick="screenManager.nextScreen()" class="btn-primary btn-large" style="margin-top: 2rem;">Continue →</button>
+            </div>
+        </section>
+
+        <!-- M3: Question 1 -->
+        <section id="screen-m3-q1" class="screen">
+            <div class="content-card" style="text-align: center;">
+                <p style="font-size: 1.2rem; opacity: 0.7; margin-bottom: 1rem;">Question 1/3</p>
+                <h2 style="font-size: 2.5rem; margin-bottom: 2rem;">What does the red line show?</h2>
+                <div class="quiz-options" style="max-width: 600px; margin: 0 auto;">
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'Not quite! The blue bars show rainfall.', 'module3_q1')">Rainfall</button>
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, true, 'Correct! The red line shows temperature in °C.', 'module3_q1')">Temperature</button>
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'Not quite! The X-axis shows months.', 'module3_q1')">Months of the year</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- M3: Question 2 -->
+        <section id="screen-m3-q2" class="screen">
+            <div class="content-card" style="text-align: center;">
+                <p style="font-size: 1.2rem; opacity: 0.7; margin-bottom: 1rem;">Question 2/3</p>
+                <h2 style="font-size: 2.5rem; margin-bottom: 2rem;">In London, which season is warmest?</h2>
+                <div class="quiz-options" style="max-width: 600px; margin: 0 auto;">
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'Not quite! Winter (Dec-Feb) is the coldest.', 'module3_q2')">Winter (Dec-Feb)</button>
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'Close! Spring is mild but not the warmest.', 'module3_q2')">Spring (Mar-May)</button>
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, true, 'Correct! Summer (Jun-Aug) has the highest temperatures.', 'module3_q2')">Summer (Jun-Aug)</button>
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'Not quite! Autumn is cooling down.', 'module3_q2')">Autumn (Sep-Nov)</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- M3: Question 3 -->
+        <section id="screen-m3-q3" class="screen">
+            <div class="content-card" style="text-align: center;">
+                <p style="font-size: 1.2rem; opacity: 0.7; margin-bottom: 1rem;">Question 3/3</p>
+                <h2 style="font-size: 2.5rem; margin-bottom: 2rem;">London's rainfall pattern is:</h2>
+                <div class="quiz-options" style="max-width: 700px; margin: 0 auto;">
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'Not quite! London gets rain year-round.', 'module3_q3')">Only in winter</button>
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, true, 'Correct! London gets moderate rain throughout the year.', 'module3_q3')">Fairly consistent all year</button>
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'Not quite! That would be a monsoon climate.', 'module3_q3')">Heavy in summer, dry in winter</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- M3: Complete -->
+        <section id="screen-m3-complete" class="screen" data-click-anywhere="true">
+            <div class="content-card" style="text-align: center;">
+                <div style="font-size: 5rem; margin-bottom: 1rem;">📊</div>
+                <h2 style="font-size: 3rem; margin-bottom: 1rem;">Module 3 Complete!</h2>
+                <p style="font-size: 1.5rem; margin-bottom: 2rem;">You can now read climate graphs!</p>
+                <div style="background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 3rem; border-radius: 16px; max-width: 400px; margin: 2rem auto;">
+                    <div style="font-size: 3rem; font-weight: 700;">+60</div>
+                    <div style="font-size: 1.3rem;">Points Earned</div>
+                </div>
+                <p class="click-hint" style="margin-top: 3rem;">Click to build your own graph →</p>
+            </div>
+        </section>
+
+        <!-- MODULE 4: BUILD CAIRO GRAPH -->
+
+        <!-- M4: Intro -->
+        <section id="screen-m4-intro" class="screen" data-click-anywhere="true">
+            <div class="content-card" style="text-align: center;">
+                <div style="font-size: 5rem; margin-bottom: 1rem;">🏗️</div>
+                <h2 style="font-size: 3rem; margin-bottom: 2rem;">Build Your Own Graph!</h2>
+                <p style="font-size: 1.5rem; line-height: 1.8; max-width: 800px; margin: 0 auto;">
+                    Now you'll plot temperature and rainfall data<br>
+                    to create a climate graph for <strong>Cairo, Egypt</strong>
+                </p>
+                <div style="margin-top: 3rem; padding: 2rem; background: rgba(245, 158, 11, 0.1); border-radius: 16px; max-width: 700px; margin: 3rem auto;">
+                    <p style="font-size: 1.3rem;">🏜️ Cairo has a hot, dry desert climate</p>
+                </div>
+                <p class="click-hint">Click to see the data →</p>
+            </div>
+        </section>
+
+        <!-- M4: Interactive Builder -->
+        <section id="screen-m4-builder" class="screen">
+            <div class="content-card" style="max-width: 1200px; margin: 0 auto;">
+                <h2 style="font-size: 2rem; text-align: center; margin-bottom: 2rem;">Build Cairo's Climate Graph 🏗️</h2>
+
+                <div class="graph-builder-split">
+                    <div class="data-side">
+                        <h3 style="font-size: 1.5rem;">Cairo Climate Data</h3>
+                        <p style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 1rem;">Click to plot temperature, drag to adjust rainfall</p>
+                        <table class="horizontal-data-table compact">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Jan</th>
+                                    <th>Feb</th>
+                                    <th>Mar</th>
+                                    <th>Apr</th>
+                                    <th>May</th>
+                                    <th>Jun</th>
+                                    <th>Jul</th>
+                                    <th>Aug</th>
+                                    <th>Sep</th>
+                                    <th>Oct</th>
+                                    <th>Nov</th>
+                                    <th>Dec</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Temp (°C)</strong></td>
+                                    <td>14</td>
+                                    <td>16</td>
+                                    <td>19</td>
+                                    <td>24</td>
+                                    <td>28</td>
+                                    <td>30</td>
+                                    <td>31</td>
+                                    <td>31</td>
+                                    <td>28</td>
+                                    <td>25</td>
+                                    <td>20</td>
+                                    <td>16</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Rain (mm)</strong></td>
+                                    <td>5</td>
+                                    <td>4</td>
+                                    <td>4</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>1</td>
+                                    <td>3</td>
+                                    <td>5</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="builder-controls" style="margin-top: 1.5rem;">
+                            <button onclick="resetGraph()" class="btn-secondary">Reset</button>
+                            <button onclick="checkGraphAccuracy()" class="btn-primary">Check My Graph</button>
+                        </div>
+                        <div class="feedback" id="feedback-4" style="margin-top: 1rem;"></div>
+                    </div>
+
+                    <div class="graph-side">
+                        <canvas id="buildGraph" style="max-height: 350px;"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- M4: Question -->
+        <section id="screen-m4-question" class="screen">
+            <div class="content-card" style="text-align: center;">
+                <h2 style="font-size: 2.5rem; margin-bottom: 2rem;">What climate type is Cairo?</h2>
+                <div class="quiz-options" style="max-width: 600px; margin: 0 auto;">
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'Not quite! Cairo is too dry to be tropical.', 'module4')">🔥 Tropical</button>
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'Not quite! Cairo is much hotter than temperate.', 'module4')">🌳 Temperate</button>
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, true, 'Correct! Cairo has an Arid (Desert) climate - hot and very dry!', 'module4')">🏜️ Arid (Desert)</button>
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'Not quite! Cairo is not that cold!', 'module4')">❄️ Polar</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- M4: Complete -->
+        <section id="screen-m4-complete" class="screen" data-click-anywhere="true">
+            <div class="content-card" style="text-align: center;">
+                <div style="font-size: 5rem; margin-bottom: 1rem;">🏗️</div>
+                <h2 style="font-size: 3rem; margin-bottom: 1rem;">Module 4 Complete!</h2>
+                <p style="font-size: 1.5rem; margin-bottom: 2rem;">You built your first climate graph!</p>
+                <div style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; padding: 3rem; border-radius: 16px; max-width: 400px; margin: 2rem auto;">
+                    <div style="font-size: 3rem; font-weight: 700;">+50</div>
+                    <div style="font-size: 1.3rem;">Points Earned</div>
+                </div>
+                <p class="click-hint" style="margin-top: 3rem;">Click to build another graph →</p>
+            </div>
+        </section>
+
+        <!-- MODULE 4B: BUILD PHOENIX GRAPH -->
+
+        <!-- M4B: Intro -->
+        <section id="screen-m4b-intro" class="screen" data-click-anywhere="true">
+            <div class="content-card" style="text-align: center;">
+                <div style="font-size: 5rem; margin-bottom: 1rem;">🌵</div>
+                <h2 style="font-size: 3rem; margin-bottom: 2rem;">Build Another Graph!</h2>
+                <p style="font-size: 1.5rem; line-height: 1.8; max-width: 800px; margin: 0 auto;">
+                    Let's create a climate graph for<br>
+                    <strong>Phoenix, Arizona (USA)</strong>
+                </p>
+                <div style="margin-top: 3rem; padding: 2rem; background: rgba(245, 158, 11, 0.1); border-radius: 16px; max-width: 700px; margin: 3rem auto;">
+                    <p style="font-size: 1.3rem;">☀️ Phoenix: Hot desert with scorching summers</p>
+                </div>
+                <p class="click-hint">Click to see the data →</p>
+            </div>
+        </section>
+
+        <!-- M4B: Interactive Builder -->
+        <section id="screen-m4b-builder" class="screen">
+            <div class="content-card" style="max-width: 1200px; margin: 0 auto;">
+                <h2 style="font-size: 2rem; text-align: center; margin-bottom: 2rem;">Build Phoenix's Climate Graph 🌵</h2>
+
+                <div class="graph-builder-split">
+                    <div class="data-side">
+                        <h3 style="font-size: 1.5rem;">Phoenix Climate Data</h3>
+                        <p style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 1rem;">Click to plot temperature, drag to adjust rainfall</p>
+                        <table class="horizontal-data-table compact">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Jan</th>
+                                    <th>Feb</th>
+                                    <th>Mar</th>
+                                    <th>Apr</th>
+                                    <th>May</th>
+                                    <th>Jun</th>
+                                    <th>Jul</th>
+                                    <th>Aug</th>
+                                    <th>Sep</th>
+                                    <th>Oct</th>
+                                    <th>Nov</th>
+                                    <th>Dec</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Temp (°C)</strong></td>
+                                    <td>13</td>
+                                    <td>15</td>
+                                    <td>19</td>
+                                    <td>24</td>
+                                    <td>29</td>
+                                    <td>34</td>
+                                    <td>36</td>
+                                    <td>35</td>
+                                    <td>32</td>
+                                    <td>25</td>
+                                    <td>18</td>
+                                    <td>13</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Rain (mm)</strong></td>
+                                    <td>21</td>
+                                    <td>19</td>
+                                    <td>18</td>
+                                    <td>6</td>
+                                    <td>3</td>
+                                    <td>2</td>
+                                    <td>23</td>
+                                    <td>26</td>
+                                    <td>18</td>
+                                    <td>16</td>
+                                    <td>16</td>
+                                    <td>22</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="builder-controls" style="margin-top: 1.5rem;">
+                            <button onclick="resetGraph2()" class="btn-secondary">Reset</button>
+                            <button onclick="checkGraphAccuracy2()" class="btn-primary">Check My Graph</button>
+                        </div>
+                        <div class="feedback" id="feedback-4b" style="margin-top: 1rem;"></div>
+                    </div>
+
+                    <div class="graph-side">
+                        <canvas id="buildGraph2" style="max-height: 350px;"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- M4B: Complete -->
+        <section id="screen-m4b-complete" class="screen" data-click-anywhere="true">
+            <div class="content-card" style="text-align: center;">
+                <div style="font-size: 5rem; margin-bottom: 1rem;">🌵</div>
+                <h2 style="font-size: 3rem; margin-bottom: 1rem;">Module 4B Complete!</h2>
+                <p style="font-size: 1.5rem; margin-bottom: 2rem;">You're a graph-building expert!</p>
+                <div style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; padding: 3rem; border-radius: 16px; max-width: 400px; margin: 2rem auto;">
+                    <div style="font-size: 3rem; font-weight: 700;">+50</div>
+                    <div style="font-size: 1.3rem;">Points Earned</div>
+                </div>
+                <p class="click-hint" style="margin-top: 3rem;">Click to explore mystery climates →</p>
+            </div>
+        </section>
+
+        <!-- MODULE 5: MYSTERY GRAPHS -->
+
+        <!-- M5: Intro -->
+        <section id="screen-m5-intro" class="screen" data-click-anywhere="true">
+            <div class="content-card" style="text-align: center;">
+                <div style="font-size: 5rem; margin-bottom: 1rem;">🕵️</div>
+                <h2 style="font-size: 3rem; margin-bottom: 2rem;">Mystery Climate Challenge</h2>
+                <p style="font-size: 1.5rem; line-height: 1.8; max-width: 800px; margin: 0 auto;">
+                    Can you identify each climate type<br>
+                    by looking at its graph?
+                </p>
+                <div style="margin-top: 3rem; padding: 2rem; background: rgba(139, 92, 246, 0.1); border-radius: 16px; max-width: 700px; margin: 3rem auto;">
+                    <p style="font-size: 1.3rem;">3 Mystery Graphs to Identify 🔍</p>
+                </div>
+                <p class="click-hint">Click to start the challenge →</p>
+            </div>
+        </section>
+
+        <!-- M5: Mystery Graph 1 -->
+        <section id="screen-m5-mystery1" class="screen">
+            <div class="content-card" style="text-align: center; max-width: 1000px; margin: 0 auto;">
+                <p style="font-size: 1.2rem; opacity: 0.7; margin-bottom: 1rem;">Mystery Graph 1/3</p>
+                <h2 style="font-size: 2.5rem; margin-bottom: 2rem;">What climate type is this?</h2>
+                <div style="background: white; padding: 2rem; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); margin-bottom: 2rem;">
+                    <canvas id="mysteryChart1" style="max-height: 300px;"></canvas>
+                </div>
+                <div class="quiz-options" style="max-width: 600px; margin: 0 auto;">
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, true, 'Correct! Hot all year + heavy rainfall = Tropical!', 'module5_1')">🔥 Tropical</button>
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'Not quite! This graph shows very high temperatures and rainfall.', 'module5_1')">🏜️ Arid</button>
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'Not quite! This is much hotter than temperate.', 'module5_1')">🌳 Temperate</button>
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'Not quite! This is not cold enough for polar.', 'module5_1')">❄️ Polar</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- M5: Mystery Graph 2 -->
+        <section id="screen-m5-mystery2" class="screen">
+            <div class="content-card" style="text-align: center; max-width: 1000px; margin: 0 auto;">
+                <p style="font-size: 1.2rem; opacity: 0.7; margin-bottom: 1rem;">Mystery Graph 2/3</p>
+                <h2 style="font-size: 2.5rem; margin-bottom: 2rem;">What climate type is this?</h2>
+                <div style="background: white; padding: 2rem; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); margin-bottom: 2rem;">
+                    <canvas id="mysteryChart2" style="max-height: 300px;"></canvas>
+                </div>
+                <div class="quiz-options" style="max-width: 600px; margin: 0 auto;">
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'Not quite! This has clear seasons unlike tropical.', 'module5_2')">🔥 Tropical</button>
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'Not quite! Too much rainfall for arid.', 'module5_2')">🏜️ Arid</button>
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, true, 'Correct! Four seasons + moderate rain = Temperate!', 'module5_2')">🌳 Temperate</button>
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'Not quite! This is too warm for polar.', 'module5_2')">❄️ Polar</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- M5: Mystery Graph 3 -->
+        <section id="screen-m5-mystery3" class="screen">
+            <div class="content-card" style="text-align: center; max-width: 1000px; margin: 0 auto;">
+                <p style="font-size: 1.2rem; opacity: 0.7; margin-bottom: 1rem;">Mystery Graph 3/3</p>
+                <h2 style="font-size: 2.5rem; margin-bottom: 2rem;">What climate type is this?</h2>
+                <div style="background: white; padding: 2rem; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); margin-bottom: 2rem;">
+                    <canvas id="mysteryChart3" style="max-height: 300px;"></canvas>
+                </div>
+                <div class="quiz-options" style="max-width: 700px; margin: 0 auto;">
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'Not quite! Hot, dry summers + mild wet winters is Mediterranean.', 'module5_3')">🔥 Tropical</button>
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'Close! But notice the winter rainfall pattern.', 'module5_3')">🏜️ Arid</button>
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'Not quite! Mediterranean is similar but with a distinct summer/winter pattern.', 'module5_3')">🌳 Temperate</button>
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, true, 'Correct! Hot dry summer + mild wet winter = Mediterranean!', 'module5_3')">☀️ Mediterranean</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- M5: Complete -->
+        <section id="screen-m5-complete" class="screen" data-click-anywhere="true">
+            <div class="content-card" style="text-align: center;">
+                <div style="font-size: 5rem; margin-bottom: 1rem;">🕵️</div>
+                <h2 style="font-size: 3rem; margin-bottom: 1rem;">Module 5 Complete!</h2>
+                <p style="font-size: 1.5rem; margin-bottom: 2rem;">You're a climate detective!</p>
+                <div style="background: linear-gradient(135deg, #8b5cf6, #7c3aed); color: white; padding: 3rem; border-radius: 16px; max-width: 400px; margin: 2rem auto;">
+                    <div style="font-size: 3rem; font-weight: 700;">+60</div>
+                    <div style="font-size: 1.3rem;">Points Earned</div>
+                </div>
+                <p class="click-hint" style="margin-top: 3rem;">Click for final quiz →</p>
+            </div>
+        </section>
+
+        <!-- MODULE 6: FINAL QUIZ -->
+
+        <!-- M6: Intro -->
+        <section id="screen-m6-intro" class="screen" data-click-anywhere="true">
+            <div class="content-card" style="text-align: center;">
+                <div style="font-size: 5rem; margin-bottom: 1rem;">📝</div>
+                <h2 style="font-size: 3rem; margin-bottom: 2rem;">Final Knowledge Test</h2>
+                <p style="font-size: 1.5rem; line-height: 1.8; max-width: 800px; margin: 0 auto;">
+                    Time to show everything you've learned!
+                </p>
+                <div style="margin-top: 3rem; padding: 2rem; background: rgba(239, 68, 68, 0.1); border-radius: 16px; max-width: 700px; margin: 3rem auto;">
+                    <p style="font-size: 1.3rem;">8 Questions • Get them all right to complete the course!</p>
+                </div>
+                <p class="click-hint">Click to begin the test →</p>
+            </div>
+        </section>
+
+        <!-- M6: Question 1 -->
+        <section id="screen-m6-q1" class="screen">
+            <div class="content-card" style="text-align: center;">
+                <p style="font-size: 1.2rem; opacity: 0.7; margin-bottom: 1rem;">Question 1/8</p>
+                <h2 style="font-size: 2.2rem; margin-bottom: 2rem;">Which describes CLIMATE (not weather)?</h2>
+                <div class="quiz-options" style="max-width: 700px; margin: 0 auto;">
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'That\\'s weather! Climate is long-term patterns.', 'module6_1')">It's raining today</button>
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, true, 'Correct! Climate describes long-term patterns.', 'module6_1')">London is rainy most of the year</button>
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'That\\'s weather! Climate is long-term patterns.', 'module6_1')">Tomorrow will be sunny</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- M6: Question 2 -->
+        <section id="screen-m6-q2" class="screen">
+            <div class="content-card" style="text-align: center;">
+                <p style="font-size: 1.2rem; opacity: 0.7; margin-bottom: 1rem;">Question 2/8</p>
+                <h2 style="font-size: 2.2rem; margin-bottom: 2rem;">Which climate is hot all year with heavy rain?</h2>
+                <div class="quiz-options" style="max-width: 600px; margin: 0 auto;">
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, true, 'Correct! Tropical climates are hot and wet year-round.', 'module6_2')">🔥 Tropical</button>
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'Arid climates are very dry, not rainy.', 'module6_2')">🏜️ Arid</button>
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'Temperate has four seasons, not hot all year.', 'module6_2')">🌳 Temperate</button>
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'Polar is very cold, not hot.', 'module6_2')">❄️ Polar</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- M6: Question 3 -->
+        <section id="screen-m6-q3" class="screen">
+            <div class="content-card" style="text-align: center;">
+                <p style="font-size: 1.2rem; opacity: 0.7; margin-bottom: 1rem;">Question 3/8</p>
+                <h2 style="font-size: 2.2rem; margin-bottom: 2rem;">On a climate graph, what does the RED LINE show?</h2>
+                <div class="quiz-options" style="max-width: 600px; margin: 0 auto;">
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'The blue bars show rainfall.', 'module6_3')">Rainfall</button>
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, true, 'Correct! The red line shows temperature in °C.', 'module6_3')">Temperature</button>
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'The months are on the X-axis.', 'module6_3')">Months</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- M6: Question 4 -->
+        <section id="screen-m6-q4" class="screen">
+            <div class="content-card" style="text-align: center;">
+                <p style="font-size: 1.2rem; opacity: 0.7; margin-bottom: 1rem;">Question 4/8</p>
+                <h2 style="font-size: 2.2rem; margin-bottom: 2rem;">The Sahara Desert has which climate type?</h2>
+                <div class="quiz-options" style="max-width: 600px; margin: 0 auto;">
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'The Sahara is much drier than tropical.', 'module6_4')">🔥 Tropical</button>
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, true, 'Correct! The Sahara is the world\\'s largest hot desert (Arid).', 'module6_4')">🏜️ Arid</button>
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'The Sahara is much hotter and drier than temperate.', 'module6_4')">🌳 Temperate</button>
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'The Sahara is hot, not cold like polar.', 'module6_4')">❄️ Polar</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- M6: Question 5 -->
+        <section id="screen-m6-q5" class="screen">
+            <div class="content-card" style="text-align: center;">
+                <p style="font-size: 1.2rem; opacity: 0.7; margin-bottom: 1rem;">Question 5/8</p>
+                <h2 style="font-size: 2.2rem; margin-bottom: 2rem;">Which city has a Temperate climate?</h2>
+                <div class="quiz-options" style="max-width: 600px; margin: 0 auto;">
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, true, 'Correct! London has a temperate climate with four seasons.', 'module6_5')">London 🇬🇧</button>
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'Singapore has a tropical climate.', 'module6_5')">Singapore 🇸🇬</button>
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'Dubai has an arid (desert) climate.', 'module6_5')">Dubai 🇦🇪</button>
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'Nuuk has a polar climate.', 'module6_5')">Nuuk 🇬🇱</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- M6: Question 6 -->
+        <section id="screen-m6-q6" class="screen">
+            <div class="content-card" style="text-align: center;">
+                <p style="font-size: 1.2rem; opacity: 0.7; margin-bottom: 1rem;">Question 6/8</p>
+                <h2 style="font-size: 2.2rem; margin-bottom: 2rem;">Mediterranean climate has:</h2>
+                <div class="quiz-options" style="max-width: 700px; margin: 0 auto;">
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'That would be tropical!', 'module6_6')">Hot and wet all year</button>
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, true, 'Correct! Hot dry summers + mild wet winters = Mediterranean.', 'module6_6')">Hot dry summers, mild wet winters</button>
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'That would be a temperate climate.', 'module6_6')">Four equal seasons</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- M6: Question 7 -->
+        <section id="screen-m6-q7" class="screen">
+            <div class="content-card" style="text-align: center;">
+                <p style="font-size: 1.2rem; opacity: 0.7; margin-bottom: 1rem;">Question 7/8</p>
+                <h2 style="font-size: 2.2rem; margin-bottom: 2rem;">Which climate type is coldest?</h2>
+                <div class="quiz-options" style="max-width: 600px; margin: 0 auto;">
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'Tropical is the hottest!', 'module6_7')">🔥 Tropical</button>
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'Temperate is moderate, not coldest.', 'module6_7')">🌳 Temperate</button>
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'Mediterranean is warm, not coldest.', 'module6_7')">☀️ Mediterranean</button>
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, true, 'Correct! Polar is the coldest climate type (below 10°C all year).', 'module6_7')">❄️ Polar</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- M6: Question 8 -->
+        <section id="screen-m6-q8" class="screen">
+            <div class="content-card" style="text-align: center;">
+                <p style="font-size: 1.2rem; opacity: 0.7; margin-bottom: 1rem;">Question 8/8 (Final Question!)</p>
+                <h2 style="font-size: 2.2rem; margin-bottom: 2rem;">Mumbai, India has which climate?</h2>
+                <div class="quiz-options" style="max-width: 600px; margin: 0 auto;">
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, true, 'Correct! Mumbai is hot and wet - a tropical climate!', 'module6_8')">🔥 Tropical</button>
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'Mumbai gets lots of monsoon rain - not arid.', 'module6_8')">🏜️ Arid</button>
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'Mumbai is much hotter than temperate.', 'module6_8')">🌳 Temperate</button>
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'Mumbai is hot, not cold like polar.', 'module6_8')">❄️ Polar</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- M6: Complete -->
+        <section id="screen-m6-complete" class="screen">
+            <div class="content-card" style="text-align: center;">
+                <div style="font-size: 5rem; margin-bottom: 1rem;">🎓</div>
+                <h2 style="font-size: 3rem; margin-bottom: 1rem;">Test Complete!</h2>
+                <p style="font-size: 1.5rem; margin-bottom: 2rem;">You passed the final test!</p>
+                <div style="background: linear-gradient(135deg, #ef4444, #dc2626); color: white; padding: 3rem; border-radius: 16px; max-width: 400px; margin: 2rem auto;">
+                    <div style="font-size: 3rem; font-weight: 700;">+80</div>
+                    <div style="font-size: 1.3rem;">Points Earned</div>
+                </div>
+                <button onclick="generateCertificate()" class="btn-primary btn-large" style="margin-top: 3rem;">Get Your Certificate →</button>
+            </div>
+        </section>
+
+        <!-- CERTIFICATE SCREEN -->
+        <section id="screen-certificate" class="screen">
+            <div class="content-card" style="text-align: center; max-width: 900px; margin: 0 auto;">
+                <div style="font-size: 5rem; margin-bottom: 1rem;">🏆</div>
+                <h2 style="font-size: 3rem; margin-bottom: 2rem;">Course Complete!</h2>
+
+                <div id="certificate" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 3rem; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.3);">
+                    <h3 style="font-size: 2.5rem; margin-bottom: 1rem;">Climate Learning Hub</h3>
+                    <p style="font-size: 1.3rem; margin-bottom: 2rem;">Certificate of Achievement</p>
+
+                    <div style="background: rgba(255,255,255,0.2); padding: 2rem; border-radius: 12px; margin: 2rem 0;">
+                        <p style="font-size: 1.5rem; margin-bottom: 0.5rem;">This certifies that</p>
+                        <h4 id="certStudentName" style="font-size: 3rem; margin: 1rem 0; font-weight: 700;"></h4>
+                        <p style="font-size: 1.3rem; margin-top: 1rem;">has successfully completed the Climate Learning Course</p>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin: 2rem 0;">
+                        <div style="background: rgba(255,255,255,0.2); padding: 1.5rem; border-radius: 12px;">
+                            <div id="certPoints" style="font-size: 2.5rem; font-weight: 700;"></div>
+                            <div style="font-size: 1.1rem; opacity: 0.9;">Total Points</div>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.2); padding: 1.5rem; border-radius: 12px;">
+                            <div id="certRetries" style="font-size: 2.5rem; font-weight: 700;"></div>
+                            <div style="font-size: 1.1rem; opacity: 0.9;">Total Retries</div>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.2); padding: 1.5rem; border-radius: 12px;">
+                            <div id="certAccuracy" style="font-size: 2.5rem; font-weight: 700;"></div>
+                            <div style="font-size: 1.1rem; opacity: 0.9;">Accuracy</div>
+                        </div>
+                    </div>
+
+                    <p style="font-size: 1.1rem; opacity: 0.9; margin-top: 2rem;">Awarded on <span id="certDate"></span></p>
+                </div>
+
+                <button onclick="window.print()" class="btn-primary btn-large" style="margin-top: 2rem;">Print Certificate 🖨️</button>
+            </div>
+        </section>
+
+        <!-- Old Module 1 (hidden for compatibility) -->
+        <section id="module-1" class="module" style="display: none;">
+            <h2>Module 1: What is Climate? 🌡️</h2>
+
+            <div class="content-card">
+                <h3>Understanding Climate</h3>
+                <p><strong>Climate</strong> is the average weather conditions in a place over a long period of time (usually 30 years or more).</p>
+
+                <div class="info-box">
+                    <h4>Climate vs Weather</h4>
+                    <p><strong>Weather</strong> = What's happening right now (today's temperature, rain, wind)</p>
+                    <p><strong>Climate</strong> = The pattern over many years (e.g., "London is usually mild and rainy")</p>
+                </div>
+
+                <h4>Why Do Climates Matter?</h4>
+                <ul>
+                    <li>🌾 Determines what crops can grow</li>
+                    <li>🏠 Influences how we build our homes</li>
+                    <li>👕 Affects what clothes we wear</li>
+                    <li>🐾 Decides which animals can live there</li>
+                    <li>💧 Controls water availability</li>
+                </ul>
+
+                <div class="interactive-question">
+                    <h4>Quick Check! ✓</h4>
+                    <p>Which describes climate?</p>
+                    <div class="quiz-options">
+                        <button class="quiz-option" onclick="checkAnswer(this, false, 'module1')">It's raining today in Manchester</button>
+                        <button class="quiz-option" onclick="checkAnswer(this, true, 'module1')">The Sahara Desert is hot and dry all year round</button>
+                        <button class="quiz-option" onclick="checkAnswer(this, false, 'module1')">Tomorrow will be sunny</button>
+                    </div>
+                    <div class="feedback" id="feedback-1"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Module 2: Climate Types -->
+        <section id="module-2" class="module">
+            <h2>Module 2: Major Climate Types 🗺️</h2>
+
+            <div class="content-card">
+                <h3>The Five Main Climate Zones</h3>
+
+                <div class="climate-grid">
+                    <div class="climate-card" style="background: linear-gradient(135deg, #ff6b6b, #ff8787);">
+                        <h4>🔥 Tropical</h4>
+                        <p><strong>Hot and wet all year</strong></p>
+                        <p>Temperature: 25-30°C</p>
+                        <p>Rainfall: Very high (>2000mm)</p>
+                        <p>Example: Amazon Rainforest, Singapore</p>
+                    </div>
+
+                    <div class="climate-card" style="background: linear-gradient(135deg, #ffd93d, #ffed89);">
+                        <h4>🏜️ Arid (Desert)</h4>
+                        <p><strong>Hot and very dry</strong></p>
+                        <p>Temperature: 20-40°C (but cold at night)</p>
+                        <p>Rainfall: Very low (<250mm)</p>
+                        <p>Example: Sahara, Arizona</p>
+                    </div>
+
+                    <div class="climate-card" style="background: linear-gradient(135deg, #6bcf7f, #a8e6b1);">
+                        <h4>🌳 Temperate</h4>
+                        <p><strong>Moderate temperatures, four seasons</strong></p>
+                        <p>Temperature: -3 to 18°C</p>
+                        <p>Rainfall: Moderate (500-1500mm)</p>
+                        <p>Example: UK, Most of Europe</p>
+                    </div>
+
+                    <div class="climate-card" style="background: linear-gradient(135deg, #74b9ff, #a8daff);">
+                        <h4>❄️ Polar</h4>
+                        <p><strong>Very cold all year</strong></p>
+                        <p>Temperature: Below 10°C (often below 0°C)</p>
+                        <p>Rainfall: Very low</p>
+                        <p>Example: Antarctica, Arctic</p>
+                    </div>
+
+                    <div class="climate-card" style="background: linear-gradient(135deg, #fdcb6e, #fddf9f);">
+                        <h4>☀️ Mediterranean</h4>
+                        <p><strong>Hot dry summers, mild wet winters</strong></p>
+                        <p>Temperature: 10-25°C</p>
+                        <p>Rainfall: Winter rain (400-900mm)</p>
+                        <p>Example: Southern Spain, California</p>
+                    </div>
+                </div>
+
+                <div class="interactive-question" style="margin-top: 30px;">
+                    <h4>Climate Match Challenge! 🎯</h4>
+                    <p>Match each city to its climate type:</p>
+
+                    <div class="matching-game" id="matchingGame">
+                        <div class="matching-column">
+                            <h5>Cities</h5>
+                            <div class="draggable-item" draggable="true" data-answer="temperate">London</div>
+                            <div class="draggable-item" draggable="true" data-answer="tropical">Singapore</div>
+                            <div class="draggable-item" draggable="true" data-answer="arid">Dubai</div>
+                            <div class="draggable-item" draggable="true" data-answer="polar">Reykjavik</div>
+                            <div class="draggable-item" draggable="true" data-answer="mediterranean">Athens</div>
+                            <div class="draggable-item" draggable="true" data-answer="tropical">Manaus</div>
+                            <div class="draggable-item" draggable="true" data-answer="temperate">Paris</div>
+                            <div class="draggable-item" draggable="true" data-answer="arid">Phoenix</div>
+                            <div class="draggable-item" draggable="true" data-answer="temperate">Berlin</div>
+                            <div class="draggable-item" draggable="true" data-answer="tropical">Mumbai</div>
+                            <div class="draggable-item" draggable="true" data-answer="mediterranean">Rome</div>
+                            <div class="draggable-item" draggable="true" data-answer="arid">Cairo</div>
+                            <div class="draggable-item" draggable="true" data-answer="temperate">New York</div>
+                            <div class="draggable-item" draggable="true" data-answer="tropical">Bangkok</div>
+                            <div class="draggable-item" draggable="true" data-answer="mediterranean">Barcelona</div>
+                            <div class="draggable-item" draggable="true" data-answer="polar">Nuuk</div>
+                        </div>
+
+                        <div class="matching-column">
+                            <h5>Climate Types</h5>
+                            <div class="drop-zone" data-climate="temperate">Temperate</div>
+                            <div class="drop-zone" data-climate="tropical">Tropical</div>
+                            <div class="drop-zone" data-climate="arid">Arid</div>
+                            <div class="drop-zone" data-climate="polar">Polar</div>
+                            <div class="drop-zone" data-climate="mediterranean">Mediterranean</div>
+                            <div class="drop-zone" data-climate="temperate">Temperate</div>
+                            <div class="drop-zone" data-climate="tropical">Tropical</div>
+                            <div class="drop-zone" data-climate="arid">Arid</div>
+                            <div class="drop-zone" data-climate="temperate">Temperate</div>
+                            <div class="drop-zone" data-climate="tropical">Tropical</div>
+                            <div class="drop-zone" data-climate="mediterranean">Mediterranean</div>
+                            <div class="drop-zone" data-climate="arid">Arid</div>
+                            <div class="drop-zone" data-climate="temperate">Temperate</div>
+                            <div class="drop-zone" data-climate="tropical">Tropical</div>
+                            <div class="drop-zone" data-climate="mediterranean">Mediterranean</div>
+                            <div class="drop-zone" data-climate="polar">Polar</div>
+                        </div>
+                    </div>
+                    <div class="feedback" id="feedback-2"></div>
+                    <button onclick="checkMatching()" class="btn-secondary" style="margin-top: 15px;">Check Answers</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Module 3: Understanding Climate Graphs -->
+        <section id="module-3" class="module">
+            <h2>Module 3: Reading Climate Graphs 📊</h2>
+
+            <div class="content-card">
+                <h3>What is a Climate Graph?</h3>
+                <p>A <strong>climate graph</strong> (also called a climograph) shows the average temperature and rainfall for each month of the year in one place.</p>
+
+                <div class="graph-explanation">
+                    <div class="graph-example">
+                        <canvas id="exampleGraph"></canvas>
+                    </div>
+
+                    <div class="graph-guide">
+                        <h4>How to Read It:</h4>
+                        <div class="guide-item">
+                            <span class="guide-icon" style="background: #ff6384;">📊</span>
+                            <div>
+                                <strong>Red Line = Temperature</strong>
+                                <p>Shows average monthly temperature in °C (left axis)</p>
+                            </div>
+                        </div>
+                        <div class="guide-item">
+                            <span class="guide-icon" style="background: #36a2eb;">📊</span>
+                            <div>
+                                <strong>Blue Bars = Rainfall</strong>
+                                <p>Shows average monthly rainfall in mm (right axis)</p>
+                            </div>
+                        </div>
+                        <div class="guide-item">
+                            <span class="guide-icon">📅</span>
+                            <div>
+                                <strong>X-axis = Months</strong>
+                                <p>January to December (J F M A M J J A S O N D)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-box" style="margin-top: 20px;">
+                    <h4>What to Look For:</h4>
+                    <ul>
+                        <li><strong>Temperature range:</strong> Is it hot, cold, or moderate? Does it change much?</li>
+                        <li><strong>Rainfall pattern:</strong> Is it wet all year or only in certain seasons?</li>
+                        <li><strong>Seasons:</strong> Are there clear seasonal differences?</li>
+                    </ul>
+                </div>
+
+                <div class="interactive-question">
+                    <h4>Graph Reading Quiz! 📈</h4>
+                    <p>Look at the example graph above (London's climate). Which statements are true?</p>
+                    <div class="quiz-options">
+                        <label class="checkbox-option">
+                            <input type="checkbox" value="true" data-correct="true">
+                            Summer months (June-August) are warmer than winter months
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" value="false" data-correct="false">
+                            It never rains in London during summer
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" value="true" data-correct="true">
+                            Rainfall is fairly consistent throughout the year
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" value="false" data-correct="false">
+                            January is the hottest month
+                        </label>
+                    </div>
+                    <button onclick="checkCheckboxes()" class="btn-secondary" style="margin-top: 15px;">Check Answers</button>
+                    <div class="feedback" id="feedback-3"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Module 4: Interactive Graph Builder -->
+        <section id="module-4" class="module">
+            <div class="content-card">
+                <h2>Module 4: Build a Climate Graph! 🏗️</h2>
+
+                <div class="graph-builder-split">
+                    <div class="data-side">
+                        <h3>Cairo Climate Data</h3>
+                        <p style="font-size: 0.85rem;">Click to plot temperature, drag to adjust rainfall</p>
+                        <table class="horizontal-data-table compact">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Jan</th>
+                                <th>Feb</th>
+                                <th>Mar</th>
+                                <th>Apr</th>
+                                <th>May</th>
+                                <th>Jun</th>
+                                <th>Jul</th>
+                                <th>Aug</th>
+                                <th>Sep</th>
+                                <th>Oct</th>
+                                <th>Nov</th>
+                                <th>Dec</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Temp (°C)</strong></td>
+                                <td>14</td>
+                                <td>16</td>
+                                <td>19</td>
+                                <td>24</td>
+                                <td>28</td>
+                                <td>30</td>
+                                <td>31</td>
+                                <td>31</td>
+                                <td>28</td>
+                                <td>25</td>
+                                <td>20</td>
+                                <td>16</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Rain (mm)</strong></td>
+                                <td>5</td>
+                                <td>4</td>
+                                <td>4</td>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>1</td>
+                                <td>3</td>
+                                <td>5</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="builder-controls" style="margin-top: 10px;">
+                        <button onclick="resetGraph()" class="btn-secondary">Reset</button>
+                        <button onclick="checkGraphAccuracy()" class="btn-secondary">Check</button>
+                    </div>
+                    <div class="feedback" id="feedback-4"></div>
+                </div>
+
+                <div class="graph-side">
+                    <canvas id="buildGraph" style="max-height: 280px;"></canvas>
+                </div>
+            </div>
+
+            <div class="interactive-question" style="margin-top: 10px;">
+                <h4>What climate type is Cairo?</h4>
+                <div class="quiz-options">
+                    <button class="quiz-option" onclick="checkAnswer(this, false, 'module4')">Tropical</button>
+                    <button class="quiz-option" onclick="checkAnswer(this, false, 'module4')">Temperate</button>
+                    <button class="quiz-option" onclick="checkAnswer(this, true, 'module4')">Arid (Desert)</button>
+                    <button class="quiz-option" onclick="checkAnswer(this, false, 'module4')">Polar</button>
+                </div>
+                <div class="feedback" id="feedback-4b"></div>
+            </div>
+            </div>
+        </section>
+
+        <!-- Module 4B: Second Graph Builder -->
+        <section id="module-4b" class="module">
+            <h2>Module 4B: Build Another Climate Graph! 🏗️</h2>
+
+            <div class="content-card">
+                <h3>Create a Climate Graph for Tokyo, Japan</h3>
+                <p>Practice your skills! Use the data below to plot Tokyo's climate graph. Click to add temperature points!</p>
+
+                <div class="horizontal-data-container">
+                    <h4>Tokyo Climate Data</h4>
+                    <table class="horizontal-data-table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Jan</th>
+                                <th>Feb</th>
+                                <th>Mar</th>
+                                <th>Apr</th>
+                                <th>May</th>
+                                <th>Jun</th>
+                                <th>Jul</th>
+                                <th>Aug</th>
+                                <th>Sep</th>
+                                <th>Oct</th>
+                                <th>Nov</th>
+                                <th>Dec</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Temp (°C)</strong></td>
+                                <td>6</td>
+                                <td>7</td>
+                                <td>10</td>
+                                <td>15</td>
+                                <td>20</td>
+                                <td>22</td>
+                                <td>26</td>
+                                <td>27</td>
+                                <td>23</td>
+                                <td>18</td>
+                                <td>13</td>
+                                <td>8</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Rain (mm)</strong></td>
+                                <td>52</td>
+                                <td>56</td>
+                                <td>118</td>
+                                <td>125</td>
+                                <td>138</td>
+                                <td>168</td>
+                                <td>154</td>
+                                <td>168</td>
+                                <td>210</td>
+                                <td>198</td>
+                                <td>93</td>
+                                <td>51</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="graph-builder-container">
+                    <canvas id="buildGraph2" height="300"></canvas>
+                    <div class="feedback" id="feedback-4b-graph"></div>
+                    <div class="builder-controls">
+                        <button onclick="resetGraph2()" class="btn-secondary">Reset Graph</button>
+                        <button onclick="checkGraphAccuracy2()" class="btn-secondary">Check My Graph</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Module 5: World Climate Explorer -->
+        <section id="module-5" class="module">
+            <h2>Module 5: World Climate Explorer 🌏</h2>
+
+            <div class="content-card">
+                <h3>Match Cities to Their Climate Graphs</h3>
+                <p>Can you identify which climate graph belongs to which city?</p>
+
+                <div class="explorer-game" id="explorerGame">
+                    <!-- Question 1 -->
+                    <div class="explorer-question">
+                        <h4>Graph 1:</h4>
+                        <canvas id="mysteryGraph1" class="mystery-graph"></canvas>
+                        <p>Which city does this represent?</p>
+                        <div class="quiz-options">
+                            <button class="quiz-option" onclick="checkExplorerAnswer(1, this, true)">Mumbai, India (Tropical)</button>
+                            <button class="quiz-option" onclick="checkExplorerAnswer(1, this, false)">Oslo, Norway (Polar)</button>
+                            <button class="quiz-option" onclick="checkExplorerAnswer(1, this, false)">Phoenix, USA (Arid)</button>
+                        </div>
+                        <div class="feedback" id="explorer-feedback-1"></div>
+                    </div>
+
+                    <!-- Question 2 -->
+                    <div class="explorer-question">
+                        <h4>Graph 2:</h4>
+                        <canvas id="mysteryGraph2" class="mystery-graph"></canvas>
+                        <p>Which city does this represent?</p>
+                        <div class="quiz-options">
+                            <button class="quiz-option" onclick="checkExplorerAnswer(2, this, false)">Singapore (Tropical)</button>
+                            <button class="quiz-option" onclick="checkExplorerAnswer(2, this, true)">Athens, Greece (Mediterranean)</button>
+                            <button class="quiz-option" onclick="checkExplorerAnswer(2, this, false)">Moscow, Russia (Continental)</button>
+                        </div>
+                        <div class="feedback" id="explorer-feedback-2"></div>
+                    </div>
+
+                    <!-- Question 3 -->
+                    <div class="explorer-question">
+                        <h4>Graph 3:</h4>
+                        <canvas id="mysteryGraph3" class="mystery-graph"></canvas>
+                        <p>Which city does this represent?</p>
+                        <div class="quiz-options">
+                            <button class="quiz-option" onclick="checkExplorerAnswer(3, this, false)">Barcelona, Spain (Mediterranean)</button>
+                            <button class="quiz-option" onclick="checkExplorerAnswer(3, this, false)">Tokyo, Japan (Temperate)</button>
+                            <button class="quiz-option" onclick="checkExplorerAnswer(3, this, true)">Reykjavik, Iceland (Polar/Cold)</button>
+                        </div>
+                        <div class="feedback" id="explorer-feedback-3"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Module 6: Knowledge Quiz -->
+        <section id="module-6" class="module">
+            <div class="content-card single-question-container">
+                <div class="quiz-header">
+                    <h2>Module 6: Climate Knowledge Quiz 🎯</h2>
+                    <div class="question-progress">
+                        <span id="quiz-progress">Question <span id="current-quiz-q">1</span> of 8</span>
+                    </div>
+                </div>
+
+                <div class="quiz-section" id="mainQuiz">
+                    <!-- Questions will be shown one at a time via JavaScript -->
+                </div>
+
+                <div class="quiz-score" id="quizScore"></div>
+            </div>
+        </section>
+
+        <!-- Module 7: Final Assessment -->
+        <section id="module-7" class="module">
+            <div class="content-card single-question-container">
+                <div class="quiz-header">
+                    <h2>Module 7: Final Climate Challenge! 🏆</h2>
+                    <div class="question-progress">
+                        <span id="final-progress">Question <span id="current-final-q">1</span> of 5</span>
+                    </div>
+                </div>
+
+                <div class="final-assessment" id="finalAssessment">
+                    <!-- Questions will be shown one at a time via JavaScript -->
+                </div>
+
+                <div class="final-score" id="finalScore"></div>
+                <button onclick="completeCourse()" class="btn-primary btn-certificate" id="certificateBtn" style="display: none;">
+                    🎓 Get Your Certificate!
+                </button>
+            </div>
+        </section>
+
+        <!-- Course Complete -->
+        <section id="module-complete" class="module">
+            <div class="completion-card">
+                <h2>🎉 Congratulations!</h2>
+                <h3>You've Mastered Climate & Climate Graphs!</h3>
+
+                <div class="achievements-summary">
+                    <div class="achievement-stat">
+                        <span class="stat-number" id="totalPoints">0</span>
+                        <span class="stat-label">Total Points</span>
+                    </div>
+                    <div class="achievement-stat">
+                        <span class="stat-number">7/7</span>
+                        <span class="stat-label">Modules Complete</span>
+                    </div>
+                    <div class="achievement-stat">
+                        <span class="stat-number" id="badgeCount">0</span>
+                        <span class="stat-label">Badges Earned</span>
+                    </div>
+                </div>
+
+                <div class="earned-badges" id="earnedBadges"></div>
+
+                <h3>What You've Learned:</h3>
+                <ul class="learning-outcomes">
+                    <li>✓ The difference between weather and climate</li>
+                    <li>✓ Five major climate zones and their characteristics</li>
+                    <li>✓ How to read and interpret climate graphs</li>
+                    <li>✓ How to identify climates from graph data</li>
+                    <li>✓ Real-world applications of climate knowledge</li>
+                </ul>
+
+                <button onclick="generateCertificate()" class="btn-primary btn-large">
+                    🏆 View & Print Your Certificate
+                </button>
+
+                <button onclick="restartCourse()" class="btn-secondary" style="margin-top: 15px;">
+                    🔄 Take the Course Again
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>Climate Learning Hub - Year 8 Geography Education</p>
+            <p>Interactive climate education for students aged 12-13</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Climate Learning Certificate</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .certificate-container {
+            background: white;
+            width: 100%;
+            max-width: 1000px;
+            padding: 60px;
+            border: 20px solid;
+            border-image: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%) 1;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        .certificate-border {
+            border: 3px double #667eea;
+            padding: 40px;
+            position: relative;
+        }
+
+        .certificate-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .certificate-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .certificate-title {
+            font-size: 3rem;
+            color: #1e3c72;
+            font-weight: bold;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .certificate-subtitle {
+            font-size: 1.3rem;
+            color: #555;
+            font-style: italic;
+        }
+
+        .certificate-body {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .certificate-text {
+            font-size: 1.3rem;
+            color: #333;
+            line-height: 2;
+            margin-bottom: 30px;
+        }
+
+        .student-name {
+            font-size: 3rem;
+            color: #667eea;
+            font-weight: bold;
+            margin: 30px 0;
+            padding: 20px;
+            border-bottom: 3px solid #667eea;
+            display: inline-block;
+            min-width: 500px;
+        }
+
+        .course-details {
+            font-size: 1.2rem;
+            color: #555;
+            margin: 30px 0;
+            line-height: 1.8;
+        }
+
+        .course-details strong {
+            color: #1e3c72;
+        }
+
+        .achievement-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 30px 0;
+            border: 2px solid #dee2e6;
+        }
+
+        .achievement-title {
+            font-size: 1.4rem;
+            color: #1e3c72;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .achievement-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .achievement-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: left;
+            font-size: 1rem;
+            color: #333;
+            border-left: 4px solid #667eea;
+        }
+
+        .certificate-footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 2px solid #dee2e6;
+        }
+
+        .signature-section {
+            text-align: center;
+            flex: 1;
+        }
+
+        .signature-line {
+            border-top: 2px solid #333;
+            width: 250px;
+            margin: 0 auto 10px;
+            padding-top: 10px;
+        }
+
+        .signature-name {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #1e3c72;
+        }
+
+        .signature-title {
+            font-size: 0.95rem;
+            color: #666;
+            font-style: italic;
+        }
+
+        .date-section {
+            text-align: center;
+        }
+
+        .date-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .date-value {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #1e3c72;
+        }
+
+        .stats-section {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 30px 0;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: #666;
+        }
+
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 8rem;
+            color: rgba(102, 126, 234, 0.05);
+            font-weight: bold;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .print-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            font-weight: 600;
+            z-index: 1000;
+        }
+
+        .print-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            font-weight: 600;
+            z-index: 1000;
+            text-decoration: none;
+        }
+
+        .back-button:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        @media print {
+            @page {
+                size: A4 portrait;
+                margin: 8mm;
+            }
+
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+            }
+
+            .print-button, .back-button {
+                display: none;
+            }
+
+            .certificate-container {
+                width: 190mm;
+                max-width: 190mm;
+                box-shadow: none;
+                page-break-inside: avoid;
+                padding: 10mm;
+                margin: 0 auto;
+                border-width: 8px;
+            }
+
+            .certificate-border {
+                padding: 8mm;
+                border-width: 2px;
+            }
+
+            .certificate-icon {
+                font-size: 2.5rem;
+                margin-bottom: 8px;
+            }
+
+            .certificate-title {
+                font-size: 1.8rem;
+                margin-bottom: 5px;
+            }
+
+            .certificate-subtitle {
+                font-size: 1rem;
+            }
+
+            .certificate-text {
+                font-size: 0.95rem;
+                line-height: 1.4;
+                margin-bottom: 10px;
+            }
+
+            .student-name {
+                font-size: 1.8rem;
+                padding: 8px;
+                margin: 15px 0;
+                min-width: 350px;
+            }
+
+            .stats-section {
+                gap: 15px;
+                margin: 15px 0;
+            }
+
+            .stat-value {
+                font-size: 1.5rem;
+            }
+
+            .stat-label {
+                font-size: 0.8rem;
+            }
+
+            .achievement-section {
+                padding: 10px;
+                margin: 15px 0;
+            }
+
+            .achievement-title {
+                font-size: 1.1rem;
+                margin-bottom: 8px;
+            }
+
+            .achievement-grid {
+                gap: 8px;
+            }
+
+            .achievement-item {
+                padding: 8px;
+                font-size: 0.85rem;
+            }
+
+            .course-details {
+                font-size: 0.9rem;
+                margin: 15px 0;
+                line-height: 1.4;
+            }
+
+            .course-details p {
+                margin: 3px 0;
+            }
+
+            .certificate-footer {
+                margin-top: 20px;
+                padding-top: 15px;
+            }
+
+            .signature-line {
+                width: 180px;
+                margin-bottom: 8px;
+            }
+
+            .signature-name {
+                font-size: 0.95rem;
+            }
+
+            .signature-title {
+                font-size: 0.8rem;
+            }
+
+            .date-label {
+                font-size: 0.8rem;
+            }
+
+            .date-value {
+                font-size: 0.95rem;
+            }
+
+            .watermark {
+                font-size: 5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .certificate-container {
+                padding: 30px;
+            }
+
+            .certificate-border {
+                padding: 20px;
+            }
+
+            .certificate-title {
+                font-size: 2rem;
+            }
+
+            .student-name {
+                font-size: 2rem;
+                min-width: 300px;
+            }
+
+            .achievement-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .certificate-footer {
+                flex-direction: column;
+                gap: 30px;
+            }
+
+            .stats-section {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="print-button" onclick="window.print()">🖨️ Print Certificate</button>
+    <a href="index.html" class="back-button">← Back to Course</a>
+
+    <div class="certificate-container">
+        <div class="watermark">CERTIFIED</div>
+        <div class="certificate-border">
+            <div class="certificate-header">
+                <div class="certificate-icon">🏆</div>
+                <h1 class="certificate-title">CERTIFICATE OF ACHIEVEMENT</h1>
+                <p class="certificate-subtitle">Climate & Climate Graphs Mastery</p>
+            </div>
+
+            <div class="certificate-body">
+                <p class="certificate-text">This is to certify that</p>
+
+                <div class="student-name" id="studentName">Student Name</div>
+
+                <p class="certificate-text">
+                    has successfully completed the comprehensive course on<br>
+                    <strong>Climate Zones and Climate Graph Interpretation</strong><br>
+                    for UK Year 8 Geography
+                </p>
+
+                <div class="stats-section">
+                    <div class="stat-item">
+                        <div class="stat-value" id="totalPoints">0</div>
+                        <div class="stat-label">Points Earned</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="badgeCount">0</div>
+                        <div class="stat-label">Badges Earned</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="accuracyScore">100%</div>
+                        <div class="stat-label">Accuracy Score</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="totalRetries">0</div>
+                        <div class="stat-label">Total Retries</div>
+                    </div>
+                </div>
+
+                <div class="achievement-section">
+                    <div class="achievement-title">Learning Outcomes Achieved:</div>
+                    <div class="achievement-grid">
+                        <div class="achievement-item">
+                            ✓ Understanding the difference between weather and climate
+                        </div>
+                        <div class="achievement-item">
+                            ✓ Identifying the five major climate zones
+                        </div>
+                        <div class="achievement-item">
+                            ✓ Reading and interpreting climate graphs
+                        </div>
+                        <div class="achievement-item">
+                            ✓ Creating climate graphs from data
+                        </div>
+                        <div class="achievement-item">
+                            ✓ Analyzing temperature and rainfall patterns
+                        </div>
+                        <div class="achievement-item">
+                            ✓ Matching climates to real-world locations
+                        </div>
+                    </div>
+                </div>
+
+                <div class="course-details">
+                    <p><strong>Course Duration:</strong> 1 Hour Interactive Learning</p>
+                    <p><strong>Curriculum:</strong> UK Year 8 Geography (Ages 12-13)</p>
+                    <p><strong>Topics Covered:</strong> Tropical, Arid, Temperate, Polar, and Mediterranean Climates</p>
+                </div>
+            </div>
+
+            <div class="certificate-footer">
+                <div class="signature-section">
+                    <div class="signature-line"></div>
+                    <div class="signature-name">Climate Learning Hub</div>
+                    <div class="signature-title">Educational Platform</div>
+                </div>
+
+                <div class="date-section">
+                    <div class="date-label">Date of Completion</div>
+                    <div class="date-value" id="completionDate">1st January 2025</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Retrieve data from sessionStorage
+        window.addEventListener('DOMContentLoaded', function() {
+            const studentName = sessionStorage.getItem('studentName') || 'Student Name';
+            const completionDate = sessionStorage.getItem('completionDate') || new Date().toLocaleDateString('en-GB', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
+            const totalPoints = sessionStorage.getItem('totalPoints') || '0';
+            const badges = sessionStorage.getItem('badges') || '0';
+            const totalRetries = sessionStorage.getItem('totalRetries') || '0';
+            const accuracyScore = sessionStorage.getItem('accuracyScore') || '100%';
+
+            // Update certificate
+            document.getElementById('studentName').textContent = studentName;
+            document.getElementById('completionDate').textContent = completionDate;
+            document.getElementById('totalPoints').textContent = totalPoints;
+            document.getElementById('badgeCount').textContent = badges;
+            document.getElementById('totalRetries').textContent = totalRetries;
+            document.getElementById('accuracyScore').textContent = accuracyScore;
+        });
+    </script>
+</body>
+</html>
