@@ -207,13 +207,32 @@ main {
 .overlay-title {
     font-size: 3rem;
     font-weight: 700;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.overlay-question {
+    font-size: 1.4rem;
+    margin-bottom: 1.5rem;
+    opacity: 0.9;
+    font-weight: 500;
+    max-width: 800px;
+    line-height: 1.6;
+}
+
+.overlay-answer-label {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    opacity: 0.8;
 }
 
 .overlay-message {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     margin-bottom: 2rem;
-    opacity: 0.95;
+    opacity: 1;
+    font-weight: 600;
+    max-width: 900px;
+    line-height: 1.5;
 }
 
 .overlay-points {
@@ -520,28 +539,33 @@ li {
     font-weight: 500;
 }
 
-.quiz-option:hover {
+.quiz-option:hover:not(:disabled) {
     background: var(--primary-color);
     color: white;
     border-color: var(--primary-color);
     transform: translateX(5px);
 }
 
-.quiz-option.correct {
-    background: var(--success-color);
+/* Attempting state - neutral gray when clicked */
+.quiz-option.attempting {
+    background: #95a5a6;
     color: white;
-    border-color: var(--success-color);
+    border-color: #95a5a6;
+    transform: scale(0.98);
 }
 
-.quiz-option.incorrect {
-    background: var(--accent-color);
+/* Revealed correct answer (after 6 attempts) */
+.quiz-option.revealed-correct {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
     color: white;
-    border-color: var(--accent-color);
+    border-color: #f093fb;
+    animation: pulse 2s infinite;
+    font-weight: 700;
 }
 
 .quiz-option:disabled {
     cursor: not-allowed;
-    opacity: 0.7;
+    opacity: 0.4;
 }
 
 .checkbox-option {
@@ -591,6 +615,74 @@ li {
     background: #f8d7da;
     color: #721c24;
     border: 1px solid #f5c6cb;
+}
+
+/* Hint Container Styles */
+.hint-container {
+    display: none;
+    align-items: center;
+    gap: 15px;
+    margin: 20px 0;
+    padding: 20px;
+    background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+    border: 2px solid #ffd93d;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(255, 193, 7, 0.2);
+}
+
+.hint-container.hint-fade-in {
+    animation: hintFadeIn 0.5s ease;
+}
+
+.hint-icon {
+    font-size: 2.5rem;
+    flex-shrink: 0;
+}
+
+.hint-text {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #856404;
+    line-height: 1.5;
+}
+
+/* Reveal Answer Container */
+.reveal-answer-container {
+    display: none;
+    text-align: center;
+    margin: 20px 0;
+    padding: 15px;
+    background: rgba(239, 68, 68, 0.05);
+    border-radius: 12px;
+}
+
+.reveal-answer-btn {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+}
+
+.reveal-answer-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+}
+
+@keyframes hintFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
 }
 
 @keyframes slideDown {

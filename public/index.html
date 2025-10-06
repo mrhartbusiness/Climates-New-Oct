@@ -604,40 +604,46 @@
         </section>
 
         <!-- M3: Question 1 -->
-        <section id="screen-m3-q1" class="screen">
+        <section id="screen-m3-q1" class="screen"
+            data-hint-1="Look at the London graph above - what is drawn as a line?"
+            data-hint-2="Climate graphs use RED for temperature and BLUE for rainfall.">
             <div class="content-card" style="text-align: center;">
                 <p style="font-size: 1.2rem; opacity: 0.7; margin-bottom: 1rem;">Question 1/3</p>
                 <h2 style="font-size: 2.5rem; margin-bottom: 2rem;">What does the red line show?</h2>
                 <div class="quiz-options" style="max-width: 600px; margin: 0 auto;">
                     <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'Not quite! The blue bars show rainfall.', 'module3_q1')">Rainfall</button>
-                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, true, 'Correct! The red line shows temperature in °C.', 'module3_q1')">Temperature</button>
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, true, 'The red line shows temperature in °C', 'module3_q1')">Temperature</button>
                     <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'Not quite! The X-axis shows months.', 'module3_q1')">Months of the year</button>
                 </div>
             </div>
         </section>
 
         <!-- M3: Question 2 -->
-        <section id="screen-m3-q2" class="screen">
+        <section id="screen-m3-q2" class="screen"
+            data-hint-1="Look at when the red line (temperature) is highest on the graph."
+            data-hint-2="In the Northern Hemisphere, June-August are the summer months.">
             <div class="content-card" style="text-align: center;">
                 <p style="font-size: 1.2rem; opacity: 0.7; margin-bottom: 1rem;">Question 2/3</p>
                 <h2 style="font-size: 2.5rem; margin-bottom: 2rem;">In London, which season is warmest?</h2>
                 <div class="quiz-options" style="max-width: 600px; margin: 0 auto;">
                     <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'Not quite! Winter (Dec-Feb) is the coldest.', 'module3_q2')">Winter (Dec-Feb)</button>
                     <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'Close! Spring is mild but not the warmest.', 'module3_q2')">Spring (Mar-May)</button>
-                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, true, 'Correct! Summer (Jun-Aug) has the highest temperatures.', 'module3_q2')">Summer (Jun-Aug)</button>
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, true, 'Summer (Jun-Aug) has the highest temperatures', 'module3_q2')">Summer (Jun-Aug)</button>
                     <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'Not quite! Autumn is cooling down.', 'module3_q2')">Autumn (Sep-Nov)</button>
                 </div>
             </div>
         </section>
 
         <!-- M3: Question 3 -->
-        <section id="screen-m3-q3" class="screen">
+        <section id="screen-m3-q3" class="screen"
+            data-hint-1="Look at the blue bars on the London graph - do they vary a lot or stay similar?"
+            data-hint-2="London's rainfall is roughly the same height all year round.">
             <div class="content-card" style="text-align: center;">
                 <p style="font-size: 1.2rem; opacity: 0.7; margin-bottom: 1rem;">Question 3/3</p>
                 <h2 style="font-size: 2.5rem; margin-bottom: 2rem;">London's rainfall pattern is:</h2>
                 <div class="quiz-options" style="max-width: 700px; margin: 0 auto;">
                     <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'Not quite! London gets rain year-round.', 'module3_q3')">Only in winter</button>
-                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, true, 'Correct! London gets moderate rain throughout the year.', 'module3_q3')">Fairly consistent all year</button>
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, true, 'London gets moderate rain throughout the year', 'module3_q3')">Fairly consistent all year</button>
                     <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'Not quite! That would be a monsoon climate.', 'module3_q3')">Heavy in summer, dry in winter</button>
                 </div>
             </div>
@@ -903,7 +909,9 @@
         </section>
 
         <!-- M5: Mystery Graph 1 -->
-        <section id="screen-m5-mystery1" class="screen">
+        <section id="screen-m5-mystery1" class="screen"
+            data-hint-1="Look at the temperature - is it hot all year? Now check the rainfall bars."
+            data-hint-2="Tropical climates are HOT all year with VERY HIGH rainfall.">
             <div class="content-card" style="text-align: center; max-width: 1000px; margin: 0 auto;">
                 <p style="font-size: 1.2rem; opacity: 0.7; margin-bottom: 1rem;">Mystery Graph 1/3</p>
                 <h2 style="font-size: 2.5rem; margin-bottom: 2rem;">What climate type is this?</h2>
@@ -911,7 +919,7 @@
                     <canvas id="mysteryChart1" style="max-height: 300px;"></canvas>
                 </div>
                 <div class="quiz-options" style="max-width: 600px; margin: 0 auto;">
-                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, true, 'Correct! Hot all year + heavy rainfall = Tropical!', 'module5_1')">🔥 Tropical</button>
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, true, 'Hot all year + heavy rainfall = Tropical!', 'module5_1')">🔥 Tropical</button>
                     <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'Not quite! This graph shows very high temperatures and rainfall.', 'module5_1')">🏜️ Arid</button>
                     <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'Not quite! This is much hotter than temperate.', 'module5_1')">🌳 Temperate</button>
                     <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'Not quite! This is not cold enough for polar.', 'module5_1')">❄️ Polar</button>
@@ -985,13 +993,15 @@
         </section>
 
         <!-- M6: Question 1 -->
-        <section id="screen-m6-q1" class="screen">
+        <section id="screen-m6-q1" class="screen"
+            data-hint-1="Climate = long-term patterns over many years. Weather = short-term conditions."
+            data-hint-2="Look for the answer that describes patterns over a long time period.">
             <div class="content-card" style="text-align: center;">
                 <p style="font-size: 1.2rem; opacity: 0.7; margin-bottom: 1rem;">Question 1/8</p>
                 <h2 style="font-size: 2.2rem; margin-bottom: 2rem;">Which describes CLIMATE (not weather)?</h2>
                 <div class="quiz-options" style="max-width: 700px; margin: 0 auto;">
                     <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'That\\'s weather! Climate is long-term patterns.', 'module6_1')">It's raining today</button>
-                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, true, 'Correct! Climate describes long-term patterns.', 'module6_1')">London is rainy most of the year</button>
+                    <button class="quiz-option" onclick="checkAnswerFullScreen(this, true, 'Climate describes long-term patterns', 'module6_1')">London is rainy most of the year</button>
                     <button class="quiz-option" onclick="checkAnswerFullScreen(this, false, 'That\\'s weather! Climate is long-term patterns.', 'module6_1')">Tomorrow will be sunny</button>
                 </div>
             </div>
@@ -1134,7 +1144,8 @@
                         </div>
                         <div style="background: rgba(255,255,255,0.2); padding: 1.5rem; border-radius: 12px;">
                             <div id="certAccuracy" style="font-size: 2.5rem; font-weight: 700;"></div>
-                            <div style="font-size: 1.1rem; opacity: 0.9;">Accuracy</div>
+                            <div style="font-size: 1.1rem; opacity: 0.9;">First-Try Accuracy</div>
+                            <div class="accuracy-stats" style="font-size: 0.9rem; opacity: 0.8; margin-top: 0.5rem;"></div>
                         </div>
                     </div>
 

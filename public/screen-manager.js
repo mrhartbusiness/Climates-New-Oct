@@ -91,20 +91,34 @@ class OverlayManager {
         });
     }
 
-    showSuccess(answer, points, callback) {
+    showSuccess(question, answer, points, callback) {
         this.overlay.className = 'overlay overlay-success show';
         this.overlay.innerHTML = `
             <div class="overlay-icon">✓</div>
             <div class="overlay-title">CORRECT!</div>
+            <div class="overlay-question">${question}</div>
+            <div class="overlay-answer-label">Answer:</div>
             <div class="overlay-message">${answer}</div>
             <div class="overlay-points">+${points} points</div>
             <div class="overlay-hint">Click anywhere to continue →</div>
         `;
 
-        // Auto-advance after callback
-        setTimeout(() => {
-            if (callback) callback();
-        }, 1000);
+        // Store callback to execute on click
+        this.successCallback = callback;
+
+        // Remove old click listener and add new one with callback
+        const overlayElement = this.overlay;
+        const newOverlay = overlayElement.cloneNode(true);
+        overlayElement.parentNode.replaceChild(newOverlay, overlayElement);
+        this.overlay = newOverlay;
+
+        this.overlay.addEventListener('click', () => {
+            this.hide();
+            if (this.successCallback) {
+                this.successCallback();
+                this.successCallback = null;
+            }
+        });
     }
 
     showError(message) {
@@ -142,9 +156,82 @@ class OverlayManager {
     }
 }
 
+// Keyboard Manager for Shortcuts
+class KeyboardManager {
+    constructor() {
+        this.enabled = true;
+        this.init();
+    }
+
+    init() {
+        document.addEventListener('keydown', (e) => {
+            if (!this.enabled) return;
+
+            const screen = document.querySelector('.screen.active');
+            if (!screen) return;
+
+            // Check if user is typing in an input field
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                return;
+            }
+
+            // Check if screen has interactive content (quiz, graph builder, etc.)
+            const hasQuiz = screen.querySelector('.quiz-option');
+            const hasCanvas = screen.querySelector('canvas');
+            const hasInput = screen.querySelector('input[type="text"]');
+
+            // Escape key - close overlay
+            if (e.key === 'Escape') {
+                overlayManager.hide();
+                return;
+            }
+
+            // Space or Enter - advance on click-anywhere screens
+            if ((e.key === ' ' || e.key === 'Enter') && screen.dataset.clickAnywhere) {
+                e.preventDefault();
+                screenManager.nextScreen();
+                return;
+            }
+
+            // Arrow keys - navigate (only on non-interactive screens)
+            if (!hasQuiz && !hasCanvas && !hasInput) {
+                if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    if (screen.dataset.clickAnywhere) {
+                        screenManager.nextScreen();
+                    }
+                } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    screenManager.prevScreen();
+                }
+            }
+
+            // Number keys 1-5 for quiz options (accessibility feature)
+            if (hasQuiz && !screen.querySelector('.quiz-option:disabled')) {
+                const num = parseInt(e.key);
+                if (num >= 1 && num <= 5) {
+                    const options = screen.querySelectorAll('.quiz-option');
+                    if (options[num - 1]) {
+                        options[num - 1].click();
+                    }
+                }
+            }
+        });
+    }
+
+    disable() {
+        this.enabled = false;
+    }
+
+    enable() {
+        this.enabled = true;
+    }
+}
+
 // Global instances
 const screenManager = new ScreenManager();
 const overlayManager = new OverlayManager();
+const keyboardManager = new KeyboardManager();
 
 // Initialize when DOM ready
 if (document.readyState === 'loading') {
