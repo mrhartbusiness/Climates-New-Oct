@@ -98,6 +98,22 @@ document.addEventListener('DOMContentLoaded', function() {
     createFinalGraph();
 });
 
+// Helper function to safely use overlayManager
+function safeShowSuccess(questionText, answerText, points, callback) {
+    if (window.overlayManager) {
+        overlayManager.showSuccess(questionText, answerText, points, callback);
+    } else {
+        // Fallback if overlayManager not ready
+        if (callback) callback();
+    }
+}
+
+function safeShowError(message) {
+    if (window.overlayManager) {
+        overlayManager.showError(message);
+    }
+}
+
 // Start Course
 function startCourse() {
     const nameInput = document.getElementById('studentName');
@@ -386,7 +402,8 @@ function revealAnswer(retryKey) {
 function checkAnswerFullScreen(button, isCorrect, answerText, retryKey = null) {
     const options = button.parentElement.querySelectorAll('.quiz-option');
     const screen = document.querySelector('.screen.active');
-    const questionText = screen.querySelector('h2').textContent;
+    const questionHeading = screen.querySelector('h2, h3, h4');
+    const questionText = questionHeading ? questionHeading.textContent : 'Question';
 
     // Initialize question attempts if first time
     if (!questionAttempts[retryKey]) {
@@ -409,7 +426,7 @@ function checkAnswerFullScreen(button, isCorrect, answerText, retryKey = null) {
         hintManager.clearHints();
 
         // Show full-screen success overlay with question AND answer
-        overlayManager.showSuccess(questionText, answerText, 20, () => {
+        safeShowSuccess(questionText, answerText, 20, () => {
             // After overlay is dismissed, advance to next screen
             screenManager.nextScreen();
         });
@@ -429,7 +446,7 @@ function checkAnswerFullScreen(button, isCorrect, answerText, retryKey = null) {
         }, 500);
 
         // Show error overlay with custom message
-        overlayManager.showError("That's not correct. Try again!");
+        safeShowError("That's not correct. Try again!");
 
         // Show hints based on attempt count
         if (questionAttempts[retryKey] === 3) {
@@ -479,7 +496,7 @@ function checkCityMatch(button, isCorrect, cityName, cityNumber) {
         const climateType = button.textContent.trim();
 
         // Show full-screen success overlay with question AND answer
-        overlayManager.showSuccess(
+        safeShowSuccess(
             `${cityName}`,
             `Climate: ${climateType}`,
             5,
@@ -502,7 +519,7 @@ function checkCityMatch(button, isCorrect, cityName, cityNumber) {
         }, 500);
 
         // Show error overlay
-        overlayManager.showError("That's not correct. Think about the temperature and rainfall patterns.");
+        safeShowError("That's not correct. Think about the temperature and rainfall patterns.");
 
         // Show hints based on attempt count
         if (questionAttempts[retryKey] === 3) {
@@ -1881,69 +1898,3 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
-
-// Certificate Generation Function
-function generateCertificate() {
-    // Calculate total retries
-    let totalRetries = 0;
-    for (let key in retries) {
-        totalRetries += retries[key];
-    }
-
-    // Calculate accuracy based on FIRST ATTEMPTS ONLY
-    let totalQuestions = 0;
-    let correctFirstTry = 0;
-
-    for (let key in firstAttempts) {
-        if (firstAttempts[key] !== null) { // Only count questions that were answered
-            totalQuestions++;
-            if (firstAttempts[key] === true) {
-                correctFirstTry++;
-            }
-        }
-    }
-
-    const accuracy = totalQuestions > 0 ? Math.round((correctFirstTry / totalQuestions) * 100) : 0;
-
-    // Fill certificate data
-    document.getElementById('certStudentName').textContent = studentName;
-    document.getElementById('certPoints').textContent = points;
-    document.getElementById('certRetries').textContent = totalRetries;
-    document.getElementById('certAccuracy').textContent = accuracy + '%';
-
-    // Add first attempt stats
-    const certAccuracyElement = document.getElementById('certAccuracy');
-    if (certAccuracyElement && certAccuracyElement.parentElement) {
-        const statsText = certAccuracyElement.parentElement.querySelector('.accuracy-stats');
-        if (statsText) {
-            statsText.textContent = `${correctFirstTry}/${totalQuestions} correct on first try`;
-        }
-    }
-
-    // Current date
-    const today = new Date().toLocaleDateString('en-GB', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric'
-    });
-    document.getElementById('certDate').textContent = today;
-
-    // Show certificate screen
-    screenManager.nextScreen();
-}
-
-// Override the last question's success to trigger certificate generation
-window.addEventListener('load', function() {
-    // Wait for page to be fully loaded, then attach certificate trigger to last question
-    setTimeout(() => {
-        const lastQuestionScreen = document.getElementById('screen-m6-q8');
-        if (lastQuestionScreen) {
-            const correctButton = lastQuestionScreen.querySelector('button[onclick*="true"]');
-            if (correctButton) {
-                const originalOnClick = correctButton.getAttribute('onclick');
-                // We'll handle this in the checkAnswerFullScreen function instead
-                // by detecting when we're on the last question
-            }
-        }
-    }, 1000);
-});
