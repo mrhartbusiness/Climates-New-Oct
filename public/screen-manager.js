@@ -5,6 +5,7 @@ class ScreenManager {
         this.currentScreen = 0;
         this.screens = [];
         this.progressDot = null;
+        this.isNavigating = false;
     }
 
     init() {
@@ -13,6 +14,15 @@ class ScreenManager {
 
         // Setup click-anywhere listeners
         this.setupClickAnywhere();
+
+        // Setup keyboard navigation
+        this.setupKeyboardNavigation();
+
+        // Setup browser history navigation
+        this.setupHistoryNavigation();
+
+        // Initialize first screen in history
+        this.updateHistory(this.currentScreen, true);
     }
 
     createProgressDot() {
@@ -46,7 +56,67 @@ class ScreenManager {
         });
     }
 
-    showScreen(index) {
+    setupKeyboardNavigation() {
+        document.addEventListener('keydown', (e) => {
+            const screen = document.querySelector('.screen.active');
+            if (!screen) return;
+
+            // Don't handle keyboard if on interactive elements
+            const activeElement = document.activeElement;
+            if (activeElement && (
+                activeElement.tagName === 'INPUT' ||
+                activeElement.tagName === 'TEXTAREA' ||
+                activeElement.tagName === 'SELECT' ||
+                activeElement.closest('.quiz-option, .draggable-item, .drop-zone, canvas, button')
+            )) {
+                return;
+            }
+
+            // Check if screen allows click-anywhere advancement (keyboard follows same rule)
+            const canAdvance = screen.dataset.clickAnywhere === 'true';
+
+            // Handle different keys
+            switch(e.key) {
+                case ' ':          // Space
+                case 'Enter':      // Enter
+                case 'ArrowRight': // Right arrow
+                    if (canAdvance) {
+                        e.preventDefault();
+                        this.nextScreen();
+                    }
+                    break;
+                case 'ArrowLeft':  // Left arrow
+                    e.preventDefault();
+                    this.prevScreen();
+                    break;
+            }
+        });
+    }
+
+    setupHistoryNavigation() {
+        // Handle browser back/forward buttons
+        window.addEventListener('popstate', (e) => {
+            if (e.state && typeof e.state.screenIndex === 'number') {
+                this.isNavigating = true;
+                this.showScreen(e.state.screenIndex, false);
+                this.isNavigating = false;
+            }
+        });
+    }
+
+    updateHistory(index, replace = false) {
+        // Update browser history
+        const state = { screenIndex: index };
+        const url = `${window.location.pathname}#screen-${index}`;
+        
+        if (replace) {
+            window.history.replaceState(state, '', url);
+        } else {
+            window.history.pushState(state, '', url);
+        }
+    }
+
+    showScreen(index, updateHistory = true) {
         // Hide all screens
         const allScreens = document.querySelectorAll('.screen, .module');
         allScreens.forEach(s => {
@@ -58,6 +128,11 @@ class ScreenManager {
         if (targetScreen) {
             targetScreen.classList.add('active');
             this.currentScreen = index;
+            
+            // Update browser history (unless we're navigating via popstate)
+            if (updateHistory && !this.isNavigating) {
+                this.updateHistory(index);
+            }
         }
     }
 
