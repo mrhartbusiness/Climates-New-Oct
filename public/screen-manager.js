@@ -5,6 +5,7 @@ class ScreenManager {
         this.currentScreen = 0;
         this.screens = [];
         this.progressDot = null;
+        this.isRestoringState = false;
     }
 
     init() {
@@ -13,6 +14,12 @@ class ScreenManager {
 
         // Setup click-anywhere listeners
         this.setupClickAnywhere();
+
+        // Setup browser history integration
+        this.setupHistoryIntegration();
+
+        // Restore progress from localStorage
+        this.restoreProgress();
     }
 
     createProgressDot() {
@@ -60,6 +67,12 @@ class ScreenManager {
         if (targetScreen) {
             targetScreen.classList.add('active');
             this.currentScreen = index;
+
+            // Update browser history and save progress (unless we're restoring state)
+            if (!this.isRestoringState) {
+                this.pushState(index);
+                this.saveProgress();
+            }
         }
     }
 
@@ -70,6 +83,56 @@ class ScreenManager {
     prevScreen() {
         if (this.currentScreen > 0) {
             this.showScreen(this.currentScreen - 1);
+        }
+    }
+
+    setupHistoryIntegration() {
+        // Listen for browser back/forward button
+        window.addEventListener('popstate', (event) => {
+            if (event.state && event.state.screen !== undefined) {
+                this.isRestoringState = true;
+                this.showScreen(event.state.screen);
+                this.isRestoringState = false;
+            }
+        });
+
+        // Initialize with current state
+        if (window.history.state === null) {
+            window.history.replaceState({ screen: this.currentScreen }, '', window.location.href);
+        }
+    }
+
+    pushState(screenIndex) {
+        // Push new history state for browser back button support
+        window.history.pushState({ screen: screenIndex }, '', window.location.href);
+    }
+
+    saveProgress() {
+        // Save current screen to localStorage
+        try {
+            localStorage.setItem('climateHub_currentScreen', this.currentScreen.toString());
+        } catch (e) {
+            console.warn('Failed to save progress to localStorage:', e);
+        }
+    }
+
+    restoreProgress() {
+        // Restore screen position from localStorage
+        try {
+            const savedScreen = localStorage.getItem('climateHub_currentScreen');
+            if (savedScreen !== null) {
+                const screenIndex = parseInt(savedScreen, 10);
+                if (!isNaN(screenIndex) && screenIndex >= 0) {
+                    this.isRestoringState = true;
+                    this.showScreen(screenIndex);
+                    this.isRestoringState = false;
+                    
+                    // Update history state
+                    window.history.replaceState({ screen: screenIndex }, '', window.location.href);
+                }
+            }
+        } catch (e) {
+            console.warn('Failed to restore progress from localStorage:', e);
         }
     }
 }

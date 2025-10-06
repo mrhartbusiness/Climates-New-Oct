@@ -85,6 +85,9 @@ const rainfallData2 = [52, 56, 118, 125, 138, 168, 154, 168, 210, 198, 93, 51];
 
 // Initialize when page loads
 document.addEventListener('DOMContentLoaded', function() {
+    // Restore saved progress first
+    restoreAppProgress();
+
     // Initialize screen manager for full-screen navigation
     if (typeof screenManager !== 'undefined') {
         screenManager.init();
@@ -97,6 +100,62 @@ document.addEventListener('DOMContentLoaded', function() {
     createMysteryGraphs();
     createFinalGraph();
 });
+
+// Save app progress to localStorage
+function saveAppProgress() {
+    try {
+        const progressData = {
+            currentModule,
+            studentName,
+            points,
+            badges,
+            moduleScores,
+            retries,
+            firstAttempts,
+            questionAttempts,
+            userGraphData,
+            userRainfallData,
+            userGraphData2
+        };
+        localStorage.setItem('climateHub_appProgress', JSON.stringify(progressData));
+    } catch (e) {
+        console.warn('Failed to save app progress:', e);
+    }
+}
+
+// Restore app progress from localStorage
+function restoreAppProgress() {
+    try {
+        const savedData = localStorage.getItem('climateHub_appProgress');
+        if (savedData) {
+            const progressData = JSON.parse(savedData);
+            
+            // Restore global state
+            if (progressData.currentModule !== undefined) currentModule = progressData.currentModule;
+            if (progressData.studentName) studentName = progressData.studentName;
+            if (progressData.points !== undefined) points = progressData.points;
+            if (progressData.badges) badges = progressData.badges;
+            if (progressData.moduleScores) moduleScores = progressData.moduleScores;
+            if (progressData.retries) retries = progressData.retries;
+            if (progressData.firstAttempts) firstAttempts = progressData.firstAttempts;
+            if (progressData.questionAttempts) questionAttempts = progressData.questionAttempts;
+            if (progressData.userGraphData) userGraphData = progressData.userGraphData;
+            if (progressData.userRainfallData) userRainfallData = progressData.userRainfallData;
+            if (progressData.userGraphData2) userGraphData2 = progressData.userGraphData2;
+
+            // Update UI elements if they exist
+            setTimeout(() => {
+                updateProgress();
+                const pointsDisplay = document.getElementById('pointsDisplay');
+                if (pointsDisplay) {
+                    pointsDisplay.textContent = `Points: ${points} 🏆`;
+                }
+            }, 100);
+        }
+    } catch (e) {
+        console.warn('Failed to restore app progress:', e);
+    }
+}
 
 // Helper function to safely use overlayManager
 function safeShowSuccess(questionText, answerText, points, callback) {
@@ -147,6 +206,9 @@ function startCourse() {
 
     // Update progress
     screenManager.updateProgress(1, 150);
+    
+    // Save progress
+    saveAppProgress();
 }
 
 // Navigation
@@ -173,6 +235,9 @@ function nextModule() {
     if (currentModule === 7) {
         awardBadge('Climate Explorer 🌍');
     }
+
+    // Save progress
+    saveAppProgress();
 
     // Scroll to top
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -245,6 +310,9 @@ function addPoints(amount, reason) {
 
     // Show floating notification
     showNotification(`+${amount} points! ${reason}`);
+    
+    // Save progress
+    saveAppProgress();
 }
 
 function showNotification(message) {
@@ -456,6 +524,9 @@ function checkAnswerFullScreen(button, isCorrect, answerText, retryKey = null) {
         } else if (questionAttempts[retryKey] === 6) {
             setTimeout(() => hintManager.showRevealButton(retryKey), 2100);
         }
+        
+        // Save progress after wrong answer
+        saveAppProgress();
     }
 }
 
