@@ -1100,7 +1100,7 @@ function createBuildGraph() {
 
 function resetGraph() {
     userGraphData = [null, null, null, null, null, null, null, null, null, null, null, null];
-    userRainfallData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    userRainfallData = [5, 4, 4, 1, 1, 0, 0, 0, 0, 1, 3, 5]; // Reset to correct data, not zeros
     buildChart.data.datasets[0].data = userGraphData;
     buildChart.data.datasets[1].data = userRainfallData;
     buildChart.update();
@@ -1108,6 +1108,9 @@ function resetGraph() {
     const feedback = document.getElementById('feedback-4');
     feedback.className = 'feedback';
     feedback.textContent = '';
+    
+    // Save the reset state
+    saveAppProgress();
 }
 
 function checkGraphAccuracy() {
@@ -1141,12 +1144,20 @@ function checkGraphAccuracy() {
         retries.module4++;
     } else if (tempErrors === 0 && rainfallErrors === 0) {
         feedback.className = 'feedback correct show';
-        feedback.textContent = '✓ Excellent! Your climate graph is perfect! You can proceed to the analysis question.';
+        feedback.textContent = '✓ Excellent! Your climate graph is perfect! Moving to next question...';
         addPoints(50, 'Perfect graph!');
+        // Auto-progress to next screen after a delay
+        setTimeout(() => {
+            screenManager.nextScreen();
+        }, 2000);
     } else if (tempErrors <= 3 && rainfallErrors <= 3) {
         feedback.className = 'feedback correct show';
-        feedback.textContent = `✓ Good job! Your graph is mostly accurate (${tempErrors} temp, ${rainfallErrors} rainfall slightly off). You can proceed.`;
+        feedback.textContent = `✓ Good job! Your graph is mostly accurate (${tempErrors} temp, ${rainfallErrors} rainfall slightly off). Moving to next question...`;
         addPoints(30, 'Good graph!');
+        // Auto-progress to next screen after a delay
+        setTimeout(() => {
+            screenManager.nextScreen();
+        }, 2000);
     } else {
         feedback.className = 'feedback incorrect show';
         feedback.textContent = `✗ Keep trying! Temp errors: ${tempErrors}, Rainfall errors: ${rainfallErrors}. Check the data table and adjust.`;
