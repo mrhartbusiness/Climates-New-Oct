@@ -14,7 +14,7 @@ let moduleScores = {
     module7: 0
 };
 
-// Retry tracking system
+// Retry tracking system (total retries per question)
 let retries = {
     module1: 0,
     module2: 0,
@@ -35,6 +35,31 @@ let retries = {
     module6_7: 0,
     module6_8: 0
 };
+
+// First attempt tracking (true = correct on first try, false = incorrect on first try)
+let firstAttempts = {
+    module1: null,
+    module2: null, // This tracks all city matches collectively
+    module3_q1: null,
+    module3_q2: null,
+    module3_q3: null,
+    module4: null,
+    module4b: null,
+    module5_1: null,
+    module5_2: null,
+    module5_3: null,
+    module6_1: null,
+    module6_2: null,
+    module6_3: null,
+    module6_4: null,
+    module6_5: null,
+    module6_6: null,
+    module6_7: null,
+    module6_8: null
+};
+
+// Question attempts counter (how many times user tried this question)
+let questionAttempts = {};
 
 // Chart instances
 let exampleChart = null;
@@ -245,77 +270,248 @@ function awardBadge(badgeName) {
     addPoints(50, `Earned badge: ${badgeName}`);
 }
 
-// Full-Screen Quiz Functions (New System)
+// Hint Manager Class
+class HintManager {
+    constructor() {
+        this.hints = {};
+    }
+
+    showHint(questionKey, attemptCount) {
+        const screen = document.querySelector('.screen.active');
+        if (!screen) return;
+
+        let hintContainer = screen.querySelector('.hint-container');
+        if (!hintContainer) {
+            hintContainer = document.createElement('div');
+            hintContainer.className = 'hint-container';
+            const quizOptions = screen.querySelector('.quiz-options');
+            if (quizOptions) {
+                quizOptions.parentNode.insertBefore(hintContainer, quizOptions);
+            }
+        }
+
+        let hintText = '';
+        let hintIcon = '💡';
+
+        // Get hints from screen data attributes or use defaults
+        if (attemptCount === 3) {
+            hintText = screen.dataset.hint1 || 'Think about the key characteristics of each climate type.';
+            hintIcon = '💡';
+        } else if (attemptCount === 5) {
+            hintText = screen.dataset.hint2 || 'Look carefully at the temperature and rainfall patterns.';
+            hintIcon = '🔍';
+        }
+
+        hintContainer.innerHTML = `
+            <div class="hint-icon">${hintIcon}</div>
+            <div class="hint-text">${hintText}</div>
+        `;
+        hintContainer.style.display = 'flex';
+        hintContainer.classList.add('hint-fade-in');
+    }
+
+    showRevealButton(questionKey) {
+        const screen = document.querySelector('.screen.active');
+        if (!screen) return;
+
+        let revealContainer = screen.querySelector('.reveal-answer-container');
+        if (!revealContainer) {
+            revealContainer = document.createElement('div');
+            revealContainer.className = 'reveal-answer-container';
+            const quizOptions = screen.querySelector('.quiz-options');
+            if (quizOptions) {
+                quizOptions.parentNode.insertBefore(revealContainer, quizOptions.nextSibling);
+            }
+        }
+
+        revealContainer.innerHTML = `
+            <button class="reveal-answer-btn" onclick="revealAnswer('${questionKey}')">
+                ⚠️ Reveal Answer
+            </button>
+            <p style="font-size: 0.9rem; opacity: 0.7; margin-top: 0.5rem;">You've tried 6 times. Click to see the correct answer.</p>
+        `;
+        revealContainer.style.display = 'block';
+    }
+
+    clearHints() {
+        const screen = document.querySelector('.screen.active');
+        if (!screen) return;
+
+        const hintContainer = screen.querySelector('.hint-container');
+        if (hintContainer) hintContainer.style.display = 'none';
+
+        const revealContainer = screen.querySelector('.reveal-answer-container');
+        if (revealContainer) revealContainer.style.display = 'none';
+    }
+}
+
+const hintManager = new HintManager();
+
+// Reveal Answer Function
+function revealAnswer(retryKey) {
+    const screen = document.querySelector('.screen.active');
+    if (!screen) return;
+
+    // Find the correct answer button
+    const options = screen.querySelectorAll('.quiz-option');
+    let correctButton = null;
+
+    options.forEach(opt => {
+        const onclick = opt.getAttribute('onclick');
+        if (onclick && onclick.includes('true')) {
+            correctButton = opt;
+        }
+    });
+
+    if (correctButton) {
+        // Highlight the correct answer
+        correctButton.classList.add('revealed-correct');
+
+        // Disable all other options
+        options.forEach(opt => {
+            if (opt !== correctButton) {
+                opt.disabled = true;
+                opt.style.opacity = '0.4';
+            }
+        });
+
+        // Auto-click the correct answer after 1 second
+        setTimeout(() => {
+            correctButton.click();
+        }, 1500);
+    }
+}
+
+// Full-Screen Quiz Functions (Enhanced System)
 function checkAnswerFullScreen(button, isCorrect, answerText, retryKey = null) {
     const options = button.parentElement.querySelectorAll('.quiz-option');
+    const screen = document.querySelector('.screen.active');
+    const questionText = screen.querySelector('h2').textContent;
+
+    // Initialize question attempts if first time
+    if (!questionAttempts[retryKey]) {
+        questionAttempts[retryKey] = 0;
+    }
+
+    // Increment attempt count
+    questionAttempts[retryKey]++;
+
+    // Track first attempt
+    if (questionAttempts[retryKey] === 1 && retryKey && firstAttempts.hasOwnProperty(retryKey)) {
+        firstAttempts[retryKey] = isCorrect;
+    }
 
     if (isCorrect) {
         // Disable all options
         options.forEach(opt => opt.disabled = true);
-        button.classList.add('correct');
 
-        // Show full-screen success overlay
-        overlayManager.showSuccess(answerText, 20, () => {
-            // After overlay, advance to next screen
+        // Clear any hints
+        hintManager.clearHints();
+
+        // Show full-screen success overlay with question AND answer
+        overlayManager.showSuccess(questionText, answerText, 20, () => {
+            // After overlay is dismissed, advance to next screen
             screenManager.nextScreen();
         });
 
         addPoints(20, 'Correct answer!');
-        screenManager.updateProgress(screenManager.currentScreen + 2, 150);
+        screenManager.updateProgress(screenManager.currentScreen + 2, 87);
     } else {
-        // Show error overlay
-        overlayManager.showError('Try again! Think about long-term patterns vs short-term conditions.');
-
         // Track retry
         if (retryKey && retries[retryKey] !== undefined) {
             retries[retryKey]++;
         }
 
-        // Re-enable buttons after error overlay auto-hides
+        // Add attempting state (neutral)
+        button.classList.add('attempting');
         setTimeout(() => {
-            button.classList.remove('incorrect');
-        }, 2000);
+            button.classList.remove('attempting');
+        }, 500);
+
+        // Show error overlay with custom message
+        overlayManager.showError("That's not correct. Try again!");
+
+        // Show hints based on attempt count
+        if (questionAttempts[retryKey] === 3) {
+            setTimeout(() => hintManager.showHint(retryKey, 3), 2100);
+        } else if (questionAttempts[retryKey] === 5) {
+            setTimeout(() => hintManager.showHint(retryKey, 5), 2100);
+        } else if (questionAttempts[retryKey] === 6) {
+            setTimeout(() => hintManager.showRevealButton(retryKey), 2100);
+        }
     }
 }
 
 // City Matching Function for Module 2
 function checkCityMatch(button, isCorrect, cityName, cityNumber) {
     const options = button.parentElement.querySelectorAll('.quiz-option');
+    const screen = document.querySelector('.screen.active');
+    const retryKey = `city_${cityNumber}`;
+
+    // Initialize question attempts if first time
+    if (!questionAttempts[retryKey]) {
+        questionAttempts[retryKey] = 0;
+    }
+
+    // Increment attempt count
+    questionAttempts[retryKey]++;
+
+    // Track first attempt for overall Module 2 score
+    if (questionAttempts[retryKey] === 1) {
+        if (isCorrect) {
+            // Don't penalize Module 2 if this is correct first try
+        } else {
+            retries.module2++; // Only count failures
+        }
+        // Track this city's first attempt
+        if (firstAttempts.module2 === null) {
+            firstAttempts.module2 = isCorrect;
+        } else if (firstAttempts.module2 === true && !isCorrect) {
+            firstAttempts.module2 = false; // Any city wrong on first try = false
+        }
+    }
 
     if (isCorrect) {
         // Disable all options
         options.forEach(opt => opt.disabled = true);
-        button.classList.add('correct');
 
         // Extract climate type emoji and name from button text
         const climateType = button.textContent.trim();
 
-        // Show full-screen success overlay
+        // Show full-screen success overlay with question AND answer
         overlayManager.showSuccess(
-            `${cityName} → ${climateType}`,
+            `${cityName}`,
+            `Climate: ${climateType}`,
             5,
             () => {
-                // After overlay, advance to next screen
+                // After overlay is dismissed, advance to next screen
                 screenManager.nextScreen();
             }
         );
 
         addPoints(5, 'City matched!');
 
-        // Update progress: we're at screen matching-intro (index ~15) + cityNumber
+        // Update progress
         const currentScreenIndex = screenManager.currentScreen + 1;
         screenManager.updateProgress(currentScreenIndex, 87);
     } else {
-        // Show error overlay
-        overlayManager.showError('Not quite! Think about the temperature and rainfall patterns.');
-
-        // Track retry for Module 2
-        retries.module2++;
-
-        // Re-enable buttons after error overlay auto-hides
+        // Add attempting state (neutral)
+        button.classList.add('attempting');
         setTimeout(() => {
-            button.classList.remove('incorrect');
-        }, 2000);
+            button.classList.remove('attempting');
+        }, 500);
+
+        // Show error overlay
+        overlayManager.showError("That's not correct. Think about the temperature and rainfall patterns.");
+
+        // Show hints based on attempt count
+        if (questionAttempts[retryKey] === 3) {
+            setTimeout(() => hintManager.showHint(retryKey, 3), 2100);
+        } else if (questionAttempts[retryKey] === 5) {
+            setTimeout(() => hintManager.showHint(retryKey, 5), 2100);
+        } else if (questionAttempts[retryKey] === 6) {
+            setTimeout(() => hintManager.showRevealButton(retryKey), 2100);
+        }
     }
 }
 
@@ -1694,16 +1890,35 @@ function generateCertificate() {
         totalRetries += retries[key];
     }
 
-    // Calculate accuracy (percentage of questions answered correctly on first try)
-    const totalQuestions = Object.keys(retries).length;
-    const correctFirstTry = totalQuestions - Object.values(retries).filter(r => r > 0).length;
-    const accuracy = Math.round((correctFirstTry / totalQuestions) * 100);
+    // Calculate accuracy based on FIRST ATTEMPTS ONLY
+    let totalQuestions = 0;
+    let correctFirstTry = 0;
+
+    for (let key in firstAttempts) {
+        if (firstAttempts[key] !== null) { // Only count questions that were answered
+            totalQuestions++;
+            if (firstAttempts[key] === true) {
+                correctFirstTry++;
+            }
+        }
+    }
+
+    const accuracy = totalQuestions > 0 ? Math.round((correctFirstTry / totalQuestions) * 100) : 0;
 
     // Fill certificate data
     document.getElementById('certStudentName').textContent = studentName;
     document.getElementById('certPoints').textContent = points;
     document.getElementById('certRetries').textContent = totalRetries;
     document.getElementById('certAccuracy').textContent = accuracy + '%';
+
+    // Add first attempt stats
+    const certAccuracyElement = document.getElementById('certAccuracy');
+    if (certAccuracyElement && certAccuracyElement.parentElement) {
+        const statsText = certAccuracyElement.parentElement.querySelector('.accuracy-stats');
+        if (statsText) {
+            statsText.textContent = `${correctFirstTry}/${totalQuestions} correct on first try`;
+        }
+    }
 
     // Current date
     const today = new Date().toLocaleDateString('en-GB', {
