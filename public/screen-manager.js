@@ -90,9 +90,16 @@ class ScreenManager {
         // Listen for browser back/forward button
         window.addEventListener('popstate', (event) => {
             if (event.state && event.state.screen !== undefined) {
+                // Navigate to the requested screen
                 this.isRestoringState = true;
                 this.showScreen(event.state.screen);
                 this.isRestoringState = false;
+            } else {
+                // If no state, go to screen 0 and push state
+                this.isRestoringState = true;
+                this.showScreen(0);
+                this.isRestoringState = false;
+                window.history.pushState({ screen: 0 }, '', window.location.href);
             }
         });
 
