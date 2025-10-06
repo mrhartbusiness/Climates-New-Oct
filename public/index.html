@@ -511,6 +511,31 @@
             <div class="content-card" style="text-align: center;">
                 <p style="font-size: 1.2rem; opacity: 0.7; margin-bottom: 1rem;">City 7/16</p>
                 <h2 style="font-size: 4rem; margin: 2rem 0;">Paris 🇫🇷</h2>
+                
+                <!-- Climate Graph Sample -->
+                <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 12px; margin: 1rem auto; max-width: 500px;">
+                    <p style="font-size: 0.9rem; opacity: 0.7; margin-bottom: 0.5rem;">Climate Graph Hint:</p>
+                    <svg width="100%" height="120" viewBox="0 0 400 120" style="background: rgba(0,0,0,0.2); border-radius: 8px;">
+                        <!-- Temperature line (moderate, consistent) -->
+                        <polyline points="20,70 53,65 87,60 120,50 153,40 187,35 220,30 253,35 287,40 320,50 353,60 387,65" 
+                                  fill="none" stroke="#ff6384" stroke-width="3"/>
+                        <!-- Rainfall bars (moderate, year-round) -->
+                        <rect x="15" y="80" width="15" height="30" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="48" y="75" width="15" height="35" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="82" y="80" width="15" height="30" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="115" y="78" width="15" height="32" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="148" y="82" width="15" height="28" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="182" y="80" width="15" height="30" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="215" y="78" width="15" height="32" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="248" y="80" width="15" height="30" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="282" y="75" width="15" height="35" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="315" y="80" width="15" height="30" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="348" y="78" width="15" height="32" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="382" y="80" width="15" height="30" fill="rgba(54, 162, 235, 0.7)"/>
+                    </svg>
+                    <p style="font-size: 0.8rem; opacity: 0.6; margin-top: 0.5rem;">🌡️ Moderate temps • 💧 Year-round rain</p>
+                </div>
+                
                 <p style="font-size: 1.5rem; margin-bottom: 3rem;">Which climate type?</p>
                 <div class="quiz-options" style="max-width: 600px; margin: 0 auto;">
                     <button class="quiz-option" onclick="checkCityMatch(this, false, 'Paris', 7)">🔥 Tropical</button>
@@ -527,6 +552,31 @@
             <div class="content-card" style="text-align: center;">
                 <p style="font-size: 1.2rem; opacity: 0.7; margin-bottom: 1rem;">City 8/16</p>
                 <h2 style="font-size: 4rem; margin: 2rem 0;">Phoenix 🇺🇸</h2>
+                
+                <!-- Climate Graph Sample -->
+                <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 12px; margin: 1rem auto; max-width: 500px;">
+                    <p style="font-size: 0.9rem; opacity: 0.7; margin-bottom: 0.5rem;">Climate Graph Hint:</p>
+                    <svg width="100%" height="120" viewBox="0 0 400 120" style="background: rgba(0,0,0,0.2); border-radius: 8px;">
+                        <!-- Temperature line (very hot, peaking in summer) -->
+                        <polyline points="20,50 53,45 87,35 120,25 153,20 187,15 220,15 253,20 287,25 320,35 353,45 387,50" 
+                                  fill="none" stroke="#ff6384" stroke-width="3"/>
+                        <!-- Rainfall bars (minimal, almost none) -->
+                        <rect x="15" y="105" width="15" height="5" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="48" y="108" width="15" height="2" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="82" y="107" width="15" height="3" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="115" y="110" width="15" height="0" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="148" y="110" width="15" height="0" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="182" y="110" width="15" height="0" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="215" y="110" width="15" height="0" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="248" y="110" width="15" height="0" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="282" y="110" width="15" height="0" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="315" y="108" width="15" height="2" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="348" y="107" width="15" height="3" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="382" y="105" width="15" height="5" fill="rgba(54, 162, 235, 0.7)"/>
+                    </svg>
+                    <p style="font-size: 0.8rem; opacity: 0.6; margin-top: 0.5rem;">🌡️ Very hot • 💧 Almost no rain</p>
+                </div>
+                
                 <p style="font-size: 1.5rem; margin-bottom: 3rem;">Which climate type?</p>
                 <div class="quiz-options" style="max-width: 600px; margin: 0 auto;">
                     <button class="quiz-option" onclick="checkCityMatch(this, false, 'Phoenix', 8)">🔥 Tropical</button>
@@ -543,6 +593,31 @@
             <div class="content-card" style="text-align: center;">
                 <p style="font-size: 1.2rem; opacity: 0.7; margin-bottom: 1rem;">City 9/16</p>
                 <h2 style="font-size: 4rem; margin: 2rem 0;">Berlin 🇩🇪</h2>
+                
+                <!-- Climate Graph Sample -->
+                <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 12px; margin: 1rem auto; max-width: 500px;">
+                    <p style="font-size: 0.9rem; opacity: 0.7; margin-bottom: 0.5rem;">Climate Graph Hint:</p>
+                    <svg width="100%" height="120" viewBox="0 0 400 120" style="background: rgba(0,0,0,0.2); border-radius: 8px;">
+                        <!-- Temperature line (moderate, consistent) -->
+                        <polyline points="20,70 53,65 87,60 120,50 153,40 187,35 220,30 253,35 287,40 320,50 353,60 387,65" 
+                                  fill="none" stroke="#ff6384" stroke-width="3"/>
+                        <!-- Rainfall bars (moderate, year-round) -->
+                        <rect x="15" y="80" width="15" height="30" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="48" y="75" width="15" height="35" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="82" y="80" width="15" height="30" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="115" y="78" width="15" height="32" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="148" y="82" width="15" height="28" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="182" y="80" width="15" height="30" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="215" y="78" width="15" height="32" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="248" y="80" width="15" height="30" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="282" y="75" width="15" height="35" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="315" y="80" width="15" height="30" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="348" y="78" width="15" height="32" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="382" y="80" width="15" height="30" fill="rgba(54, 162, 235, 0.7)"/>
+                    </svg>
+                    <p style="font-size: 0.8rem; opacity: 0.6; margin-top: 0.5rem;">🌡️ Moderate temps • 💧 Year-round rain</p>
+                </div>
+                
                 <p style="font-size: 1.5rem; margin-bottom: 3rem;">Which climate type?</p>
                 <div class="quiz-options" style="max-width: 600px; margin: 0 auto;">
                     <button class="quiz-option" onclick="checkCityMatch(this, false, 'Berlin', 9)">🔥 Tropical</button>
@@ -559,6 +634,31 @@
             <div class="content-card" style="text-align: center;">
                 <p style="font-size: 1.2rem; opacity: 0.7; margin-bottom: 1rem;">City 10/16</p>
                 <h2 style="font-size: 4rem; margin: 2rem 0;">Mumbai 🇮🇳</h2>
+                
+                <!-- Climate Graph Sample -->
+                <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 12px; margin: 1rem auto; max-width: 500px;">
+                    <p style="font-size: 0.9rem; opacity: 0.7; margin-bottom: 0.5rem;">Climate Graph Hint:</p>
+                    <svg width="100%" height="120" viewBox="0 0 400 120" style="background: rgba(0,0,0,0.2); border-radius: 8px;">
+                        <!-- Temperature line (hot year-round) -->
+                        <polyline points="20,25 53,23 87,24 120,25 153,26 187,25 220,24 253,25 287,24 320,25 353,26 387,25" 
+                                  fill="none" stroke="#ff6384" stroke-width="3"/>
+                        <!-- Rainfall bars (very high year-round) -->
+                        <rect x="15" y="35" width="15" height="75" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="48" y="30" width="15" height="80" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="82" y="35" width="15" height="75" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="115" y="32" width="15" height="78" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="148" y="30" width="15" height="80" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="182" y="35" width="15" height="75" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="215" y="33" width="15" height="77" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="248" y="35" width="15" height="75" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="282" y="30" width="15" height="80" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="315" y="32" width="15" height="78" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="348" y="35" width="15" height="75" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="382" y="33" width="15" height="77" fill="rgba(54, 162, 235, 0.7)"/>
+                    </svg>
+                    <p style="font-size: 0.8rem; opacity: 0.6; margin-top: 0.5rem;">🌡️ Hot all year • 💧 Heavy rainfall</p>
+                </div>
+                
                 <p style="font-size: 1.5rem; margin-bottom: 3rem;">Which climate type?</p>
                 <div class="quiz-options" style="max-width: 600px; margin: 0 auto;">
                     <button class="quiz-option" onclick="checkCityMatch(this, true, 'Mumbai', 10)">🔥 Tropical</button>
@@ -575,6 +675,31 @@
             <div class="content-card" style="text-align: center;">
                 <p style="font-size: 1.2rem; opacity: 0.7; margin-bottom: 1rem;">City 11/16</p>
                 <h2 style="font-size: 4rem; margin: 2rem 0;">Rome 🇮🇹</h2>
+                
+                <!-- Climate Graph Sample -->
+                <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 12px; margin: 1rem auto; max-width: 500px;">
+                    <p style="font-size: 0.9rem; opacity: 0.7; margin-bottom: 0.5rem;">Climate Graph Hint:</p>
+                    <svg width="100%" height="120" viewBox="0 0 400 120" style="background: rgba(0,0,0,0.2); border-radius: 8px;">
+                        <!-- Temperature line (moderate winter, hot summer) -->
+                        <polyline points="20,65 53,60 87,50 120,35 153,25 187,20 220,20 253,25 287,35 320,50 353,60 387,65" 
+                                  fill="none" stroke="#ff6384" stroke-width="3"/>
+                        <!-- Rainfall bars (high in winter, very low in summer) -->
+                        <rect x="15" y="70" width="15" height="40" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="48" y="72" width="15" height="38" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="82" y="78" width="15" height="32" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="115" y="85" width="15" height="25" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="148" y="95" width="15" height="15" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="182" y="105" width="15" height="5" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="215" y="108" width="15" height="2" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="248" y="105" width="15" height="5" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="282" y="95" width="15" height="15" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="315" y="85" width="15" height="25" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="348" y="75" width="15" height="35" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="382" y="72" width="15" height="38" fill="rgba(54, 162, 235, 0.7)"/>
+                    </svg>
+                    <p style="font-size: 0.8rem; opacity: 0.6; margin-top: 0.5rem;">🌡️ Hot summers • 💧 Winter rain only</p>
+                </div>
+                
                 <p style="font-size: 1.5rem; margin-bottom: 3rem;">Which climate type?</p>
                 <div class="quiz-options" style="max-width: 600px; margin: 0 auto;">
                     <button class="quiz-option" onclick="checkCityMatch(this, false, 'Rome', 11)">🔥 Tropical</button>
@@ -591,6 +716,31 @@
             <div class="content-card" style="text-align: center;">
                 <p style="font-size: 1.2rem; opacity: 0.7; margin-bottom: 1rem;">City 12/16</p>
                 <h2 style="font-size: 4rem; margin: 2rem 0;">Cairo 🇪🇬</h2>
+                
+                <!-- Climate Graph Sample -->
+                <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 12px; margin: 1rem auto; max-width: 500px;">
+                    <p style="font-size: 0.9rem; opacity: 0.7; margin-bottom: 0.5rem;">Climate Graph Hint:</p>
+                    <svg width="100%" height="120" viewBox="0 0 400 120" style="background: rgba(0,0,0,0.2); border-radius: 8px;">
+                        <!-- Temperature line (very hot, peaking in summer) -->
+                        <polyline points="20,50 53,45 87,35 120,25 153,20 187,15 220,15 253,20 287,25 320,35 353,45 387,50" 
+                                  fill="none" stroke="#ff6384" stroke-width="3"/>
+                        <!-- Rainfall bars (minimal, almost none) -->
+                        <rect x="15" y="105" width="15" height="5" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="48" y="108" width="15" height="2" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="82" y="107" width="15" height="3" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="115" y="110" width="15" height="0" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="148" y="110" width="15" height="0" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="182" y="110" width="15" height="0" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="215" y="110" width="15" height="0" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="248" y="110" width="15" height="0" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="282" y="110" width="15" height="0" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="315" y="108" width="15" height="2" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="348" y="107" width="15" height="3" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="382" y="105" width="15" height="5" fill="rgba(54, 162, 235, 0.7)"/>
+                    </svg>
+                    <p style="font-size: 0.8rem; opacity: 0.6; margin-top: 0.5rem;">🌡️ Very hot • 💧 Almost no rain</p>
+                </div>
+                
                 <p style="font-size: 1.5rem; margin-bottom: 3rem;">Which climate type?</p>
                 <div class="quiz-options" style="max-width: 600px; margin: 0 auto;">
                     <button class="quiz-option" onclick="checkCityMatch(this, false, 'Cairo', 12)">🔥 Tropical</button>
@@ -607,6 +757,31 @@
             <div class="content-card" style="text-align: center;">
                 <p style="font-size: 1.2rem; opacity: 0.7; margin-bottom: 1rem;">City 13/16</p>
                 <h2 style="font-size: 4rem; margin: 2rem 0;">New York 🇺🇸</h2>
+                
+                <!-- Climate Graph Sample -->
+                <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 12px; margin: 1rem auto; max-width: 500px;">
+                    <p style="font-size: 0.9rem; opacity: 0.7; margin-bottom: 0.5rem;">Climate Graph Hint:</p>
+                    <svg width="100%" height="120" viewBox="0 0 400 120" style="background: rgba(0,0,0,0.2); border-radius: 8px;">
+                        <!-- Temperature line (moderate, consistent) -->
+                        <polyline points="20,70 53,65 87,60 120,50 153,40 187,35 220,30 253,35 287,40 320,50 353,60 387,65" 
+                                  fill="none" stroke="#ff6384" stroke-width="3"/>
+                        <!-- Rainfall bars (moderate, year-round) -->
+                        <rect x="15" y="80" width="15" height="30" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="48" y="75" width="15" height="35" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="82" y="80" width="15" height="30" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="115" y="78" width="15" height="32" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="148" y="82" width="15" height="28" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="182" y="80" width="15" height="30" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="215" y="78" width="15" height="32" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="248" y="80" width="15" height="30" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="282" y="75" width="15" height="35" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="315" y="80" width="15" height="30" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="348" y="78" width="15" height="32" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="382" y="80" width="15" height="30" fill="rgba(54, 162, 235, 0.7)"/>
+                    </svg>
+                    <p style="font-size: 0.8rem; opacity: 0.6; margin-top: 0.5rem;">🌡️ Moderate temps • 💧 Year-round rain</p>
+                </div>
+                
                 <p style="font-size: 1.5rem; margin-bottom: 3rem;">Which climate type?</p>
                 <div class="quiz-options" style="max-width: 600px; margin: 0 auto;">
                     <button class="quiz-option" onclick="checkCityMatch(this, false, 'New York', 13)">🔥 Tropical</button>
@@ -623,6 +798,31 @@
             <div class="content-card" style="text-align: center;">
                 <p style="font-size: 1.2rem; opacity: 0.7; margin-bottom: 1rem;">City 14/16</p>
                 <h2 style="font-size: 4rem; margin: 2rem 0;">Bangkok 🇹🇭</h2>
+                
+                <!-- Climate Graph Sample -->
+                <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 12px; margin: 1rem auto; max-width: 500px;">
+                    <p style="font-size: 0.9rem; opacity: 0.7; margin-bottom: 0.5rem;">Climate Graph Hint:</p>
+                    <svg width="100%" height="120" viewBox="0 0 400 120" style="background: rgba(0,0,0,0.2); border-radius: 8px;">
+                        <!-- Temperature line (hot year-round) -->
+                        <polyline points="20,25 53,23 87,24 120,25 153,26 187,25 220,24 253,25 287,24 320,25 353,26 387,25" 
+                                  fill="none" stroke="#ff6384" stroke-width="3"/>
+                        <!-- Rainfall bars (very high year-round) -->
+                        <rect x="15" y="35" width="15" height="75" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="48" y="30" width="15" height="80" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="82" y="35" width="15" height="75" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="115" y="32" width="15" height="78" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="148" y="30" width="15" height="80" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="182" y="35" width="15" height="75" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="215" y="33" width="15" height="77" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="248" y="35" width="15" height="75" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="282" y="30" width="15" height="80" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="315" y="32" width="15" height="78" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="348" y="35" width="15" height="75" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="382" y="33" width="15" height="77" fill="rgba(54, 162, 235, 0.7)"/>
+                    </svg>
+                    <p style="font-size: 0.8rem; opacity: 0.6; margin-top: 0.5rem;">🌡️ Hot all year • 💧 Heavy rainfall</p>
+                </div>
+                
                 <p style="font-size: 1.5rem; margin-bottom: 3rem;">Which climate type?</p>
                 <div class="quiz-options" style="max-width: 600px; margin: 0 auto;">
                     <button class="quiz-option" onclick="checkCityMatch(this, true, 'Bangkok', 14)">🔥 Tropical</button>
@@ -639,6 +839,31 @@
             <div class="content-card" style="text-align: center;">
                 <p style="font-size: 1.2rem; opacity: 0.7; margin-bottom: 1rem;">City 15/16</p>
                 <h2 style="font-size: 4rem; margin: 2rem 0;">Barcelona 🇪🇸</h2>
+                
+                <!-- Climate Graph Sample -->
+                <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 12px; margin: 1rem auto; max-width: 500px;">
+                    <p style="font-size: 0.9rem; opacity: 0.7; margin-bottom: 0.5rem;">Climate Graph Hint:</p>
+                    <svg width="100%" height="120" viewBox="0 0 400 120" style="background: rgba(0,0,0,0.2); border-radius: 8px;">
+                        <!-- Temperature line (moderate winter, hot summer) -->
+                        <polyline points="20,65 53,60 87,50 120,35 153,25 187,20 220,20 253,25 287,35 320,50 353,60 387,65" 
+                                  fill="none" stroke="#ff6384" stroke-width="3"/>
+                        <!-- Rainfall bars (high in winter, very low in summer) -->
+                        <rect x="15" y="70" width="15" height="40" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="48" y="72" width="15" height="38" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="82" y="78" width="15" height="32" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="115" y="85" width="15" height="25" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="148" y="95" width="15" height="15" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="182" y="105" width="15" height="5" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="215" y="108" width="15" height="2" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="248" y="105" width="15" height="5" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="282" y="95" width="15" height="15" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="315" y="85" width="15" height="25" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="348" y="75" width="15" height="35" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="382" y="72" width="15" height="38" fill="rgba(54, 162, 235, 0.7)"/>
+                    </svg>
+                    <p style="font-size: 0.8rem; opacity: 0.6; margin-top: 0.5rem;">🌡️ Hot summers • 💧 Winter rain only</p>
+                </div>
+                
                 <p style="font-size: 1.5rem; margin-bottom: 3rem;">Which climate type?</p>
                 <div class="quiz-options" style="max-width: 600px; margin: 0 auto;">
                     <button class="quiz-option" onclick="checkCityMatch(this, false, 'Barcelona', 15)">🔥 Tropical</button>
@@ -655,6 +880,31 @@
             <div class="content-card" style="text-align: center;">
                 <p style="font-size: 1.2rem; opacity: 0.7; margin-bottom: 1rem;">City 16/16</p>
                 <h2 style="font-size: 4rem; margin: 2rem 0;">Nuuk 🇬🇱</h2>
+                
+                <!-- Climate Graph Sample -->
+                <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 12px; margin: 1rem auto; max-width: 500px;">
+                    <p style="font-size: 0.9rem; opacity: 0.7; margin-bottom: 0.5rem;">Climate Graph Hint:</p>
+                    <svg width="100%" height="120" viewBox="0 0 400 120" style="background: rgba(0,0,0,0.2); border-radius: 8px;">
+                        <!-- Temperature line (cold year-round, slight summer peak) -->
+                        <polyline points="20,95 53,92 87,85 120,75 153,65 187,60 220,60 253,65 287,75 320,85 353,90 387,93" 
+                                  fill="none" stroke="#ff6384" stroke-width="3"/>
+                        <!-- Rainfall bars (moderate year-round) -->
+                        <rect x="15" y="75" width="15" height="35" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="48" y="78" width="15" height="32" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="82" y="80" width="15" height="30" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="115" y="82" width="15" height="28" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="148" y="85" width="15" height="25" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="182" y="83" width="15" height="27" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="215" y="80" width="15" height="30" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="248" y="78" width="15" height="32" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="282" y="75" width="15" height="35" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="315" y="73" width="15" height="37" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="348" y="75" width="15" height="35" fill="rgba(54, 162, 235, 0.7)"/>
+                        <rect x="382" y="77" width="15" height="33" fill="rgba(54, 162, 235, 0.7)"/>
+                    </svg>
+                    <p style="font-size: 0.8rem; opacity: 0.6; margin-top: 0.5rem;">🌡️ Cold all year • 💧 Moderate rain</p>
+                </div>
+                
                 <p style="font-size: 1.5rem; margin-bottom: 3rem;">Which climate type?</p>
                 <div class="quiz-options" style="max-width: 600px; margin: 0 auto;">
                     <button class="quiz-option" onclick="checkCityMatch(this, false, 'Nuuk', 16)">🔥 Tropical</button>
