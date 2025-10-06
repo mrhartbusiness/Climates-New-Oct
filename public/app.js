@@ -159,7 +159,7 @@ function restoreAppProgress() {
 
 // Helper function to safely use overlayManager
 function safeShowSuccess(questionText, answerText, points, callback) {
-    if (window.overlayManager) {
+    if (typeof overlayManager !== 'undefined' && overlayManager !== null) {
         overlayManager.showSuccess(questionText, answerText, points, callback);
     } else {
         // Fallback if overlayManager not ready
@@ -168,7 +168,7 @@ function safeShowSuccess(questionText, answerText, points, callback) {
 }
 
 function safeShowError(message) {
-    if (window.overlayManager) {
+    if (typeof overlayManager !== 'undefined' && overlayManager !== null) {
         overlayManager.showError(message);
     }
 }
@@ -1511,33 +1511,46 @@ let explorerAnswered = {1: false, 2: false, 3: false};
 function checkExplorerAnswer(questionNum, button, isCorrect) {
     const options = button.parentElement.querySelectorAll('.quiz-option');
     const feedback = document.getElementById(`explorer-feedback-${questionNum}`);
+    
+    // Get the question text from the page
+    const questionElement = button.closest('.explorer-question');
+    const questionText = questionElement ? 
+        `Graph ${questionNum}: Which city does this represent?` : 
+        'Climate Explorer Question';
+    const answerText = button.textContent.trim();
 
     if (isCorrect) {
         options.forEach(opt => opt.disabled = true);
         button.classList.add('correct');
-        feedback.className = 'feedback correct show';
-        feedback.textContent = '✓ Correct! You can identify climate patterns!';
         addPoints(25, 'Correct identification!');
         explorerAnswered[questionNum] = true;
 
-        // Check if all explorer questions answered correctly
-        if (explorerAnswered[1] && explorerAnswered[2] && explorerAnswered[3]) {
-            setTimeout(() => {
-                feedback.textContent = '✓ All questions correct! Moving to next module...';
-            }, 500);
-            autoProgressToNextModule();
-        }
+        // Show success overlay with question and answer
+        safeShowSuccess(
+            questionText,
+            answerText,
+            25,
+            () => {
+                // Check if all explorer questions answered correctly
+                if (explorerAnswered[1] && explorerAnswered[2] && explorerAnswered[3]) {
+                    autoProgressToNextModule();
+                }
+            }
+        );
     } else {
         button.classList.add('incorrect');
         feedback.className = 'feedback incorrect show';
         feedback.textContent = '✗ Incorrect. You must get this right to continue. Try again!';
         retries[`module5_${questionNum}`]++;
 
+        // Show error overlay
+        safeShowError('✗ Incorrect. You must get this right to continue. Try again!');
+
         // Re-enable for retry
         setTimeout(() => {
             button.classList.remove('incorrect');
             feedback.classList.remove('show');
-        }, 1500);
+        }, 2000);
     }
 }
 
@@ -1656,36 +1669,48 @@ function showQuizQuestion(index) {
 function checkQuizAnswer(questionNum, button, isCorrect) {
     const options = button.parentElement.querySelectorAll('.quiz-option');
     const feedback = document.getElementById(`quiz-feedback-${questionNum}`);
+    
+    // Get the question text from the quizQuestions array
+    const questionData = quizQuestions.find(q => q.num === questionNum);
+    const questionText = questionData ? questionData.question : 'Quiz Question';
+    const answerText = button.textContent.trim();
 
     if (isCorrect) {
         options.forEach(opt => opt.disabled = true);
         button.classList.add('correct');
-        feedback.className = 'feedback correct show';
-        feedback.textContent = '✓ Correct! Loading next question...';
         addPoints(15, 'Quiz question correct!');
         moduleScores.module6++;
         quizAnswered[questionNum] = true;
 
-        // Move to next question or complete
-        setTimeout(() => {
-            currentQuizQuestion++;
-            if (currentQuizQuestion < quizQuestions.length) {
-                showQuizQuestion(currentQuizQuestion);
-            } else {
-                checkQuizComplete();
+        // Show success overlay with question and answer
+        safeShowSuccess(
+            questionText,
+            answerText,
+            15,
+            () => {
+                // Move to next question or complete after overlay dismissed
+                currentQuizQuestion++;
+                if (currentQuizQuestion < quizQuestions.length) {
+                    showQuizQuestion(currentQuizQuestion);
+                } else {
+                    checkQuizComplete();
+                }
             }
-        }, 1000);
+        );
     } else {
         button.classList.add('incorrect');
         feedback.className = 'feedback incorrect show';
         feedback.textContent = '✗ Incorrect. You must get this right to continue. Try again!';
         retries[`module6_${questionNum}`]++;
 
+        // Show error overlay
+        safeShowError('✗ Incorrect. You must get this right to continue. Try again!');
+
         // Re-enable for retry
         setTimeout(() => {
             button.classList.remove('incorrect');
             feedback.classList.remove('show');
-        }, 1500);
+        }, 2000);
     }
 }
 
@@ -1811,36 +1836,48 @@ function showFinalQuestion(index) {
 function checkFinalAnswer(questionNum, button, isCorrect) {
     const options = button.parentElement.querySelectorAll('.quiz-option');
     const feedback = document.getElementById(`final-feedback-${questionNum}`);
+    
+    // Get the question text from the finalQuestions array
+    const questionData = finalQuestions.find(q => q.num === questionNum);
+    const questionText = questionData ? questionData.question : 'Final Assessment Question';
+    const answerText = button.textContent.trim();
 
     if (isCorrect) {
         options.forEach(opt => opt.disabled = true);
         button.classList.add('correct');
-        feedback.className = 'feedback correct show';
-        feedback.textContent = '✓ Correct! Loading next question...';
         addPoints(20, 'Final assessment correct!');
         moduleScores.module7++;
         finalAnswered[questionNum] = true;
 
-        // Move to next question or complete
-        setTimeout(() => {
-            currentFinalQuestion++;
-            if (currentFinalQuestion < finalQuestions.length) {
-                showFinalQuestion(currentFinalQuestion);
-            } else {
-                checkFinalComplete();
+        // Show success overlay with question and answer
+        safeShowSuccess(
+            questionText,
+            answerText,
+            20,
+            () => {
+                // Move to next question or complete after overlay dismissed
+                currentFinalQuestion++;
+                if (currentFinalQuestion < finalQuestions.length) {
+                    showFinalQuestion(currentFinalQuestion);
+                } else {
+                    checkFinalComplete();
+                }
             }
-        }, 1000);
+        );
     } else {
         button.classList.add('incorrect');
         feedback.className = 'feedback incorrect show';
         feedback.textContent = '✗ Incorrect. You must get this right to complete the course. Try again!';
         retries[`module7_${questionNum}`]++;
 
+        // Show error overlay
+        safeShowError('✗ Incorrect. You must get this right to complete the course. Try again!');
+
         // Re-enable for retry
         setTimeout(() => {
             button.classList.remove('incorrect');
             feedback.classList.remove('show');
-        }, 1500);
+        }, 2000);
     }
 }
 
