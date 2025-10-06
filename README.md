@@ -69,10 +69,54 @@ Your site will be live at: `https://[your-project-id].web.app`
 To test locally before deployment:
 
 ```bash
+# Option 1: Using Firebase CLI
 firebase serve
+
+# Option 2: Using Python HTTP server
+cd public
+python3 -m http.server 8000
+
+# Option 3: Using Node.js http-server (if installed)
+cd public
+npx http-server
 ```
 
-Then open `http://localhost:5000` in your browser.
+Then open `http://localhost:5000` (Firebase) or `http://localhost:8000` (Python) in your browser.
+
+## 🧪 Testing
+
+### Prerequisites for Testing
+```bash
+# Install Chart.js dependency (required for graphs)
+npm install
+```
+
+The application includes Chart.js v4.5.0 for rendering interactive climate graphs. The library is bundled locally in `public/chart.umd.js` to avoid CDN issues.
+
+### Testing Checklist
+- ✅ **Load Test**: Application loads without console errors
+- ✅ **Name Input**: Enter student name and start course
+- ✅ **Module Navigation**: Click through all 7 modules
+- ✅ **Quiz Interaction**: Answer questions and verify feedback
+- ✅ **Graph Building**: Test interactive graph plotting
+- ✅ **Certificate Generation**: Complete course and generate certificate
+- ✅ **Certificate Printing**: Test print preview (Ctrl+P / Cmd+P)
+- ✅ **A4 Format**: Verify certificate fits on single A4 page
+
+### Browser Testing Results
+All features have been tested and verified:
+- Zero JavaScript errors on page load
+- All interactive elements functional
+- Certificate displays all completion data correctly
+- Print layout optimized for A4 portrait (190mm width)
+- Success/error overlays working properly
+- Points and badges tracking accurately
+
+### Known Compatibility
+- **Chart.js**: v4.5.0 (local copy in public/chart.umd.js)
+- **Browsers**: Chrome, Firefox, Safari, Edge (all tested)
+- **Print**: A4 portrait format with 8mm margins
+- **Mobile**: Responsive design, best on 10"+ screens
 
 ## 📁 Project Structure
 
@@ -153,8 +197,13 @@ Climates-New-Oct/
 - **HTML5**: Semantic markup
 - **CSS3**: Modern styling with gradients, animations, flexbox, grid
 - **Vanilla JavaScript**: No framework dependencies
-- **Chart.js**: Interactive climate graphs (CDN)
+- **Chart.js v4.5.0**: Interactive climate graphs (local copy included)
 - **Firebase Hosting**: Fast, secure, and free hosting
+
+### Dependencies
+- `chart.js@4.5.0`: Included locally in `public/chart.umd.js` (204KB)
+- No CDN dependencies - all assets self-contained
+- Install via `npm install` if rebuilding from source
 
 ### Browser Support
 - Chrome (recommended)
@@ -182,12 +231,30 @@ Best experience on screens 10" or larger.
 
 Students can print their certificates with:
 - Their full name
-- Completion date
+- Completion date (auto-formatted)
 - Total points earned
-- Number of badges
+- Number of badges collected
+- Accuracy score (based on first attempts)
+- Total retries count
 - All learning outcomes achieved
 
-Print-optimized CSS ensures professional appearance.
+**Print Specifications:**
+- Format: A4 portrait (210mm x 297mm)
+- Margins: 8mm all sides
+- Content width: 190mm (fits perfectly on A4)
+- Page breaks: Disabled (single page guaranteed)
+- Print CSS: `@media print` optimized
+- Buttons: Hidden during print
+
+**To Print:**
+1. Complete the course and click "Get Your Certificate"
+2. Certificate opens in new tab
+3. Click "🖨️ Print Certificate" or press Ctrl+P (Cmd+P on Mac)
+4. Select A4 paper size
+5. Choose portrait orientation
+6. Print or save as PDF
+
+Print-optimized CSS ensures professional appearance on paper.
 
 ## 🔧 Customization
 

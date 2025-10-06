@@ -16,10 +16,12 @@ class ScreenManager {
     }
 
     createProgressDot() {
-        this.progressDot = document.createElement('div');
-        this.progressDot.className = 'progress-dot';
-        this.progressDot.textContent = '0/150 •';
-        document.body.appendChild(this.progressDot);
+        if (document.body) {
+            this.progressDot = document.createElement('div');
+            this.progressDot.className = 'progress-dot';
+            this.progressDot.textContent = '0/150 •';
+            document.body.appendChild(this.progressDot);
+        }
     }
 
     updateProgress(current, total) {
@@ -80,15 +82,17 @@ class OverlayManager {
     }
 
     init() {
-        // Create overlay container
-        this.overlay = document.createElement('div');
-        this.overlay.className = 'overlay';
-        document.body.appendChild(this.overlay);
+        // Create overlay container only if document.body exists
+        if (document.body) {
+            this.overlay = document.createElement('div');
+            this.overlay.className = 'overlay';
+            document.body.appendChild(this.overlay);
 
-        // Click to dismiss
-        this.overlay.addEventListener('click', () => {
-            this.hide();
-        });
+            // Click to dismiss
+            this.overlay.addEventListener('click', () => {
+                this.hide();
+            });
+        }
     }
 
     showSuccess(question, answer, points, callback) {
@@ -230,14 +234,16 @@ class KeyboardManager {
 
 // Global instances
 const screenManager = new ScreenManager();
-const overlayManager = new OverlayManager();
+let overlayManager = null;
 const keyboardManager = new KeyboardManager();
 
 // Initialize when DOM ready
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
         screenManager.init();
+        overlayManager = new OverlayManager();
     });
 } else {
     screenManager.init();
+    overlayManager = new OverlayManager();
 }
