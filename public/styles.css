@@ -144,6 +144,8 @@ main {
     opacity: 0;
     transition: opacity 0.3s ease;
     overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
 }
 
 .screen.active {
@@ -1207,6 +1209,171 @@ footer p {
         grid-template-columns: 1fr;
         gap: 10px;
     }
+
+    /* Override inline grid styles for mobile responsiveness */
+    .content-card > div[style*="grid-template-columns"],
+    .screen > div > div[style*="grid-template-columns"],
+    div[style*="display: grid"] {
+        grid-template-columns: 1fr !important;
+        gap: 1rem !important;
+    }
+
+    /* Adjust font sizes in inline-styled elements */
+    .content-card h2[style*="font-size"] {
+        font-size: 1.6rem !important;
+        margin-bottom: 1.5rem !important;
+    }
+
+    .content-card h3[style*="font-size"] {
+        font-size: 1.3rem !important;
+    }
+
+    .content-card p[style*="font-size"] {
+        font-size: 1rem !important;
+    }
+
+    .content-card div[style*="font-size: 3rem"] {
+        font-size: 2.5rem !important;
+    }
+
+    .content-card div[style*="padding: 2rem"] {
+        padding: 1.5rem !important;
+    }
+
+    div[style*="max-width: 600px"] {
+        max-width: 100% !important;
+    }
+
+    .quiz-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .question-progress {
+        width: 100%;
+        text-align: center;
+    }
+
+    h2 {
+        font-size: 1.4rem;
+        margin-bottom: 10px;
+    }
+
+    h3 {
+        font-size: 1.1rem;
+    }
+
+    h4 {
+        font-size: 0.95rem;
+    }
+
+    p, li {
+        font-size: 0.9rem;
+    }
+
+    .completion-card h2 {
+        font-size: 1.8rem;
+    }
+
+    .achievements-summary {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .btn-primary, .btn-secondary {
+        width: 100%;
+        padding: 12px 20px;
+        font-size: 1rem;
+    }
+
+    .quiz-option {
+        padding: 12px 15px;
+        font-size: 0.9rem;
+    }
+
+    .horizontal-data-table {
+        font-size: 0.75rem;
+        overflow-x: auto;
+        display: block;
+    }
+
+    .horizontal-data-table thead th,
+    .horizontal-data-table tbody td {
+        padding: 5px 2px;
+        font-size: 0.7rem;
+    }
+
+    .badge {
+        padding: 3px 8px;
+        font-size: 0.7rem;
+    }
+
+    .draggable-item, .drop-zone {
+        font-size: 0.85rem;
+        padding: 10px;
+    }
+
+    /* Overlay responsive adjustments */
+    .overlay-title {
+        font-size: 2rem;
+    }
+
+    .overlay-message {
+        font-size: 1.2rem;
+    }
+
+    .overlay-points {
+        font-size: 1.5rem;
+    }
+
+    .overlay-hint {
+        font-size: 1rem;
+    }
+
+    .overlay-icon {
+        font-size: 4rem;
+    }
+
+    .progress-dot {
+        top: 10px;
+        right: 10px;
+        font-size: 0.8rem;
+        padding: 6px 12px;
+    }
+
+    .click-hint {
+        font-size: 0.95rem;
+    }
+}
+
+/* Extra small mobile devices */
+@media (max-width: 480px) {
+    .screen {
+        padding: 0.75rem;
+    }
+
+    .content-card, .welcome-card {
+        padding: 1.25rem 0.75rem;
+        width: 96%;
+    }
+
+    .content-card h2[style*="font-size"] {
+        font-size: 1.4rem !important;
+    }
+
+    .overlay-title {
+        font-size: 1.6rem;
+    }
+
+    .overlay-message {
+        font-size: 1rem;
+    }
+
+    .overlay-icon {
+        font-size: 3rem;
+    }
+}
 
     .quiz-header {
         flex-direction: column;
