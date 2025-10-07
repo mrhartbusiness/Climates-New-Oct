@@ -61,6 +61,10 @@ let firstAttempts = {
 // Question attempts counter (how many times user tried this question)
 let questionAttempts = {};
 
+// Spam click prevention
+let isAnswerProcessing = false;
+let answerProcessingTimeout = null;
+
 // Chart instances
 let exampleChart = null;
 let buildChart = null;
@@ -83,8 +87,47 @@ let userGraphData2 = [null, null, null, null, null, null, null, null, null, null
 const correctGraphData2 = [6, 7, 10, 15, 20, 22, 26, 27, 23, 18, 13, 8];
 const rainfallData2 = [52, 56, 118, 125, 138, 168, 154, 168, 210, 198, 93, 51];
 
+// Preload visual content (emojis and icons)
+function preloadVisualContent() {
+    // Create a hidden div to preload emojis and icons
+    const preloader = document.createElement('div');
+    preloader.style.position = 'absolute';
+    preloader.style.left = '-9999px';
+    preloader.style.visibility = 'hidden';
+    preloader.setAttribute('aria-hidden', 'true');
+    
+    // List of emojis and icons used throughout the app
+    const emojis = [
+        '🏆', '🎯', '✓', '✗', '🎉', '🌍', '🌡️', '💧', '☀️', '❄️', 
+        '🌳', '🏜️', '🌴', '🏔️', '🌾', '🐾', '🇬🇧', '🇮🇳', '🇦🇪', 
+        '🇺🇸', '🇦🇺', '🇧🇷', '🇷🇺', '🇨🇳', '🇯🇵', '🇮🇹', '🇪🇬',
+        '🇿🇦', '🇨🇦', '🇦🇷', '🇩🇪', '→', '←'
+    ];
+    
+    // Add emojis to preloader
+    emojis.forEach(emoji => {
+        const span = document.createElement('span');
+        span.textContent = emoji;
+        span.style.fontSize = '2rem';
+        preloader.appendChild(span);
+    });
+    
+    // Add to body
+    document.body.appendChild(preloader);
+    
+    // Remove after a short delay (once emojis are rendered/cached)
+    setTimeout(() => {
+        if (preloader.parentNode) {
+            preloader.parentNode.removeChild(preloader);
+        }
+    }, 100);
+}
+
 // Initialize when page loads
 document.addEventListener('DOMContentLoaded', function() {
+    // Preload emojis and visual content for better performance
+    preloadVisualContent();
+    
     // Restore saved progress first
     restoreAppProgress();
 
@@ -468,6 +511,11 @@ function revealAnswer(retryKey) {
 
 // Full-Screen Quiz Functions (Enhanced System)
 function checkAnswerFullScreen(button, isCorrect, answerText, retryKey = null) {
+    // Spam click prevention - if already processing an answer, ignore
+    if (isAnswerProcessing) {
+        return;
+    }
+    
     const options = button.parentElement.querySelectorAll('.quiz-option');
     const screen = document.querySelector('.screen.active');
     const questionHeading = screen.querySelector('h2, h3, h4');
@@ -487,6 +535,8 @@ function checkAnswerFullScreen(button, isCorrect, answerText, retryKey = null) {
     }
 
     if (isCorrect) {
+        // Set processing flag to prevent spam clicks
+        isAnswerProcessing = true;
         // Disable all options
         options.forEach(opt => opt.disabled = true);
 
@@ -497,11 +547,21 @@ function checkAnswerFullScreen(button, isCorrect, answerText, retryKey = null) {
         safeShowSuccess(questionText, answerText, 20, () => {
             // After overlay is dismissed, advance to next screen
             screenManager.nextScreen();
+            // Clear processing flag after moving to next screen
+            isAnswerProcessing = false;
         });
 
         addPoints(20, 'Correct answer!');
         screenManager.updateProgress(screenManager.currentScreen + 2, 87);
     } else {
+        // Set processing flag to prevent spam clicks during error display
+        isAnswerProcessing = true;
+        
+        // Clear any existing timeout
+        if (answerProcessingTimeout) {
+            clearTimeout(answerProcessingTimeout);
+        }
+        
         // Track retry
         if (retryKey && retries[retryKey] !== undefined) {
             retries[retryKey]++;
@@ -525,6 +585,11 @@ function checkAnswerFullScreen(button, isCorrect, answerText, retryKey = null) {
             setTimeout(() => hintManager.showRevealButton(retryKey), 2100);
         }
         
+        // Clear processing flag after error overlay auto-hides (2s)
+        answerProcessingTimeout = setTimeout(() => {
+            isAnswerProcessing = false;
+        }, 2000);
+        
         // Save progress after wrong answer
         saveAppProgress();
     }
@@ -532,6 +597,11 @@ function checkAnswerFullScreen(button, isCorrect, answerText, retryKey = null) {
 
 // City Matching Function for Module 2
 function checkCityMatch(button, isCorrect, cityName, cityNumber) {
+    // Spam click prevention - if already processing an answer, ignore
+    if (isAnswerProcessing) {
+        return;
+    }
+    
     const options = button.parentElement.querySelectorAll('.quiz-option');
     const screen = document.querySelector('.screen.active');
     const retryKey = `city_${cityNumber}`;
@@ -560,6 +630,8 @@ function checkCityMatch(button, isCorrect, cityName, cityNumber) {
     }
 
     if (isCorrect) {
+        // Set processing flag to prevent spam clicks
+        isAnswerProcessing = true;
         // Disable all options
         options.forEach(opt => opt.disabled = true);
 
@@ -574,6 +646,8 @@ function checkCityMatch(button, isCorrect, cityName, cityNumber) {
             () => {
                 // After overlay is dismissed, advance to next screen
                 screenManager.nextScreen();
+                // Clear processing flag after moving to next screen
+                isAnswerProcessing = false;
             }
         );
 
@@ -583,6 +657,14 @@ function checkCityMatch(button, isCorrect, cityName, cityNumber) {
         const currentScreenIndex = screenManager.currentScreen + 1;
         screenManager.updateProgress(currentScreenIndex, 87);
     } else {
+        // Set processing flag to prevent spam clicks during error display
+        isAnswerProcessing = true;
+        
+        // Clear any existing timeout
+        if (answerProcessingTimeout) {
+            clearTimeout(answerProcessingTimeout);
+        }
+        
         // Add attempting state (neutral)
         button.classList.add('attempting');
         setTimeout(() => {
@@ -600,6 +682,11 @@ function checkCityMatch(button, isCorrect, cityName, cityNumber) {
         } else if (questionAttempts[retryKey] === 6) {
             setTimeout(() => hintManager.showRevealButton(retryKey), 2100);
         }
+        
+        // Clear processing flag after error overlay auto-hides (2s)
+        answerProcessingTimeout = setTimeout(() => {
+            isAnswerProcessing = false;
+        }, 2000);
     }
 }
 
@@ -1520,6 +1607,11 @@ function getGraphOptions(title) {
 let explorerAnswered = {1: false, 2: false, 3: false};
 
 function checkExplorerAnswer(questionNum, button, isCorrect) {
+    // Spam click prevention - if already processing an answer, ignore
+    if (isAnswerProcessing) {
+        return;
+    }
+    
     const options = button.parentElement.querySelectorAll('.quiz-option');
     const feedback = document.getElementById(`explorer-feedback-${questionNum}`);
     
@@ -1531,6 +1623,9 @@ function checkExplorerAnswer(questionNum, button, isCorrect) {
     const answerText = button.textContent.trim();
 
     if (isCorrect) {
+        // Set processing flag to prevent spam clicks
+        isAnswerProcessing = true;
+        
         options.forEach(opt => opt.disabled = true);
         button.classList.add('correct');
         addPoints(25, 'Correct identification!');
@@ -1546,9 +1641,19 @@ function checkExplorerAnswer(questionNum, button, isCorrect) {
                 if (explorerAnswered[1] && explorerAnswered[2] && explorerAnswered[3]) {
                     autoProgressToNextModule();
                 }
+                // Clear processing flag
+                isAnswerProcessing = false;
             }
         );
     } else {
+        // Set processing flag to prevent spam clicks during error display
+        isAnswerProcessing = true;
+        
+        // Clear any existing timeout
+        if (answerProcessingTimeout) {
+            clearTimeout(answerProcessingTimeout);
+        }
+        
         button.classList.add('incorrect');
         feedback.className = 'feedback incorrect show';
         feedback.textContent = '✗ Incorrect. You must get this right to continue. Try again!';
@@ -1561,6 +1666,11 @@ function checkExplorerAnswer(questionNum, button, isCorrect) {
         setTimeout(() => {
             button.classList.remove('incorrect');
             feedback.classList.remove('show');
+        }, 2000);
+        
+        // Clear processing flag after error overlay auto-hides (2s)
+        answerProcessingTimeout = setTimeout(() => {
+            isAnswerProcessing = false;
         }, 2000);
     }
 }
@@ -1678,6 +1788,11 @@ function showQuizQuestion(index) {
 }
 
 function checkQuizAnswer(questionNum, button, isCorrect) {
+    // Spam click prevention - if already processing an answer, ignore
+    if (isAnswerProcessing) {
+        return;
+    }
+    
     const options = button.parentElement.querySelectorAll('.quiz-option');
     const feedback = document.getElementById(`quiz-feedback-${questionNum}`);
     
@@ -1687,6 +1802,9 @@ function checkQuizAnswer(questionNum, button, isCorrect) {
     const answerText = button.textContent.trim();
 
     if (isCorrect) {
+        // Set processing flag to prevent spam clicks
+        isAnswerProcessing = true;
+        
         options.forEach(opt => opt.disabled = true);
         button.classList.add('correct');
         addPoints(15, 'Quiz question correct!');
@@ -1706,9 +1824,19 @@ function checkQuizAnswer(questionNum, button, isCorrect) {
                 } else {
                     checkQuizComplete();
                 }
+                // Clear processing flag
+                isAnswerProcessing = false;
             }
         );
     } else {
+        // Set processing flag to prevent spam clicks during error display
+        isAnswerProcessing = true;
+        
+        // Clear any existing timeout
+        if (answerProcessingTimeout) {
+            clearTimeout(answerProcessingTimeout);
+        }
+        
         button.classList.add('incorrect');
         feedback.className = 'feedback incorrect show';
         feedback.textContent = '✗ Incorrect. You must get this right to continue. Try again!';
@@ -1721,6 +1849,11 @@ function checkQuizAnswer(questionNum, button, isCorrect) {
         setTimeout(() => {
             button.classList.remove('incorrect');
             feedback.classList.remove('show');
+        }, 2000);
+        
+        // Clear processing flag after error overlay auto-hides (2s)
+        answerProcessingTimeout = setTimeout(() => {
+            isAnswerProcessing = false;
         }, 2000);
     }
 }
@@ -1845,6 +1978,11 @@ function showFinalQuestion(index) {
 }
 
 function checkFinalAnswer(questionNum, button, isCorrect) {
+    // Spam click prevention - if already processing an answer, ignore
+    if (isAnswerProcessing) {
+        return;
+    }
+    
     const options = button.parentElement.querySelectorAll('.quiz-option');
     const feedback = document.getElementById(`final-feedback-${questionNum}`);
     
@@ -1854,6 +1992,9 @@ function checkFinalAnswer(questionNum, button, isCorrect) {
     const answerText = button.textContent.trim();
 
     if (isCorrect) {
+        // Set processing flag to prevent spam clicks
+        isAnswerProcessing = true;
+        
         options.forEach(opt => opt.disabled = true);
         button.classList.add('correct');
         addPoints(20, 'Final assessment correct!');
@@ -1873,9 +2014,19 @@ function checkFinalAnswer(questionNum, button, isCorrect) {
                 } else {
                     checkFinalComplete();
                 }
+                // Clear processing flag
+                isAnswerProcessing = false;
             }
         );
     } else {
+        // Set processing flag to prevent spam clicks during error display
+        isAnswerProcessing = true;
+        
+        // Clear any existing timeout
+        if (answerProcessingTimeout) {
+            clearTimeout(answerProcessingTimeout);
+        }
+        
         button.classList.add('incorrect');
         feedback.className = 'feedback incorrect show';
         feedback.textContent = '✗ Incorrect. You must get this right to complete the course. Try again!';
@@ -1888,6 +2039,11 @@ function checkFinalAnswer(questionNum, button, isCorrect) {
         setTimeout(() => {
             button.classList.remove('incorrect');
             feedback.classList.remove('show');
+        }, 2000);
+        
+        // Clear processing flag after error overlay auto-hides (2s)
+        answerProcessingTimeout = setTimeout(() => {
+            isAnswerProcessing = false;
         }, 2000);
     }
 }

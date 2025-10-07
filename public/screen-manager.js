@@ -67,6 +67,28 @@ class ScreenManager {
         if (targetScreen) {
             targetScreen.classList.add('active');
             this.currentScreen = index;
+            
+            // Clear any spam click blocking when moving to a new screen
+            if (typeof isAnswerProcessing !== 'undefined') {
+                isAnswerProcessing = false;
+            }
+            if (typeof answerProcessingTimeout !== 'undefined' && answerProcessingTimeout) {
+                clearTimeout(answerProcessingTimeout);
+                answerProcessingTimeout = null;
+            }
+            
+            // Re-enable any disabled buttons on the new screen that aren't marked as correct
+            // This prevents users from being locked out if they refresh or navigate back
+            setTimeout(() => {
+                const buttons = targetScreen.querySelectorAll('.quiz-option');
+                buttons.forEach(btn => {
+                    // Only re-enable buttons that aren't marked as correct (already answered)
+                    if (!btn.classList.contains('correct')) {
+                        btn.disabled = false;
+                        btn.classList.remove('incorrect', 'attempting');
+                    }
+                });
+            }, 100);
 
             // Update browser history and save progress (unless we're restoring state)
             if (!this.isRestoringState) {
