@@ -1101,7 +1101,7 @@
                 <div class="graph-builder-split">
                     <div class="data-side">
                         <h3 style="font-size: 1.5rem;">Cairo Climate Data</h3>
-                        <p style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 1rem;">Click to plot temperature, drag to adjust rainfall</p>
+                        <p style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 1rem;">Click to plot temperature points (rainfall is prefilled)</p>
                         <table class="horizontal-data-table compact">
                             <thead>
                                 <tr>
@@ -1159,6 +1159,7 @@
                             <button onclick="checkGraphAccuracy()" class="btn-primary">Check My Graph</button>
                         </div>
                         <div class="feedback" id="feedback-4" style="margin-top: 1rem;"></div>
+                        <button id="continue-btn-4" onclick="screenManager.nextScreen()" class="btn-primary btn-large" style="margin-top: 1rem; display: none;">Continue →</button>
                     </div>
 
                     <div class="graph-side">
@@ -1279,6 +1280,7 @@
                             <button onclick="checkGraphAccuracy2()" class="btn-primary">Check My Graph</button>
                         </div>
                         <div class="feedback" id="feedback-4b-graph" style="margin-top: 1rem;"></div>
+                        <button id="continue-btn-4b" onclick="screenManager.nextScreen()" class="btn-primary btn-large" style="margin-top: 1rem; display: none;">Continue →</button>
                     </div>
 
                     <div class="graph-side">
