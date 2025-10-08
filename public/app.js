@@ -78,12 +78,12 @@ const correctRainfallData = [5, 4, 4, 1, 1, 0, 0, 0, 0, 1, 3, 5];
 let isDraggingRainfall = false;
 let dragMonthIndex = -1;
 
-// Graph builder 2 data (Phoenix)
-let userGraphData2 = [null, null, null, null, null, null, null, null, null, null, null, null];
-let userRainfallData2 = [21, 19, 18, 6, 3, 2, 23, 26, 18, 16, 16, 22]; // Start with correct Phoenix rainfall
-const correctGraphData2 = [13, 15, 19, 24, 29, 34, 36, 35, 32, 25, 18, 13];
-const correctRainfallData2 = [21, 19, 18, 6, 3, 2, 23, 26, 18, 16, 16, 22];
-const rainfallData2 = [21, 19, 18, 6, 3, 2, 23, 26, 18, 16, 16, 22]; // Display rainfall for Phoenix
+// Graph builder 2 data (Singapore - tropical)
+let userGraphData2 = [27, 27, 28, 28, 28, 28, 28, 28, 27, 27, 27, 27]; // Prefilled with correct Singapore temperature
+let userRainfallData2 = [120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120]; // Start with midway values for dragging
+const correctGraphData2 = [27, 27, 28, 28, 28, 28, 28, 28, 27, 27, 27, 27]; // Singapore temperature
+const correctRainfallData2 = [243, 157, 193, 179, 171, 161, 158, 176, 169, 193, 256, 287]; // Singapore rainfall
+const rainfallData2 = [243, 157, 193, 179, 171, 161, 158, 176, 169, 193, 256, 287]; // Display rainfall for Singapore
 
 // Initialize when page loads
 document.addEventListener('DOMContentLoaded', function() {
@@ -1312,7 +1312,7 @@ function checkGraphAccuracy() {
     }
 }
 
-// Second graph builder for Module 4B (Tokyo)
+// Second graph builder for Module 4B (Singapore - tropical)
 function createBuildGraph2() {
     const ctx = document.getElementById('buildGraph2');
     if (!ctx) return;
@@ -1323,7 +1323,7 @@ function createBuildGraph2() {
             labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
             datasets: [{
                 type: 'line',
-                label: 'Temperature (°C) - Click to add',
+                label: 'Temperature (°C) - Prefilled',
                 data: userGraphData2,
                 borderColor: 'rgb(255, 99, 132)',
                 backgroundColor: 'rgba(255, 99, 132, 0.1)',
@@ -1345,7 +1345,7 @@ function createBuildGraph2() {
             plugins: {
                 title: {
                     display: true,
-                    text: 'Build Phoenix Climate Graph - Click temperature, Drag rainfall!',
+                    text: 'Build Singapore Climate Graph - Drag rainfall to match!',
                     font: { size: 14, weight: 'bold' }
                 },
                 legend: {
@@ -1409,24 +1409,13 @@ function createBuildGraph2() {
                         drawOnChartArea: false
                     },
                     min: 0,
-                    max: 40,
+                    max: 300,
                     ticks: {
-                        stepSize: 10,
+                        stepSize: 50,
                         font: {
                             size: 10
                         }
                     }
-                }
-            },
-            onClick: (event, activeElements, chart) => {
-                const canvasPosition = Chart.helpers.getRelativePosition(event, chart);
-                const dataX = chart.scales.x.getValueForPixel(canvasPosition.x);
-                const dataY = chart.scales.y.getValueForPixel(canvasPosition.y);
-
-                if (dataX >= 0 && dataX < 12 && dataY >= 0 && dataY <= 40) {
-                    const monthIndex = Math.round(dataX);
-                    userGraphData2[monthIndex] = Math.round(dataY);
-                    buildChart2.update();
                 }
             },
             onHover: (event, activeElements, chart) => {
@@ -1434,7 +1423,7 @@ function createBuildGraph2() {
                 if (activeElements.length > 0 && activeElements[0].datasetIndex === 1) {
                     canvas.style.cursor = 'ns-resize';
                 } else {
-                    canvas.style.cursor = 'crosshair';
+                    canvas.style.cursor = 'default';
                 }
             }
         }
@@ -1462,7 +1451,7 @@ function createBuildGraph2() {
             const canvasPosition = Chart.helpers.getRelativePosition(e, buildChart2);
             const dataY = buildChart2.scales.y1.getValueForPixel(canvasPosition.y);
 
-            if (dataY >= 0 && dataY <= 40) {
+            if (dataY >= 0 && dataY <= 300) {
                 userRainfallData2[dragMonthIndex2] = Math.max(0, Math.round(dataY));
                 buildChart2.data.datasets[1].data = userRainfallData2;
                 buildChart2.update('none'); // Update without animation for smooth dragging
@@ -1521,8 +1510,8 @@ function createBuildGraph2() {
 }
 
 function resetGraph2() {
-    userGraphData2 = [null, null, null, null, null, null, null, null, null, null, null, null];
-    userRainfallData2 = [21, 19, 18, 6, 3, 2, 23, 26, 18, 16, 16, 22]; // Reset to correct Phoenix rainfall data
+    userGraphData2 = [27, 27, 28, 28, 28, 28, 28, 28, 27, 27, 27, 27]; // Reset to prefilled Singapore temperature
+    userRainfallData2 = [120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120]; // Reset to midway values for dragging
     buildChart2.data.datasets[0].data = userGraphData2;
     buildChart2.data.datasets[1].data = userRainfallData2;
     buildChart2.update();
@@ -1537,59 +1526,33 @@ function resetGraph2() {
 
 function checkGraphAccuracy2() {
     const feedback = document.getElementById('feedback-4b-graph');
-    let tempErrors = 0;
     let rainfallErrors = 0;
-    let completed = 0;
-    let tempErrorMonths = [];
     let rainfallErrorMonths = [];
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-    // Check temperature
-    userGraphData2.forEach((value, index) => {
-        if (value !== null) {
-            completed++;
-            const difference = Math.abs(value - correctGraphData2[index]);
-            if (difference > 2) {
-                tempErrors++;
-                tempErrorMonths.push(months[index]);
-            }
-        }
-    });
-
-    // Check rainfall
+    // Only check rainfall (temperature is prefilled)
     userRainfallData2.forEach((value, index) => {
         const difference = Math.abs(value - correctRainfallData2[index]);
-        if (difference > 1) {
+        // Allow larger margin of error (±15mm) since rainfall values are much higher
+        if (difference > 15) {
             rainfallErrors++;
             rainfallErrorMonths.push(months[index]);
         }
     });
 
-    if (completed < 12) {
-        feedback.className = 'feedback incorrect show';
-        feedback.textContent = `✗ Please plot all 12 temperature points! You've plotted ${completed} so far.`;
-        retries.module4b++;
-    } else if (tempErrors === 0 && rainfallErrors === 0) {
+    if (rainfallErrors === 0) {
         feedback.className = 'feedback correct show';
-        feedback.textContent = '✓ Excellent! Your Phoenix climate graph is perfect! Moving to next module...';
+        feedback.textContent = '✓ Excellent! Your Singapore climate graph is perfect! Moving to next module...';
         addPoints(50, 'Perfect graph!');
         autoProgressToNextModule();
-    } else if (tempErrors <= 3 && rainfallErrors <= 3) {
-        let errorDetails = [];
-        if (tempErrors > 0) errorDetails.push(`${tempErrors} temp months: ${tempErrorMonths.join(', ')}`);
-        if (rainfallErrors > 0) errorDetails.push(`${rainfallErrors} rainfall months: ${rainfallErrorMonths.join(', ')}`);
-        
+    } else if (rainfallErrors <= 3) {
         feedback.className = 'feedback correct show';
-        feedback.textContent = `✓ Good job! Your graph is mostly accurate (${errorDetails.join('; ')} slightly off). Moving to next module...`;
+        feedback.textContent = `✓ Good job! Your graph is mostly accurate (${rainfallErrors} rainfall months slightly off: ${rainfallErrorMonths.join(', ')}). Moving to next module...`;
         addPoints(30, 'Good graph!');
         autoProgressToNextModule();
     } else {
-        let errorDetails = [];
-        if (tempErrors > 0) errorDetails.push(`Temperature errors in: ${tempErrorMonths.join(', ')}`);
-        if (rainfallErrors > 0) errorDetails.push(`Rainfall errors in: ${rainfallErrorMonths.join(', ')}`);
-        
         feedback.className = 'feedback incorrect show';
-        feedback.textContent = `✗ Keep trying! ${errorDetails.join('. ')}. You need 9+ correct to continue. Check the data table and try again.`;
+        feedback.textContent = `✗ Keep trying! Rainfall errors in: ${rainfallErrorMonths.join(', ')}. Check the data table and try again.`;
         retries.module4b++;
     }
 }
