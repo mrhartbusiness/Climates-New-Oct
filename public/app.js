@@ -79,8 +79,8 @@ let isDraggingRainfall = false;
 let dragMonthIndex = -1;
 
 // Graph builder 2 data (Phoenix)
-let userGraphData2 = [null, null, null, null, null, null, null, null, null, null, null, null];
-let userRainfallData2 = [21, 19, 18, 6, 3, 2, 23, 26, 18, 16, 16, 22]; // Start with correct Phoenix rainfall
+let userGraphData2 = [13, 15, 19, 24, 29, 34, 36, 35, 32, 25, 18, 13]; // Start with preset correct temperature
+let userRainfallData2 = [40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40]; // Start with max rainfall for students to drag down
 const correctGraphData2 = [13, 15, 19, 24, 29, 34, 36, 35, 32, 25, 18, 13];
 const correctRainfallData2 = [21, 19, 18, 6, 3, 2, 23, 26, 18, 16, 16, 22];
 const rainfallData2 = [21, 19, 18, 6, 3, 2, 23, 26, 18, 16, 16, 22]; // Display rainfall for Phoenix
@@ -1521,8 +1521,8 @@ function createBuildGraph2() {
 }
 
 function resetGraph2() {
-    userGraphData2 = [null, null, null, null, null, null, null, null, null, null, null, null];
-    userRainfallData2 = [21, 19, 18, 6, 3, 2, 23, 26, 18, 16, 16, 22]; // Reset to correct Phoenix rainfall data
+    userGraphData2 = [13, 15, 19, 24, 29, 34, 36, 35, 32, 25, 18, 13]; // Reset to preset correct temperature
+    userRainfallData2 = [40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40]; // Reset to max rainfall for students to drag down
     buildChart2.data.datasets[0].data = userGraphData2;
     buildChart2.data.datasets[1].data = userRainfallData2;
     buildChart2.update();
