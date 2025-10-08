@@ -1047,7 +1047,7 @@ function createBuildGraph() {
                 spanGaps: true
             }, {
                 type: 'bar',
-                label: 'Rainfall (mm) - Drag to adjust',
+                label: 'Rainfall (mm) - Prefilled',
                 data: userRainfallData,
                 backgroundColor: 'rgba(54, 162, 235, 0.7)',
                 yAxisID: 'y1'
@@ -1059,7 +1059,7 @@ function createBuildGraph() {
             plugins: {
                 title: {
                     display: true,
-                    text: 'Build Cairo Climate Graph - Click temperature, Drag rainfall!',
+                    text: 'Build Cairo Climate Graph - Click to plot temperature!',
                     font: { size: 13, weight: 'bold' }
                 },
                 legend: {
@@ -1146,89 +1146,10 @@ function createBuildGraph() {
             },
             onHover: (event, activeElements, chart) => {
                 const canvas = chart.canvas;
-                if (activeElements.length > 0 && activeElements[0].datasetIndex === 1) {
-                    canvas.style.cursor = 'ns-resize';
-                } else {
-                    canvas.style.cursor = 'crosshair';
-                }
+                // Always show crosshair for temperature plotting
+                canvas.style.cursor = 'crosshair';
             }
         }
-    });
-
-    // Add drag functionality for rainfall bars
-    const canvas = ctx;
-    let isDragging = false;
-
-    canvas.addEventListener('mousedown', (e) => {
-        const rect = canvas.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const elements = buildChart.getElementsAtEventForMode(e, 'nearest', { intersect: true }, false);
-
-        if (elements.length > 0 && elements[0].datasetIndex === 1) {
-            isDragging = true;
-            dragMonthIndex = elements[0].index;
-        }
-    });
-
-    canvas.addEventListener('mousemove', (e) => {
-        if (isDragging && dragMonthIndex >= 0) {
-            const canvasPosition = Chart.helpers.getRelativePosition(e, buildChart);
-            const dataY = buildChart.scales.y1.getValueForPixel(canvasPosition.y);
-
-            if (dataY >= 0 && dataY <= 120) {
-                userRainfallData[dragMonthIndex] = Math.max(0, Math.round(dataY));
-                buildChart.data.datasets[1].data = userRainfallData;
-                buildChart.update('none'); // Update without animation for smooth dragging
-            }
-        }
-    });
-
-    canvas.addEventListener('mouseup', () => {
-        if (isDragging) {
-            isDragging = false;
-            dragMonthIndex = -1;
-            buildChart.update(); // Final update with animation
-        }
-    });
-
-    canvas.addEventListener('mouseleave', () => {
-        if (isDragging) {
-            isDragging = false;
-            dragMonthIndex = -1;
-            buildChart.update();
-        }
-    });
-
-    // Touch support for mobile
-    canvas.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        const touch = e.touches[0];
-        const rect = canvas.getBoundingClientRect();
-        const x = touch.clientX - rect.left;
-        const y = touch.clientY - rect.top;
-
-        const mouseEvent = new MouseEvent('mousedown', {
-            clientX: touch.clientX,
-            clientY: touch.clientY
-        });
-        canvas.dispatchEvent(mouseEvent);
-    });
-
-    canvas.addEventListener('touchmove', (e) => {
-        e.preventDefault();
-        const touch = e.touches[0];
-        const mouseEvent = new MouseEvent('mousemove', {
-            clientX: touch.clientX,
-            clientY: touch.clientY
-        });
-        canvas.dispatchEvent(mouseEvent);
-    });
-
-    canvas.addEventListener('touchend', (e) => {
-        e.preventDefault();
-        const mouseEvent = new MouseEvent('mouseup');
-        canvas.dispatchEvent(mouseEvent);
     });
 }
 
@@ -1250,13 +1171,11 @@ function resetGraph() {
 function checkGraphAccuracy() {
     const feedback = document.getElementById('feedback-4');
     let tempErrors = 0;
-    let rainfallErrors = 0;
     let completed = 0;
     let tempErrorMonths = [];
-    let rainfallErrorMonths = [];
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-    // Check temperature
+    // Check temperature only
     userGraphData.forEach((value, index) => {
         if (value !== null) {
             completed++;
@@ -1268,47 +1187,34 @@ function checkGraphAccuracy() {
         }
     });
 
-    // Check rainfall
-    userRainfallData.forEach((value, index) => {
-        const difference = Math.abs(value - correctRainfallData[index]);
-        if (difference > 1) {
-            rainfallErrors++;
-            rainfallErrorMonths.push(months[index]);
-        }
-    });
-
     if (completed < 12) {
         feedback.className = 'feedback incorrect show';
         feedback.textContent = `✗ Please plot all 12 temperature points! You've plotted ${completed} so far.`;
         retries.module4++;
-    } else if (tempErrors === 0 && rainfallErrors === 0) {
+        // Hide continue button
+        const continueBtn = document.getElementById('continue-btn-4');
+        if (continueBtn) continueBtn.style.display = 'none';
+    } else if (tempErrors === 0) {
         feedback.className = 'feedback correct show';
-        feedback.textContent = '✓ Excellent! Your climate graph is perfect! Moving to next question...';
+        feedback.textContent = '✓ Excellent! Your temperature graph is perfect!';
         addPoints(50, 'Perfect graph!');
-        // Auto-progress to next screen after a delay
-        setTimeout(() => {
-            screenManager.nextScreen();
-        }, 2000);
-    } else if (tempErrors <= 3 && rainfallErrors <= 3) {
-        let errorDetails = [];
-        if (tempErrors > 0) errorDetails.push(`${tempErrors} temp months: ${tempErrorMonths.join(', ')}`);
-        if (rainfallErrors > 0) errorDetails.push(`${rainfallErrors} rainfall months: ${rainfallErrorMonths.join(', ')}`);
-        
+        // Show continue button
+        const continueBtn = document.getElementById('continue-btn-4');
+        if (continueBtn) continueBtn.style.display = 'inline-block';
+    } else if (tempErrors <= 3) {
         feedback.className = 'feedback correct show';
-        feedback.textContent = `✓ Good job! Your graph is mostly accurate (${errorDetails.join('; ')} slightly off). Moving to next question...`;
+        feedback.textContent = `✓ Good job! Your temperature graph is mostly accurate (${tempErrors} months slightly off: ${tempErrorMonths.join(', ')}).`;
         addPoints(30, 'Good graph!');
-        // Auto-progress to next screen after a delay
-        setTimeout(() => {
-            screenManager.nextScreen();
-        }, 2000);
+        // Show continue button
+        const continueBtn = document.getElementById('continue-btn-4');
+        if (continueBtn) continueBtn.style.display = 'inline-block';
     } else {
-        let errorDetails = [];
-        if (tempErrors > 0) errorDetails.push(`Temperature errors in: ${tempErrorMonths.join(', ')}`);
-        if (rainfallErrors > 0) errorDetails.push(`Rainfall errors in: ${rainfallErrorMonths.join(', ')}`);
-        
         feedback.className = 'feedback incorrect show';
-        feedback.textContent = `✗ Keep trying! ${errorDetails.join('. ')}. Check the data table and try again.`;
+        feedback.textContent = `✗ Keep trying! Temperature errors in: ${tempErrorMonths.join(', ')}. Check the data table and try again.`;
         retries.module4++;
+        // Hide continue button
+        const continueBtn = document.getElementById('continue-btn-4');
+        if (continueBtn) continueBtn.style.display = 'none';
     }
 }
 
@@ -1542,18 +1448,25 @@ function checkGraphAccuracy2() {
 
     if (rainfallErrors === 0) {
         feedback.className = 'feedback correct show';
-        feedback.textContent = '✓ Excellent! Your Singapore climate graph is perfect! Moving to next module...';
+        feedback.textContent = '✓ Excellent! Your Singapore rainfall graph is perfect!';
         addPoints(50, 'Perfect graph!');
-        autoProgressToNextModule();
+        // Show continue button
+        const continueBtn = document.getElementById('continue-btn-4b');
+        if (continueBtn) continueBtn.style.display = 'inline-block';
     } else if (rainfallErrors <= 3) {
         feedback.className = 'feedback correct show';
-        feedback.textContent = `✓ Good job! Your graph is mostly accurate (${rainfallErrors} rainfall months slightly off: ${rainfallErrorMonths.join(', ')}). Moving to next module...`;
+        feedback.textContent = `✓ Good job! Your rainfall graph is mostly accurate (${rainfallErrors} months slightly off: ${rainfallErrorMonths.join(', ')}).`;
         addPoints(30, 'Good graph!');
-        autoProgressToNextModule();
+        // Show continue button
+        const continueBtn = document.getElementById('continue-btn-4b');
+        if (continueBtn) continueBtn.style.display = 'inline-block';
     } else {
         feedback.className = 'feedback incorrect show';
         feedback.textContent = `✗ Keep trying! Rainfall errors in: ${rainfallErrorMonths.join(', ')}. Check the data table and try again.`;
         retries.module4b++;
+        // Hide continue button
+        const continueBtn = document.getElementById('continue-btn-4b');
+        if (continueBtn) continueBtn.style.display = 'none';
     }
 }
 
