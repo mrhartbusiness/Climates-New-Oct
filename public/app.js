@@ -1185,7 +1185,10 @@ function createBuildGraph() {
                 
                 if (dataY >= 0 && dataY <= 35) {
                     const tempValue = Math.round(dataY);
-                    showGraphTooltip(event.native.pageX + 15, event.native.pageY - 10, `Temperature: ${tempValue}°C`);
+                    const nativeEvent = event.native || event;
+                    const pageX = nativeEvent.pageX || (nativeEvent.clientX + window.pageXOffset);
+                    const pageY = nativeEvent.pageY || (nativeEvent.clientY + window.pageYOffset);
+                    showGraphTooltip(pageX + 15, pageY - 10, `Temperature: ${tempValue}°C`);
                 } else {
                     hideGraphTooltip();
                 }
@@ -1378,6 +1381,10 @@ function createBuildGraph2() {
             },
             onHover: (event, activeElements, chart) => {
                 const canvas = chart.canvas;
+                const nativeEvent = event.native || event;
+                const pageX = nativeEvent.pageX || (nativeEvent.clientX + window.pageXOffset);
+                const pageY = nativeEvent.pageY || (nativeEvent.clientY + window.pageYOffset);
+                
                 if (activeElements.length > 0 && activeElements[0].datasetIndex === 1) {
                     canvas.style.cursor = 'ns-resize';
                     
@@ -1386,7 +1393,7 @@ function createBuildGraph2() {
                     const monthIndex = element.index;
                     const rainfallValue = Math.round(userRainfallData2[monthIndex]);
                     const tempValue = Math.round(userGraphData2[monthIndex]);
-                    showGraphTooltip(event.native.pageX + 15, event.native.pageY - 10, 
+                    showGraphTooltip(pageX + 15, pageY - 10, 
                         `Temperature: ${tempValue}°C<br>Rainfall: ${rainfallValue}mm`);
                 } else if (activeElements.length > 0 && activeElements[0].datasetIndex === 0) {
                     canvas.style.cursor = 'default';
@@ -1396,7 +1403,7 @@ function createBuildGraph2() {
                     const monthIndex = element.index;
                     const tempValue = Math.round(userGraphData2[monthIndex]);
                     const rainfallValue = Math.round(userRainfallData2[monthIndex]);
-                    showGraphTooltip(event.native.pageX + 15, event.native.pageY - 10, 
+                    showGraphTooltip(pageX + 15, pageY - 10, 
                         `Temperature: ${tempValue}°C<br>Rainfall: ${rainfallValue}mm`);
                 } else {
                     canvas.style.cursor = 'default';
