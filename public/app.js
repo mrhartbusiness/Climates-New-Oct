@@ -70,6 +70,36 @@ let mysteryChart2 = null;
 let mysteryChart3 = null;
 let finalChart = null;
 
+// Tooltip element
+let tooltipEl = null;
+
+// Helper function to show graph tooltip
+function showGraphTooltip(x, y, text) {
+    if (!tooltipEl) {
+        tooltipEl = document.getElementById('graph-tooltip');
+    }
+    if (!tooltipEl) return;
+    
+    const tooltipContent = document.getElementById('tooltip-content');
+    if (tooltipContent) {
+        tooltipContent.innerHTML = text;
+    }
+    
+    tooltipEl.style.left = x + 'px';
+    tooltipEl.style.top = y + 'px';
+    tooltipEl.classList.add('visible');
+}
+
+// Helper function to hide graph tooltip
+function hideGraphTooltip() {
+    if (!tooltipEl) {
+        tooltipEl = document.getElementById('graph-tooltip');
+    }
+    if (tooltipEl) {
+        tooltipEl.classList.remove('visible');
+    }
+}
+
 // Graph builder data
 let userGraphData = [null, null, null, null, null, null, null, null, null, null, null, null];
 let userRainfallData = [5, 4, 4, 1, 1, 0, 0, 0, 0, 1, 3, 5]; // Start with correct data
@@ -1148,8 +1178,25 @@ function createBuildGraph() {
                 const canvas = chart.canvas;
                 // Always show crosshair for temperature plotting
                 canvas.style.cursor = 'crosshair';
+                
+                // Show tooltip with temperature value
+                const canvasPosition = Chart.helpers.getRelativePosition(event, chart);
+                const dataY = chart.scales.y.getValueForPixel(canvasPosition.y);
+                
+                if (dataY >= 0 && dataY <= 35) {
+                    const tempValue = Math.round(dataY);
+                    showGraphTooltip(event.native.pageX + 15, event.native.pageY - 10, `Temperature: ${tempValue}°C`);
+                } else {
+                    hideGraphTooltip();
+                }
             }
         }
+    });
+    
+    // Add mouse leave handler to hide tooltip
+    const canvas = ctx;
+    canvas.addEventListener('mouseleave', () => {
+        hideGraphTooltip();
     });
 }
 
@@ -1236,7 +1283,12 @@ function createBuildGraph2() {
                 yAxisID: 'y',
                 tension: 0.4,
                 borderWidth: 3,
-                spanGaps: true
+                spanGaps: true,
+                pointRadius: 5,
+                pointHoverRadius: 7,
+                pointBackgroundColor: 'rgb(255, 99, 132)',
+                pointBorderColor: '#fff',
+                pointBorderWidth: 2
             }, {
                 type: 'bar',
                 label: 'Rainfall (mm) - Drag to adjust',
@@ -1328,8 +1380,27 @@ function createBuildGraph2() {
                 const canvas = chart.canvas;
                 if (activeElements.length > 0 && activeElements[0].datasetIndex === 1) {
                     canvas.style.cursor = 'ns-resize';
+                    
+                    // Show rainfall tooltip
+                    const element = activeElements[0];
+                    const monthIndex = element.index;
+                    const rainfallValue = Math.round(userRainfallData2[monthIndex]);
+                    const tempValue = Math.round(userGraphData2[monthIndex]);
+                    showGraphTooltip(event.native.pageX + 15, event.native.pageY - 10, 
+                        `Temperature: ${tempValue}°C<br>Rainfall: ${rainfallValue}mm`);
+                } else if (activeElements.length > 0 && activeElements[0].datasetIndex === 0) {
+                    canvas.style.cursor = 'default';
+                    
+                    // Show temperature tooltip
+                    const element = activeElements[0];
+                    const monthIndex = element.index;
+                    const tempValue = Math.round(userGraphData2[monthIndex]);
+                    const rainfallValue = Math.round(userRainfallData2[monthIndex]);
+                    showGraphTooltip(event.native.pageX + 15, event.native.pageY - 10, 
+                        `Temperature: ${tempValue}°C<br>Rainfall: ${rainfallValue}mm`);
                 } else {
                     canvas.style.cursor = 'default';
+                    hideGraphTooltip();
                 }
             }
         }
@@ -1361,6 +1432,12 @@ function createBuildGraph2() {
                 userRainfallData2[dragMonthIndex2] = Math.max(0, Math.round(dataY));
                 buildChart2.data.datasets[1].data = userRainfallData2;
                 buildChart2.update('none'); // Update without animation for smooth dragging
+                
+                // Show tooltip while dragging
+                const tempValue = Math.round(userGraphData2[dragMonthIndex2]);
+                const rainfallValue = Math.round(userRainfallData2[dragMonthIndex2]);
+                showGraphTooltip(e.pageX + 15, e.pageY - 10, 
+                    `Temperature: ${tempValue}°C<br>Rainfall: ${rainfallValue}mm`);
             }
         }
     });
@@ -1371,6 +1448,7 @@ function createBuildGraph2() {
             dragMonthIndex2 = -1;
             buildChart2.update(); // Final update with animation
             saveAppProgress(); // Save after dragging
+            hideGraphTooltip(); // Hide tooltip after dragging
         }
     });
 
@@ -1381,6 +1459,7 @@ function createBuildGraph2() {
             buildChart2.update();
             saveAppProgress(); // Save after dragging
         }
+        hideGraphTooltip(); // Hide tooltip when leaving canvas
     });
 
     // Touch support for mobile
