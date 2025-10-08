@@ -97,6 +97,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     initializeDragAndDrop();
     createExampleGraph();
+    createLondonGraphForQuestions();
     createBuildGraph();
     createBuildGraph2();
     createMysteryGraphs();
@@ -660,36 +661,42 @@ function checkCheckboxes() {
 
         // Visual feedback
         const label = checkbox.parentElement;
-        if (shouldBeChecked && isChecked) {
+        const isAnswerCorrect = (shouldBeChecked && isChecked) || (!shouldBeChecked && !isChecked);
+        
+        if (isAnswerCorrect) {
             label.style.background = '#d4edda';
-        } else if (!shouldBeChecked && !isChecked) {
-            label.style.background = '#d4edda';
+            label.style.borderColor = '#28a745';
+            // Disable correct answers so they can't be changed
+            checkbox.disabled = true;
         } else {
             label.style.background = '#f8d7da';
+            label.style.borderColor = '#dc3545';
+            // Keep incorrect answers enabled so they can be edited
         }
     });
 
     if (allCorrect) {
         feedback.className = 'feedback correct show';
-        feedback.textContent = '✓ Perfect! You understand how to read climate graphs! Moving to next module...';
+        feedback.textContent = '✓ Perfect! You understand how to read climate graphs!';
         addPoints(30, 'All correct!');
-        // Disable checkboxes after correct answer
+        
+        // Disable all checkboxes after correct answer
         checkboxes.forEach(checkbox => checkbox.disabled = true);
-        autoProgressToNextModule();
+        
+        // Show success overlay with question and answer
+        safeShowSuccess(
+            'Graph Reading Quiz! Which statements are true?',
+            'All statements correctly identified!',
+            30,
+            () => {
+                // After overlay is dismissed, advance to next screen
+                screenManager.nextScreen();
+            }
+        );
     } else {
         feedback.className = 'feedback incorrect show';
-        feedback.textContent = '✗ Some answers are incorrect. You must get all correct to continue. Try again!';
+        feedback.textContent = '✗ Some answers are incorrect. Correct ones are now locked in green. Fix the red ones and try again!';
         retries.module3++;
-
-        // Reset after delay
-        setTimeout(() => {
-            checkboxes.forEach(checkbox => {
-                const label = checkbox.parentElement;
-                label.style.background = '';
-                checkbox.checked = false; // Reset checkboxes
-            });
-            feedback.classList.remove('show');
-        }, 2000);
     }
 }
 
@@ -818,8 +825,7 @@ function createExampleGraph() {
         },
         options: {
             responsive: true,
-            maintainAspectRatio: true,
-            aspectRatio: 1.8,
+            maintainAspectRatio: false,
             plugins: {
                 title: {
                     display: true,
@@ -895,6 +901,130 @@ function createExampleGraph() {
             }
         }
     });
+}
+
+// Create London graph copies for question screens
+function createLondonGraphForQuestions() {
+    const graphConfig = {
+        type: 'bar',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            datasets: [{
+                type: 'line',
+                label: 'Temperature (°C)',
+                data: [5, 5, 7, 9, 13, 16, 18, 18, 15, 11, 8, 6],
+                borderColor: 'rgb(255, 99, 132)',
+                backgroundColor: 'rgba(255, 99, 132, 0.1)',
+                yAxisID: 'y',
+                tension: 0.4,
+                borderWidth: 3
+            }, {
+                type: 'bar',
+                label: 'Rainfall (mm)',
+                data: [55, 40, 42, 44, 49, 45, 44, 50, 49, 62, 59, 55],
+                backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                yAxisID: 'y1'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'London Climate Graph',
+                    font: { size: 14, weight: 'bold' }
+                },
+                legend: {
+                    display: true,
+                    position: 'bottom',
+                    labels: {
+                        font: { size: 10 }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    grid: {
+                        display: true,
+                        color: 'rgba(0, 0, 0, 0.05)'
+                    },
+                    ticks: {
+                        font: {
+                            size: 10,
+                            weight: 'bold'
+                        }
+                    }
+                },
+                y: {
+                    type: 'linear',
+                    display: true,
+                    position: 'left',
+                    title: {
+                        display: true,
+                        text: 'Temperature (°C)',
+                        font: {
+                            size: 11,
+                            weight: 'bold'
+                        }
+                    },
+                    min: 0,
+                    max: 35,
+                    ticks: {
+                        stepSize: 5,
+                        font: {
+                            size: 9
+                        }
+                    },
+                    grid: {
+                        color: 'rgba(255, 99, 132, 0.1)'
+                    }
+                },
+                y1: {
+                    type: 'linear',
+                    display: true,
+                    position: 'right',
+                    title: {
+                        display: true,
+                        text: 'Rainfall (mm)',
+                        font: {
+                            size: 11,
+                            weight: 'bold'
+                        }
+                    },
+                    grid: {
+                        drawOnChartArea: false
+                    },
+                    min: 0,
+                    max: 120,
+                    ticks: {
+                        stepSize: 20,
+                        font: {
+                            size: 9
+                        }
+                    }
+                }
+            }
+        }
+    };
+
+    // Create graph for Q1
+    const ctxQ1 = document.getElementById('exampleGraphQ1');
+    if (ctxQ1) {
+        new Chart(ctxQ1, graphConfig);
+    }
+
+    // Create graph for Q2
+    const ctxQ2 = document.getElementById('exampleGraphQ2');
+    if (ctxQ2) {
+        new Chart(ctxQ2, graphConfig);
+    }
+
+    // Create graph for Q3
+    const ctxQ3 = document.getElementById('exampleGraphQ3');
+    if (ctxQ3) {
+        new Chart(ctxQ3, graphConfig);
+    }
 }
 
 function createBuildGraph() {
