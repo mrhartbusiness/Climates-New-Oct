@@ -1422,6 +1422,27 @@ function createBuildGraph2() {
         if (elements.length > 0 && elements[0].datasetIndex === 1) {
             isDragging2 = true;
             dragMonthIndex2 = elements[0].index;
+        } else {
+            // Allow clicking anywhere in a column to set rainfall value
+            const canvasPosition = Chart.helpers.getRelativePosition(e, buildChart2);
+            const dataX = buildChart2.scales.x.getValueForPixel(canvasPosition.x);
+            const dataY = buildChart2.scales.y1.getValueForPixel(canvasPosition.y);
+            
+            // Check if click is within valid bounds
+            if (dataX >= -0.5 && dataX < 11.5 && dataY >= 0 && dataY <= 300) {
+                const monthIndex = Math.round(dataX);
+                if (monthIndex >= 0 && monthIndex < 12) {
+                    const rainfallValue = Math.max(0, Math.min(300, Math.round(dataY)));
+                    userRainfallData2[monthIndex] = rainfallValue;
+                    buildChart2.data.datasets[1].data = userRainfallData2;
+                    buildChart2.update();
+                    saveAppProgress(); // Save after clicking
+                    
+                    // Start dragging from this position
+                    isDragging2 = true;
+                    dragMonthIndex2 = monthIndex;
+                }
+            }
         }
     });
 
