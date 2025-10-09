@@ -1179,19 +1179,16 @@ function createBuildGraph() {
                 // Always show crosshair for temperature plotting
                 canvas.style.cursor = 'crosshair';
                 
-                // Show tooltip with temperature value
+                // Show tooltip with temperature value anywhere on the graph
                 const canvasPosition = Chart.helpers.getRelativePosition(event, chart);
                 const dataY = chart.scales.y.getValueForPixel(canvasPosition.y);
                 
-                if (dataY >= 0 && dataY <= 35) {
-                    const tempValue = Math.round(dataY);
-                    const nativeEvent = event.native || event;
-                    const pageX = nativeEvent.pageX || (nativeEvent.clientX + window.pageXOffset);
-                    const pageY = nativeEvent.pageY || (nativeEvent.clientY + window.pageYOffset);
-                    showGraphTooltip(pageX + 15, pageY - 10, `Temperature: ${tempValue}°C`);
-                } else {
-                    hideGraphTooltip();
-                }
+                // Clamp the value to valid range but show tooltip anywhere
+                const tempValue = Math.max(0, Math.min(35, Math.round(dataY)));
+                const nativeEvent = event.native || event;
+                const pageX = nativeEvent.pageX || (nativeEvent.clientX + window.pageXOffset);
+                const pageY = nativeEvent.pageY || (nativeEvent.clientY + window.pageYOffset);
+                showGraphTooltip(pageX + 15, pageY - 10, `Temperature: ${tempValue}°C`);
             }
         }
     });
@@ -1385,25 +1382,21 @@ function createBuildGraph2() {
                 const pageX = nativeEvent.pageX || (nativeEvent.clientX + window.pageXOffset);
                 const pageY = nativeEvent.pageY || (nativeEvent.clientY + window.pageYOffset);
                 
-                // Show tooltip for rainfall value (based on y1 axis position)
+                // Show tooltip for rainfall value anywhere on the graph (based on y1 axis position)
                 const canvasPosition = Chart.helpers.getRelativePosition(event, chart);
                 const dataY = chart.scales.y1.getValueForPixel(canvasPosition.y);
                 
-                if (dataY >= 0 && dataY <= 300) {
-                    const rainfallValue = Math.round(dataY);
-                    
-                    // Change cursor if hovering over rainfall bar
-                    if (activeElements.length > 0 && activeElements[0].datasetIndex === 1) {
-                        canvas.style.cursor = 'ns-resize';
-                    } else {
-                        canvas.style.cursor = 'default';
-                    }
-                    
-                    showGraphTooltip(pageX + 15, pageY - 10, `Rainfall: ${rainfallValue}mm`);
+                // Clamp the value to valid range but show tooltip anywhere
+                const rainfallValue = Math.max(0, Math.min(300, Math.round(dataY)));
+                
+                // Change cursor if hovering over rainfall bar
+                if (activeElements.length > 0 && activeElements[0].datasetIndex === 1) {
+                    canvas.style.cursor = 'ns-resize';
                 } else {
                     canvas.style.cursor = 'default';
-                    hideGraphTooltip();
                 }
+                
+                showGraphTooltip(pageX + 15, pageY - 10, `Rainfall: ${rainfallValue}mm`);
             }
         }
     });
