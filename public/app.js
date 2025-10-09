@@ -1309,6 +1309,9 @@ function createBuildGraph2() {
                 legend: {
                     display: true,
                     position: 'bottom'
+                },
+                tooltip: {
+                    enabled: false
                 }
             },
             scales: {
