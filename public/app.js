@@ -1246,14 +1246,14 @@ function checkGraphAccuracy() {
         feedback.className = 'feedback correct show';
         feedback.textContent = '✓ Excellent! Your temperature graph is perfect!';
         addPoints(50, 'Perfect graph!');
-        // Show continue button
+        // Show continue button - user must click to proceed (no auto-advance)
         const continueBtn = document.getElementById('continue-btn-4');
         if (continueBtn) continueBtn.style.display = 'inline-block';
     } else if (tempErrors <= 3) {
         feedback.className = 'feedback correct show';
         feedback.textContent = `✓ Good job! Your temperature graph is mostly accurate (${tempErrors} months slightly off: ${tempErrorMonths.join(', ')}).`;
         addPoints(30, 'Good graph!');
-        // Show continue button
+        // Show continue button - user must click to proceed (no auto-advance)
         const continueBtn = document.getElementById('continue-btn-4');
         if (continueBtn) continueBtn.style.display = 'inline-block';
     } else {
@@ -1547,14 +1547,14 @@ function checkGraphAccuracy2() {
         feedback.className = 'feedback correct show';
         feedback.textContent = '✓ Excellent! Your Singapore rainfall graph is perfect!';
         addPoints(50, 'Perfect graph!');
-        // Show continue button
+        // Show continue button - user must click to proceed (no auto-advance)
         const continueBtn = document.getElementById('continue-btn-4b');
         if (continueBtn) continueBtn.style.display = 'inline-block';
     } else if (rainfallErrors <= 3) {
         feedback.className = 'feedback correct show';
         feedback.textContent = `✓ Good job! Your rainfall graph is mostly accurate (${rainfallErrors} months slightly off: ${rainfallErrorMonths.join(', ')}).`;
         addPoints(30, 'Good graph!');
-        // Show continue button
+        // Show continue button - user must click to proceed (no auto-advance)
         const continueBtn = document.getElementById('continue-btn-4b');
         if (continueBtn) continueBtn.style.display = 'inline-block';
     } else {
