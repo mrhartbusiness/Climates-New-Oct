@@ -1466,7 +1466,7 @@ function createBuildGraph2() {
             dragMonthIndex2 = -1;
             buildChart2.update(); // Final update with animation
             saveAppProgress(); // Save after dragging
-            hideGraphTooltip(); // Hide tooltip after dragging
+            // Don't hide tooltip - let it continue showing via onHover
         }
     });
 
