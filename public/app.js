@@ -130,7 +130,6 @@ document.addEventListener('DOMContentLoaded', function() {
     createLondonGraphForQuestions();
     createBuildGraph();
     createBuildGraph2();
-    createMysteryGraphs();
     createFinalGraph();
 });
 
@@ -308,7 +307,9 @@ function showModule(moduleNum) {
     }
 
     // Initialize one-question-at-a-time modules
-    if (moduleNum === 6) {
+    if (moduleNum === 5) {
+        setTimeout(() => createMysteryGraphs(), 100);
+    } else if (moduleNum === 6) {
         setTimeout(() => initializeQuiz(), 100);
     } else if (moduleNum === 7) {
         setTimeout(() => initializeFinalAssessment(), 100);
@@ -1570,7 +1571,7 @@ function checkGraphAccuracy2() {
 function createMysteryGraphs() {
     // Mumbai (Tropical)
     const ctx1 = document.getElementById('mysteryGraph1');
-    if (ctx1) {
+    if (ctx1 && !mysteryChart1) {
         mysteryChart1 = new Chart(ctx1, {
             type: 'bar',
             data: {
@@ -1597,7 +1598,7 @@ function createMysteryGraphs() {
 
     // Athens (Mediterranean)
     const ctx2 = document.getElementById('mysteryGraph2');
-    if (ctx2) {
+    if (ctx2 && !mysteryChart2) {
         mysteryChart2 = new Chart(ctx2, {
             type: 'bar',
             data: {
@@ -1624,7 +1625,7 @@ function createMysteryGraphs() {
 
     // Reykjavik (Polar/Cold)
     const ctx3 = document.getElementById('mysteryGraph3');
-    if (ctx3) {
+    if (ctx3 && !mysteryChart3) {
         mysteryChart3 = new Chart(ctx3, {
             type: 'bar',
             data: {
