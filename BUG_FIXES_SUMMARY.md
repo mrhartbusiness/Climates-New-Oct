@@ -7,21 +7,28 @@
 
 ## Issues Addressed
 
-### 1. Graph Builder Auto-Progress ✓
-**Problem:** Students getting stuck on the Cairo climate graph builder screen after correctly completing the graph. The "Check My Graph" button would show success, but there was no way to proceed to the next question.
+### 1. Graph Builder Continue Button ✓
+**Problem:** Students getting stuck on the Cairo and Singapore climate graph builder screens after correctly completing the graphs. The "Check My Graph" button would show success, but there was no way to proceed to the next question.
 
 **Solution:** 
-- Modified `checkGraphAccuracy()` function in `app.js`
-- Added `setTimeout` with `screenManager.nextScreen()` call after 2 seconds when graph is correct
+- Modified `checkGraphAccuracy()` and `checkGraphAccuracy2()` functions in `app.js`
+- Added Continue button that appears when graph is correct
 - Applied to both "perfect" (0 errors) and "good" (≤3 errors) scenarios
-- Updated success messages to say "Moving to next question..." to inform students
+- Button is hidden initially and shown via JavaScript when answer is correct
+- Manual Continue button provides better user control than auto-progression
 
 **Code Changes:**
 ```javascript
-// After awarding points for correct graph
-setTimeout(() => {
-    screenManager.nextScreen();
-}, 2000);
+// Show continue button when graph is correct
+const continueBtn = document.getElementById('continue-btn-4'); // or 'continue-btn-4b'
+if (continueBtn) continueBtn.style.display = 'inline-block';
+```
+
+**HTML:**
+```html
+<button id="continue-btn-4" onclick="screenManager.nextScreen()" 
+        class="btn-primary btn-large" 
+        style="margin-top: 1rem; display: none;">Continue →</button>
 ```
 
 ---
