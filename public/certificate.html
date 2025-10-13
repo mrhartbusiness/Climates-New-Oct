@@ -510,12 +510,27 @@
     <script>
         // Retrieve data from sessionStorage
         window.addEventListener('DOMContentLoaded', function() {
+            // Helper function to format date with ordinal suffix
+            function formatDateWithOrdinal(date) {
+                const day = date.getDate();
+                const month = date.toLocaleDateString('en-GB', { month: 'long' });
+                const year = date.getFullYear();
+                
+                const suffix = (day) => {
+                    if (day > 3 && day < 21) return 'th';
+                    switch (day % 10) {
+                        case 1: return 'st';
+                        case 2: return 'nd';
+                        case 3: return 'rd';
+                        default: return 'th';
+                    }
+                };
+                
+                return `${day}${suffix(day)} ${month} ${year}`;
+            }
+
             const studentName = sessionStorage.getItem('studentName') || 'Student Name';
-            const completionDate = sessionStorage.getItem('completionDate') || new Date().toLocaleDateString('en-GB', {
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric'
-            });
+            const completionDate = sessionStorage.getItem('completionDate') || formatDateWithOrdinal(new Date());
             const totalPoints = sessionStorage.getItem('totalPoints') || '0';
             const badges = sessionStorage.getItem('badges') || '0';
             const totalRetries = sessionStorage.getItem('totalRetries') || '0';

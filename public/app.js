@@ -2176,13 +2176,28 @@ function generateCertificate() {
     const firstAttemptCorrect = totalQuestions - Math.min(totalRetries, totalQuestions);
     const accuracyPercentage = Math.round((firstAttemptCorrect / totalQuestions) * 100);
 
+    // Helper function to format date with ordinal suffix
+    function formatDateWithOrdinal(date) {
+        const day = date.getDate();
+        const month = date.toLocaleDateString('en-GB', { month: 'long' });
+        const year = date.getFullYear();
+        
+        const suffix = (day) => {
+            if (day > 3 && day < 21) return 'th';
+            switch (day % 10) {
+                case 1: return 'st';
+                case 2: return 'nd';
+                case 3: return 'rd';
+                default: return 'th';
+            }
+        };
+        
+        return `${day}${suffix(day)} ${month} ${year}`;
+    }
+
     // Store data in sessionStorage
     sessionStorage.setItem('studentName', studentName);
-    sessionStorage.setItem('completionDate', new Date().toLocaleDateString('en-GB', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric'
-    }));
+    sessionStorage.setItem('completionDate', formatDateWithOrdinal(new Date()));
     sessionStorage.setItem('totalPoints', points);
     sessionStorage.setItem('badges', badges.length);
     sessionStorage.setItem('totalRetries', totalRetries);
