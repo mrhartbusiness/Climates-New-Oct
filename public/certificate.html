@@ -529,35 +529,29 @@
     </div>
 
     <script>
-        // Retrieve data from sessionStorage (or localStorage as fallback for persistence)
+        // Retrieve data from localStorage (sessionStorage doesn't work across tabs)
         window.addEventListener('DOMContentLoaded', function() {
-            // Try sessionStorage first, then localStorage for testing/persistence
-            const studentName = sessionStorage.getItem('studentName') ||
-                               localStorage.getItem('studentName') ||
+            // Use localStorage since this page opens in a new tab (sessionStorage is tab-specific)
+            const studentName = localStorage.getItem('studentName') ||
                                'Student Name';
 
-            const completionDate = sessionStorage.getItem('completionDate') ||
-                                  localStorage.getItem('completionDate') ||
+            const completionDate = localStorage.getItem('completionDate') ||
                                   new Date().toLocaleDateString('en-GB', {
                                       day: 'numeric',
                                       month: 'long',
                                       year: 'numeric'
                                   });
 
-            const totalPoints = sessionStorage.getItem('totalPoints') ||
-                               localStorage.getItem('totalPoints') ||
+            const totalPoints = localStorage.getItem('totalPoints') ||
                                '0';
 
-            const badges = sessionStorage.getItem('badges') ||
-                          localStorage.getItem('badges') ||
+            const badges = localStorage.getItem('badges') ||
                           '0';
 
-            const totalRetries = sessionStorage.getItem('totalRetries') ||
-                                localStorage.getItem('totalRetries') ||
+            const totalRetries = localStorage.getItem('totalRetries') ||
                                 '0';
 
-            const accuracyScore = sessionStorage.getItem('accuracyScore') ||
-                                 localStorage.getItem('accuracyScore') ||
+            const accuracyScore = localStorage.getItem('accuracyScore') ||
                                  '100%';
 
             // Debug: Log the retrieved values
@@ -571,8 +565,15 @@
             });
 
             // Debug: Check what's in storage
-            console.log('SessionStorage keys:', Object.keys(sessionStorage));
             console.log('LocalStorage keys:', Object.keys(localStorage));
+            console.log('LocalStorage values:', {
+                studentName: localStorage.getItem('studentName'),
+                completionDate: localStorage.getItem('completionDate'),
+                totalPoints: localStorage.getItem('totalPoints'),
+                badges: localStorage.getItem('badges'),
+                totalRetries: localStorage.getItem('totalRetries'),
+                accuracyScore: localStorage.getItem('accuracyScore')
+            });
 
             // Show warning if no data found
             if (studentName === 'Student Name' && totalPoints === '0' && badges === '0') {
