@@ -133,7 +133,7 @@ main {
     width: 100vw;
     height: 100vh;
     height: 100dvh;
-    display: none;
+    display: none !important;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -144,21 +144,38 @@ main {
     opacity: 0;
     transition: opacity 0.3s ease;
     overflow-y: auto;
+    z-index: -1;
+    visibility: hidden;
+    pointer-events: none;
 }
 
 .screen.active {
-    display: flex;
+    display: flex !important;
     opacity: 1;
     z-index: 1;
+    visibility: visible;
+    pointer-events: auto;
 }
 
-/* Old module system compatibility */
+/* Old module system compatibility - FORCE HIDE ALL OLD MODULES */
 .module {
-    display: none;
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    position: absolute !important;
+    top: -9999px !important;
+    left: -9999px !important;
+    pointer-events: none !important;
+    z-index: -9999 !important;
+    width: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
 }
 
 .module.active {
-    display: flex;
+    /* Old modules should NEVER be active - only .screen elements should be used */
+    display: none !important;
+    visibility: hidden !important;
 }
 
 /* Full-Screen Overlays */
@@ -347,7 +364,7 @@ main {
     background: rgba(255, 255, 255, 0.95);
     border-radius: 20px;
     padding: 4rem 3rem;
-    max-width: 700px;
+    max-width: 800px;
     width: 90%;
     box-shadow: 0 20px 60px rgba(0,0,0,0.15);
 }
@@ -537,6 +554,7 @@ li {
     text-align: left;
     transition: all 0.3s;
     font-weight: 500;
+    color: var(--text-dark);
 }
 
 .quiz-option:hover:not(:disabled) {
@@ -1392,24 +1410,4 @@ footer p {
 .loading {
     opacity: 0.5;
     pointer-events: none;
-}
-
-/* Graph Tooltip */
-.graph-tooltip {
-    position: fixed;
-    background: rgba(0, 0, 0, 0.85);
-    color: white;
-    padding: 8px 12px;
-    border-radius: 6px;
-    font-size: 14px;
-    font-weight: 600;
-    pointer-events: none;
-    z-index: 10000;
-    display: none;
-    white-space: nowrap;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-}
-
-.graph-tooltip.visible {
-    display: block;
 }

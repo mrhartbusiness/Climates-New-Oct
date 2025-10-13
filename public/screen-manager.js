@@ -57,14 +57,16 @@ class ScreenManager {
 
     showScreen(index) {
         // Hide all screens
-        const allScreens = document.querySelectorAll('.screen, .module');
+        const allScreens = document.querySelectorAll('.screen');
         allScreens.forEach(s => {
             s.classList.remove('active');
+            s.style.display = 'none';  // Force hide to prevent stacking
         });
 
         // Show target screen
-        const targetScreen = document.querySelectorAll('.screen, .module')[index];
+        const targetScreen = document.querySelectorAll('.screen')[index];
         if (targetScreen) {
+            targetScreen.style.display = 'flex';  // Ensure it's visible
             targetScreen.classList.add('active');
             this.currentScreen = index;
 

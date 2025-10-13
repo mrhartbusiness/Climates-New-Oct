@@ -70,36 +70,6 @@ let mysteryChart2 = null;
 let mysteryChart3 = null;
 let finalChart = null;
 
-// Tooltip element
-let tooltipEl = null;
-
-// Helper function to show graph tooltip
-function showGraphTooltip(x, y, text) {
-    if (!tooltipEl) {
-        tooltipEl = document.getElementById('graph-tooltip');
-    }
-    if (!tooltipEl) return;
-    
-    const tooltipContent = document.getElementById('tooltip-content');
-    if (tooltipContent) {
-        tooltipContent.innerHTML = text;
-    }
-    
-    tooltipEl.style.left = x + 'px';
-    tooltipEl.style.top = y + 'px';
-    tooltipEl.classList.add('visible');
-}
-
-// Helper function to hide graph tooltip
-function hideGraphTooltip() {
-    if (!tooltipEl) {
-        tooltipEl = document.getElementById('graph-tooltip');
-    }
-    if (tooltipEl) {
-        tooltipEl.classList.remove('visible');
-    }
-}
-
 // Graph builder data
 let userGraphData = [null, null, null, null, null, null, null, null, null, null, null, null];
 let userRainfallData = [5, 4, 4, 1, 1, 0, 0, 0, 0, 1, 3, 5]; // Start with correct data
@@ -114,6 +84,38 @@ let userRainfallData2 = [120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 
 const correctGraphData2 = [27, 27, 28, 28, 28, 28, 28, 28, 27, 27, 27, 27]; // Singapore temperature
 const correctRainfallData2 = [243, 157, 193, 179, 171, 161, 158, 176, 169, 193, 256, 287]; // Singapore rainfall
 const rainfallData2 = [243, 157, 193, 179, 171, 161, 158, 176, 169, 193, 256, 287]; // Display rainfall for Singapore
+
+// Tooltip helper functions
+function showGraphTooltip(x, y, content) {
+    let tooltip = document.getElementById('graph-tooltip');
+    if (!tooltip) {
+        tooltip = document.createElement('div');
+        tooltip.id = 'graph-tooltip';
+        tooltip.style.cssText = `
+            position: fixed;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            pointer-events: none;
+            z-index: 10000;
+            white-space: nowrap;
+        `;
+        document.body.appendChild(tooltip);
+    }
+    tooltip.innerHTML = content;
+    tooltip.style.left = x + 'px';
+    tooltip.style.top = y + 'px';
+    tooltip.style.display = 'block';
+}
+
+function hideGraphTooltip() {
+    const tooltip = document.getElementById('graph-tooltip');
+    if (tooltip) {
+        tooltip.style.display = 'none';
+    }
+}
 
 // Initialize when page loads
 document.addEventListener('DOMContentLoaded', function() {
@@ -130,6 +132,7 @@ document.addEventListener('DOMContentLoaded', function() {
     createLondonGraphForQuestions();
     createBuildGraph();
     createBuildGraph2();
+    createMysteryGraphs();
     createFinalGraph();
 });
 
@@ -307,9 +310,7 @@ function showModule(moduleNum) {
     }
 
     // Initialize one-question-at-a-time modules
-    if (moduleNum === 5) {
-        setTimeout(() => createMysteryGraphs(), 100);
-    } else if (moduleNum === 6) {
+    if (moduleNum === 6) {
         setTimeout(() => initializeQuiz(), 100);
     } else if (moduleNum === 7) {
         setTimeout(() => initializeFinalAssessment(), 100);
@@ -1177,25 +1178,43 @@ function createBuildGraph() {
             },
             onHover: (event, activeElements, chart) => {
                 const canvas = chart.canvas;
-                // Always show crosshair for temperature plotting
-                canvas.style.cursor = 'crosshair';
-                
-                // Show tooltip with temperature value anywhere on the graph
-                const canvasPosition = Chart.helpers.getRelativePosition(event, chart);
-                const dataY = chart.scales.y.getValueForPixel(canvasPosition.y);
-                
-                // Clamp the value to valid range but show tooltip anywhere
-                const tempValue = Math.max(0, Math.min(35, Math.round(dataY)));
                 const nativeEvent = event.native || event;
                 const pageX = nativeEvent.pageX || (nativeEvent.clientX + window.pageXOffset);
                 const pageY = nativeEvent.pageY || (nativeEvent.clientY + window.pageYOffset);
-                showGraphTooltip(pageX + 15, pageY - 10, `Temperature: ${tempValue}°C`);
+
+                // Show temperature tooltip based on y-axis position
+                const canvasPosition = Chart.helpers.getRelativePosition(event, chart);
+                const dataY = chart.scales.y.getValueForPixel(canvasPosition.y);
+
+                if (dataY >= 0 && dataY <= 35) {
+                    const tempValue = Math.round(dataY);
+                    // Always use crosshair cursor since rainfall is not draggable
+                    canvas.style.cursor = 'crosshair';
+                    showGraphTooltip(pageX + 15, pageY - 10, `Temperature: ${tempValue}°C`);
+                } else {
+                    canvas.style.cursor = 'default';
+                    hideGraphTooltip();
+                }
             }
         }
     });
-    
-    // Add mouse leave handler to hide tooltip
+
+    // Cairo graph - rainfall is prefilled, no dragging needed
     const canvas = ctx;
+
+    canvas.addEventListener('mousemove', (e) => {
+        // Show temperature tooltip
+        const canvasPosition = Chart.helpers.getRelativePosition(e, buildChart);
+        const dataY = buildChart.scales.y.getValueForPixel(canvasPosition.y);
+
+        if (dataY >= 0 && dataY <= 35) {
+            const tempValue = Math.round(dataY);
+            showGraphTooltip(e.pageX + 15, e.pageY - 10, `Temperature: ${tempValue}°C`);
+        } else {
+            hideGraphTooltip();
+        }
+    });
+
     canvas.addEventListener('mouseleave', () => {
         hideGraphTooltip();
     });
@@ -1219,11 +1238,13 @@ function resetGraph() {
 function checkGraphAccuracy() {
     const feedback = document.getElementById('feedback-4');
     let tempErrors = 0;
+    let rainfallErrors = 0;
     let completed = 0;
     let tempErrorMonths = [];
+    let rainfallErrorMonths = [];
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-    // Check temperature only
+    // Check temperature
     userGraphData.forEach((value, index) => {
         if (value !== null) {
             completed++;
@@ -1235,34 +1256,45 @@ function checkGraphAccuracy() {
         }
     });
 
+    // Check rainfall
+    userRainfallData.forEach((value, index) => {
+        const difference = Math.abs(value - correctRainfallData[index]);
+        if (difference > 1) {
+            rainfallErrors++;
+            rainfallErrorMonths.push(months[index]);
+        }
+    });
+
     if (completed < 12) {
         feedback.className = 'feedback incorrect show';
         feedback.textContent = `✗ Please plot all 12 temperature points! You've plotted ${completed} so far.`;
         retries.module4++;
-        // Hide continue button
-        const continueBtn = document.getElementById('continue-btn-4');
-        if (continueBtn) continueBtn.style.display = 'none';
-    } else if (tempErrors === 0) {
+    } else if (tempErrors === 0 && rainfallErrors === 0) {
         feedback.className = 'feedback correct show';
-        feedback.textContent = '✓ Excellent! Your temperature graph is perfect!';
+        feedback.textContent = '✓ Excellent! Your climate graph is perfect!';
         addPoints(50, 'Perfect graph!');
-        // Show continue button
-        const continueBtn = document.getElementById('continue-btn-4');
-        if (continueBtn) continueBtn.style.display = 'inline-block';
-    } else if (tempErrors <= 3) {
+
+        // Show Continue button
+        showGraphContinueButton('feedback-4');
+    } else if (tempErrors <= 3 && rainfallErrors <= 3) {
+        let errorDetails = [];
+        if (tempErrors > 0) errorDetails.push(`${tempErrors} temp months: ${tempErrorMonths.join(', ')}`);
+        if (rainfallErrors > 0) errorDetails.push(`${rainfallErrors} rainfall months: ${rainfallErrorMonths.join(', ')}`);
+
         feedback.className = 'feedback correct show';
-        feedback.textContent = `✓ Good job! Your temperature graph is mostly accurate (${tempErrors} months slightly off: ${tempErrorMonths.join(', ')}).`;
+        feedback.textContent = `✓ Good job! Your graph is mostly accurate (${errorDetails.join('; ')} slightly off).`;
         addPoints(30, 'Good graph!');
-        // Show continue button
-        const continueBtn = document.getElementById('continue-btn-4');
-        if (continueBtn) continueBtn.style.display = 'inline-block';
+
+        // Show Continue button
+        showGraphContinueButton('feedback-4');
     } else {
+        let errorDetails = [];
+        if (tempErrors > 0) errorDetails.push(`Temperature errors in: ${tempErrorMonths.join(', ')}`);
+        if (rainfallErrors > 0) errorDetails.push(`Rainfall errors in: ${rainfallErrorMonths.join(', ')}`);
+
         feedback.className = 'feedback incorrect show';
-        feedback.textContent = `✗ Keep trying! Temperature errors in: ${tempErrorMonths.join(', ')}. Check the data table and try again.`;
+        feedback.textContent = `✗ Keep trying! ${errorDetails.join('. ')}. Check the data table and try again.`;
         retries.module4++;
-        // Hide continue button
-        const continueBtn = document.getElementById('continue-btn-4');
-        if (continueBtn) continueBtn.style.display = 'none';
     }
 }
 
@@ -1284,12 +1316,7 @@ function createBuildGraph2() {
                 yAxisID: 'y',
                 tension: 0.4,
                 borderWidth: 3,
-                spanGaps: true,
-                pointRadius: 5,
-                pointHoverRadius: 7,
-                pointBackgroundColor: 'rgb(255, 99, 132)',
-                pointBorderColor: '#fff',
-                pointBorderWidth: 2
+                spanGaps: true
             }, {
                 type: 'bar',
                 label: 'Rainfall (mm) - Drag to adjust',
@@ -1312,7 +1339,7 @@ function createBuildGraph2() {
                     position: 'bottom'
                 },
                 tooltip: {
-                    enabled: false
+                    enabled: false  // Disable default Chart.js tooltip
                 }
             },
             scales: {
@@ -1385,22 +1412,26 @@ function createBuildGraph2() {
                 const nativeEvent = event.native || event;
                 const pageX = nativeEvent.pageX || (nativeEvent.clientX + window.pageXOffset);
                 const pageY = nativeEvent.pageY || (nativeEvent.clientY + window.pageYOffset);
-                
-                // Show tooltip for rainfall value anywhere on the graph (based on y1 axis position)
+
+                // Show rainfall tooltip based on y1-axis position
                 const canvasPosition = Chart.helpers.getRelativePosition(event, chart);
                 const dataY = chart.scales.y1.getValueForPixel(canvasPosition.y);
-                
-                // Clamp the value to valid range but show tooltip anywhere
-                const rainfallValue = Math.max(0, Math.min(300, Math.round(dataY)));
-                
-                // Change cursor if hovering over rainfall bar
-                if (activeElements.length > 0 && activeElements[0].datasetIndex === 1) {
-                    canvas.style.cursor = 'ns-resize';
+
+                if (dataY >= 0 && dataY <= 300) {
+                    const rainfallValue = Math.round(dataY);
+
+                    // Change cursor if hovering over rainfall bar
+                    if (activeElements.length > 0 && activeElements[0].datasetIndex === 1) {
+                        canvas.style.cursor = 'ns-resize';
+                    } else {
+                        canvas.style.cursor = 'default';
+                    }
+
+                    showGraphTooltip(pageX + 15, pageY - 10, `Rainfall: ${rainfallValue}mm`);
                 } else {
                     canvas.style.cursor = 'default';
+                    hideGraphTooltip();
                 }
-                
-                showGraphTooltip(pageX + 15, pageY - 10, `Rainfall: ${rainfallValue}mm`);
             }
         }
     });
@@ -1419,27 +1450,6 @@ function createBuildGraph2() {
         if (elements.length > 0 && elements[0].datasetIndex === 1) {
             isDragging2 = true;
             dragMonthIndex2 = elements[0].index;
-        } else {
-            // Allow clicking anywhere in a column to set rainfall value
-            const canvasPosition = Chart.helpers.getRelativePosition(e, buildChart2);
-            const dataX = buildChart2.scales.x.getValueForPixel(canvasPosition.x);
-            const dataY = buildChart2.scales.y1.getValueForPixel(canvasPosition.y);
-            
-            // Check if click is within valid bounds
-            if (dataX >= -0.5 && dataX < 11.5 && dataY >= 0 && dataY <= 300) {
-                const monthIndex = Math.round(dataX);
-                if (monthIndex >= 0 && monthIndex < 12) {
-                    const rainfallValue = Math.max(0, Math.min(300, Math.round(dataY)));
-                    userRainfallData2[monthIndex] = rainfallValue;
-                    buildChart2.data.datasets[1].data = userRainfallData2;
-                    buildChart2.update();
-                    saveAppProgress(); // Save after clicking
-                    
-                    // Start dragging from this position
-                    isDragging2 = true;
-                    dragMonthIndex2 = monthIndex;
-                }
-            }
         }
     });
 
@@ -1452,10 +1462,21 @@ function createBuildGraph2() {
                 userRainfallData2[dragMonthIndex2] = Math.max(0, Math.round(dataY));
                 buildChart2.data.datasets[1].data = userRainfallData2;
                 buildChart2.update('none'); // Update without animation for smooth dragging
-                
+
                 // Show tooltip while dragging - rainfall only
                 const rainfallValue = Math.round(userRainfallData2[dragMonthIndex2]);
                 showGraphTooltip(e.pageX + 15, e.pageY - 10, `Rainfall: ${rainfallValue}mm`);
+            }
+        } else {
+            // Show rainfall tooltip when not dragging
+            const canvasPosition = Chart.helpers.getRelativePosition(e, buildChart2);
+            const dataY = buildChart2.scales.y1.getValueForPixel(canvasPosition.y);
+
+            if (dataY >= 0 && dataY <= 300) {
+                const rainfallValue = Math.round(dataY);
+                showGraphTooltip(e.pageX + 15, e.pageY - 10, `Rainfall: ${rainfallValue}mm`);
+            } else {
+                hideGraphTooltip();
             }
         }
     });
@@ -1466,8 +1487,8 @@ function createBuildGraph2() {
             dragMonthIndex2 = -1;
             buildChart2.update(); // Final update with animation
             saveAppProgress(); // Save after dragging
-            // Don't hide tooltip - let it continue showing via onHover
         }
+        // Don't hide tooltip - let it continue showing via mousemove
     });
 
     canvas.addEventListener('mouseleave', () => {
@@ -1477,7 +1498,7 @@ function createBuildGraph2() {
             buildChart2.update();
             saveAppProgress(); // Save after dragging
         }
-        hideGraphTooltip(); // Hide tooltip when leaving canvas
+        hideGraphTooltip();
     });
 
     // Touch support for mobile
@@ -1545,33 +1566,65 @@ function checkGraphAccuracy2() {
 
     if (rainfallErrors === 0) {
         feedback.className = 'feedback correct show';
-        feedback.textContent = '✓ Excellent! Your Singapore rainfall graph is perfect!';
+        feedback.textContent = '✓ Excellent! Your Singapore climate graph is perfect!';
         addPoints(50, 'Perfect graph!');
-        // Show continue button
-        const continueBtn = document.getElementById('continue-btn-4b');
-        if (continueBtn) continueBtn.style.display = 'inline-block';
+
+        // Show Continue button
+        showGraphContinueButton('feedback-4b-graph');
     } else if (rainfallErrors <= 3) {
         feedback.className = 'feedback correct show';
-        feedback.textContent = `✓ Good job! Your rainfall graph is mostly accurate (${rainfallErrors} months slightly off: ${rainfallErrorMonths.join(', ')}).`;
+        feedback.textContent = `✓ Good job! Your graph is mostly accurate (${rainfallErrors} rainfall months slightly off: ${rainfallErrorMonths.join(', ')}).`;
         addPoints(30, 'Good graph!');
-        // Show continue button
-        const continueBtn = document.getElementById('continue-btn-4b');
-        if (continueBtn) continueBtn.style.display = 'inline-block';
+
+        // Show Continue button
+        showGraphContinueButton('feedback-4b-graph');
     } else {
         feedback.className = 'feedback incorrect show';
         feedback.textContent = `✗ Keep trying! Rainfall errors in: ${rainfallErrorMonths.join(', ')}. Check the data table and try again.`;
         retries.module4b++;
-        // Hide continue button
-        const continueBtn = document.getElementById('continue-btn-4b');
-        if (continueBtn) continueBtn.style.display = 'none';
     }
+}
+
+// Helper function to show Continue button for graph builders
+function showGraphContinueButton(feedbackId) {
+    const feedback = document.getElementById(feedbackId);
+    if (!feedback) return;
+
+    // Check if button already exists
+    let continueBtn = feedback.parentElement.querySelector('.graph-continue-btn');
+    if (continueBtn) {
+        continueBtn.style.display = 'inline-block';
+        return;
+    }
+
+    // Create Continue button
+    continueBtn = document.createElement('button');
+    continueBtn.className = 'quiz-option graph-continue-btn';
+    continueBtn.textContent = 'Continue →';
+    continueBtn.style.cssText = `
+        margin-top: 1rem;
+        display: inline-block;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        font-weight: 600;
+    `;
+
+    continueBtn.onclick = () => {
+        // Disable button to prevent double-clicks
+        continueBtn.disabled = true;
+
+        // Call screenManager which will properly hide current screen and show next
+        screenManager.nextScreen();
+    };
+
+    feedback.parentElement.appendChild(continueBtn);
 }
 
 // Mystery Graphs for Explorer Module
 function createMysteryGraphs() {
-    // Mumbai (Tropical)
-    const ctx1 = document.getElementById('mysteryGraph1');
-    if (ctx1 && !mysteryChart1) {
+    // Mumbai (Tropical) - High rainfall with monsoon spike
+    const ctx1 = document.getElementById('mysteryChart1');
+    if (ctx1) {
         mysteryChart1 = new Chart(ctx1, {
             type: 'bar',
             data: {
@@ -1592,13 +1645,13 @@ function createMysteryGraphs() {
                     yAxisID: 'y1'
                 }]
             },
-            options: getGraphOptions('Mystery Graph A')
+            options: getMysteryGraphOptions('Mystery Graph A', 35, 650, 100)
         });
     }
 
-    // Athens (Mediterranean)
-    const ctx2 = document.getElementById('mysteryGraph2');
-    if (ctx2 && !mysteryChart2) {
+    // Athens (Mediterranean) - Low rainfall, dry summer, wet winter
+    const ctx2 = document.getElementById('mysteryChart2');
+    if (ctx2) {
         mysteryChart2 = new Chart(ctx2, {
             type: 'bar',
             data: {
@@ -1619,13 +1672,13 @@ function createMysteryGraphs() {
                     yAxisID: 'y1'
                 }]
             },
-            options: getGraphOptions('Mystery Graph B')
+            options: getMysteryGraphOptions('Mystery Graph B', 35, 100, 20)
         });
     }
 
-    // Reykjavik (Polar/Cold)
-    const ctx3 = document.getElementById('mysteryGraph3');
-    if (ctx3 && !mysteryChart3) {
+    // Reykjavik (Polar/Cold) - Moderate rainfall, cold temperatures
+    const ctx3 = document.getElementById('mysteryChart3');
+    if (ctx3) {
         mysteryChart3 = new Chart(ctx3, {
             type: 'bar',
             data: {
@@ -1646,7 +1699,7 @@ function createMysteryGraphs() {
                     yAxisID: 'y1'
                 }]
             },
-            options: getGraphOptions('Mystery Graph C')
+            options: getMysteryGraphOptions('Mystery Graph C', 20, 120, 20)
         });
     }
 }
@@ -1683,7 +1736,7 @@ function createFinalGraph() {
 function getGraphOptions(title) {
     return {
         responsive: true,
-        maintainAspectRatio: true,
+        maintainAspectRatio: false,
         plugins: {
             title: {
                 display: true,
@@ -1751,19 +1804,105 @@ function getGraphOptions(title) {
     };
 }
 
+// Custom graph options for mystery graphs with individual scales
+function getMysteryGraphOptions(title, tempMax, rainfallMax, rainfallStep) {
+    return {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            title: {
+                display: true,
+                text: title,
+                font: { size: 14, weight: 'bold' }
+            },
+            legend: {
+                display: true,
+                position: 'bottom',
+                labels: { font: { size: 10 } }
+            }
+        },
+        scales: {
+            x: {
+                grid: {
+                    display: true,
+                    color: 'rgba(0, 0, 0, 0.08)',
+                    lineWidth: 1
+                },
+                ticks: {
+                    font: {
+                        size: 11,
+                        weight: 'bold'
+                    }
+                }
+            },
+            y: {
+                type: 'linear',
+                display: true,
+                position: 'left',
+                title: {
+                    display: true,
+                    text: 'Temperature (°C)',
+                    font: { size: 12, weight: 'bold' }
+                },
+                min: 0,
+                max: tempMax,
+                ticks: {
+                    stepSize: 5,
+                    font: { size: 10 }
+                },
+                grid: {
+                    color: 'rgba(255, 99, 132, 0.15)',
+                    lineWidth: 1
+                }
+            },
+            y1: {
+                type: 'linear',
+                display: true,
+                position: 'right',
+                title: {
+                    display: true,
+                    text: 'Rainfall (mm)',
+                    font: { size: 12, weight: 'bold' }
+                },
+                grid: { drawOnChartArea: false },
+                min: 0,
+                max: rainfallMax,
+                ticks: {
+                    stepSize: rainfallStep,
+                    font: { size: 10 }
+                }
+            }
+        }
+    };
+}
+
 // Explorer Questions
 let explorerAnswered = {1: false, 2: false, 3: false};
 
 function checkExplorerAnswer(questionNum, button, isCorrect) {
     const options = button.parentElement.querySelectorAll('.quiz-option');
     const feedback = document.getElementById(`explorer-feedback-${questionNum}`);
-    
+    const retryKey = `module5_${questionNum}`;
+
     // Get the question text from the page
     const questionElement = button.closest('.explorer-question');
-    const questionText = questionElement ? 
-        `Graph ${questionNum}: Which city does this represent?` : 
+    const questionText = questionElement ?
+        `Graph ${questionNum}: Which city does this represent?` :
         'Climate Explorer Question';
     const answerText = button.textContent.trim();
+
+    // Initialize question attempts if first time
+    if (!questionAttempts[retryKey]) {
+        questionAttempts[retryKey] = 0;
+    }
+
+    // Increment attempt count
+    questionAttempts[retryKey]++;
+
+    // Track first attempt
+    if (questionAttempts[retryKey] === 1 && firstAttempts.hasOwnProperty(retryKey)) {
+        firstAttempts[retryKey] = isCorrect;
+    }
 
     if (isCorrect) {
         options.forEach(opt => opt.disabled = true);
@@ -1787,7 +1926,7 @@ function checkExplorerAnswer(questionNum, button, isCorrect) {
         button.classList.add('incorrect');
         feedback.className = 'feedback incorrect show';
         feedback.textContent = '✗ Incorrect. You must get this right to continue. Try again!';
-        retries[`module5_${questionNum}`]++;
+        retries[retryKey]++;
 
         // Show error overlay
         safeShowError('✗ Incorrect. You must get this right to continue. Try again!');
@@ -1797,6 +1936,9 @@ function checkExplorerAnswer(questionNum, button, isCorrect) {
             button.classList.remove('incorrect');
             feedback.classList.remove('show');
         }, 2000);
+
+        // Save progress after wrong answer
+        saveAppProgress();
     }
 }
 
@@ -1915,11 +2057,25 @@ function showQuizQuestion(index) {
 function checkQuizAnswer(questionNum, button, isCorrect) {
     const options = button.parentElement.querySelectorAll('.quiz-option');
     const feedback = document.getElementById(`quiz-feedback-${questionNum}`);
-    
+    const retryKey = `module6_${questionNum}`;
+
     // Get the question text from the quizQuestions array
     const questionData = quizQuestions.find(q => q.num === questionNum);
     const questionText = questionData ? questionData.question : 'Quiz Question';
     const answerText = button.textContent.trim();
+
+    // Initialize question attempts if first time
+    if (!questionAttempts[retryKey]) {
+        questionAttempts[retryKey] = 0;
+    }
+
+    // Increment attempt count
+    questionAttempts[retryKey]++;
+
+    // Track first attempt
+    if (questionAttempts[retryKey] === 1 && firstAttempts.hasOwnProperty(retryKey)) {
+        firstAttempts[retryKey] = isCorrect;
+    }
 
     if (isCorrect) {
         options.forEach(opt => opt.disabled = true);
@@ -1947,7 +2103,7 @@ function checkQuizAnswer(questionNum, button, isCorrect) {
         button.classList.add('incorrect');
         feedback.className = 'feedback incorrect show';
         feedback.textContent = '✗ Incorrect. You must get this right to continue. Try again!';
-        retries[`module6_${questionNum}`]++;
+        retries[retryKey]++;
 
         // Show error overlay
         safeShowError('✗ Incorrect. You must get this right to continue. Try again!');
@@ -1957,6 +2113,9 @@ function checkQuizAnswer(questionNum, button, isCorrect) {
             button.classList.remove('incorrect');
             feedback.classList.remove('show');
         }, 2000);
+
+        // Save progress after wrong answer
+        saveAppProgress();
     }
 }
 
@@ -2082,11 +2241,25 @@ function showFinalQuestion(index) {
 function checkFinalAnswer(questionNum, button, isCorrect) {
     const options = button.parentElement.querySelectorAll('.quiz-option');
     const feedback = document.getElementById(`final-feedback-${questionNum}`);
-    
+    const retryKey = `module7_${questionNum}`;
+
     // Get the question text from the finalQuestions array
     const questionData = finalQuestions.find(q => q.num === questionNum);
     const questionText = questionData ? questionData.question : 'Final Assessment Question';
     const answerText = button.textContent.trim();
+
+    // Initialize question attempts if first time
+    if (!questionAttempts[retryKey]) {
+        questionAttempts[retryKey] = 0;
+    }
+
+    // Increment attempt count
+    questionAttempts[retryKey]++;
+
+    // Track first attempt
+    if (questionAttempts[retryKey] === 1 && firstAttempts.hasOwnProperty(retryKey)) {
+        firstAttempts[retryKey] = isCorrect;
+    }
 
     if (isCorrect) {
         options.forEach(opt => opt.disabled = true);
@@ -2114,7 +2287,7 @@ function checkFinalAnswer(questionNum, button, isCorrect) {
         button.classList.add('incorrect');
         feedback.className = 'feedback incorrect show';
         feedback.textContent = '✗ Incorrect. You must get this right to complete the course. Try again!';
-        retries[`module7_${questionNum}`]++;
+        retries[retryKey]++;
 
         // Show error overlay
         safeShowError('✗ Incorrect. You must get this right to complete the course. Try again!');
@@ -2124,6 +2297,9 @@ function checkFinalAnswer(questionNum, button, isCorrect) {
             button.classList.remove('incorrect');
             feedback.classList.remove('show');
         }, 2000);
+
+        // Save progress after wrong answer
+        saveAppProgress();
     }
 }
 
@@ -2170,26 +2346,141 @@ function generateCertificate() {
     // Calculate total retries
     const totalRetries = Object.values(retries).reduce((sum, val) => sum + val, 0);
 
-    // Calculate accuracy score
-    // Total questions: Module 1 (1) + Module 2 (16) + Module 3 (1) + Module 4 (1) + Module 4B (1) + Module 5 (3) + Module 6 (8) + Module 7 (5) = 36
-    const totalQuestions = 36;
-    const firstAttemptCorrect = totalQuestions - Math.min(totalRetries, totalQuestions);
-    const accuracyPercentage = Math.round((firstAttemptCorrect / totalQuestions) * 100);
+    // Calculate accuracy score based on FIRST ATTEMPTS
+    // Count first attempt successes using the firstAttempts tracking object
+    const firstAttemptKeys = Object.keys(firstAttempts);
+    let firstAttemptCorrect = 0;
+    let totalQuestions = 0;
 
-    // Store data in sessionStorage
-    sessionStorage.setItem('studentName', studentName);
-    sessionStorage.setItem('completionDate', new Date().toLocaleDateString('en-GB', {
+    // Count Module 1
+    if (firstAttempts.module1 !== null) {
+        totalQuestions++;
+        if (firstAttempts.module1 === true) firstAttemptCorrect++;
+    }
+
+    // Count Module 2 (16 cities tracked collectively)
+    if (firstAttempts.module2 !== null) {
+        totalQuestions += 16; // 16 cities
+        if (firstAttempts.module2 === true) {
+            firstAttemptCorrect += 16; // All cities correct on first try
+        } else {
+            // Some cities were wrong on first try - count how many were actually wrong
+            // We'll be conservative and count based on retries
+            const module2Retries = retries.module2;
+            firstAttemptCorrect += Math.max(0, 16 - module2Retries);
+        }
+    }
+
+    // Count Module 3 (3 questions for graph reading)
+    ['module3_q1', 'module3_q2', 'module3_q3'].forEach(key => {
+        if (firstAttempts[key] !== null) {
+            totalQuestions++;
+            if (firstAttempts[key] === true) firstAttemptCorrect++;
+        }
+    });
+
+    // Count Module 4
+    if (firstAttempts.module4 !== null) {
+        totalQuestions++;
+        if (firstAttempts.module4 === true) firstAttemptCorrect++;
+    }
+
+    // Count Module 4B
+    if (firstAttempts.module4b !== null) {
+        totalQuestions++;
+        if (firstAttempts.module4b === true) firstAttemptCorrect++;
+    }
+
+    // Count Module 5 (3 mystery graphs)
+    for (let i = 1; i <= 3; i++) {
+        const key = `module5_${i}`;
+        if (firstAttempts[key] !== null) {
+            totalQuestions++;
+            if (firstAttempts[key] === true) firstAttemptCorrect++;
+        }
+    }
+
+    // Count Module 6 (8 quiz questions)
+    for (let i = 1; i <= 8; i++) {
+        const key = `module6_${i}`;
+        if (firstAttempts[key] !== null) {
+            totalQuestions++;
+            if (firstAttempts[key] === true) firstAttemptCorrect++;
+        }
+    }
+
+    // Count Module 7 (5 final questions)
+    for (let i = 1; i <= 5; i++) {
+        const key = `module7_${i}`;
+        if (firstAttempts[key] !== null) {
+            totalQuestions++;
+            if (firstAttempts[key] === true) firstAttemptCorrect++;
+        }
+    }
+
+    // Calculate percentage (fallback to 100% if no questions tracked)
+    const accuracyPercentage = totalQuestions > 0
+        ? Math.round((firstAttemptCorrect / totalQuestions) * 100)
+        : 100;
+
+    const completionDate = new Date().toLocaleDateString('en-GB', {
         day: 'numeric',
         month: 'long',
         year: 'numeric'
-    }));
-    sessionStorage.setItem('totalPoints', points);
-    sessionStorage.setItem('badges', badges.length);
-    sessionStorage.setItem('totalRetries', totalRetries);
-    sessionStorage.setItem('accuracyScore', accuracyPercentage + '%');
+    });
 
-    // Open certificate page
-    window.open('certificate.html', '_blank');
+    // Validate we have a student name
+    if (!studentName || studentName.trim() === '') {
+        alert('⚠️ Please enter your name at the start of the course!');
+        return;
+    }
+
+    // Prepare data
+    const certificateData = {
+        studentName: studentName.trim(),
+        completionDate: completionDate,
+        totalPoints: points.toString(),
+        badges: badges.length.toString(),
+        totalRetries: totalRetries.toString(),
+        accuracyScore: accuracyPercentage + '%'
+    };
+
+    // Debug log
+    console.log('=== GENERATING CERTIFICATE ===');
+    console.log('Current student name:', studentName);
+    console.log('Current points:', points);
+    console.log('Current badges:', badges.length);
+    console.log('Total retries:', totalRetries);
+    console.log('Accuracy:', accuracyPercentage + '%');
+    console.log('Certificate data object:', certificateData);
+
+    try {
+        // Store data in both sessionStorage and localStorage for reliability
+        Object.keys(certificateData).forEach(key => {
+            sessionStorage.setItem(key, certificateData[key]);
+            localStorage.setItem(key, certificateData[key]);
+            console.log(`✓ Saved ${key}:`, certificateData[key]);
+        });
+
+        // Verify data was saved
+        console.log('=== VERIFICATION ===');
+        console.log('SessionStorage studentName:', sessionStorage.getItem('studentName'));
+        console.log('LocalStorage studentName:', localStorage.getItem('studentName'));
+        console.log('SessionStorage totalPoints:', sessionStorage.getItem('totalPoints'));
+        console.log('LocalStorage totalPoints:', localStorage.getItem('totalPoints'));
+
+        // Open certificate page in new tab
+        const certWindow = window.open('certificate.html', '_blank');
+
+        if (!certWindow) {
+            alert('⚠️ Pop-up blocked! Please allow pop-ups for this site and try again.');
+        } else {
+            console.log('✓ Certificate window opened successfully');
+        }
+    } catch (error) {
+        console.error('Error generating certificate:', error);
+        alert('Error generating certificate. Please check the console for details.');
+    }
 }
 
 // Restart Course

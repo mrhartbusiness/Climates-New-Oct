@@ -14,8 +14,7 @@
     <header>
         <div class="container">
             <h1>🌍 Climate Learning Hub</h1>
-            <p class="subtitle">Year 8 Geography - Climate & Climate Graphs</p>
-        </div>
+           </div>
     </header>
 
     <!-- Progress Bar -->
@@ -37,9 +36,7 @@
         <!-- Welcome Screen -->
         <section id="screen-welcome" class="screen active">
             <div class="welcome-card">
-                <h2>🌍<br>Climate Learning<br>Hub</h2>
-                <p style="font-size: 1.3rem; margin: 2rem 0; opacity: 0.9;">Master climate zones and climate graphs</p>
-
+                <h2>Climate Learning Hub</h2>
                 <div class="name-input-section">
                     <label for="studentName" style="font-size: 1.2rem; font-weight: 600;">Enter your name to begin:</label>
                     <input type="text" id="studentName" placeholder="Your full name" style="font-size: 1.2rem; padding: 1rem; margin: 1rem 0; width: 100%; max-width: 400px; border-radius: 12px; border: 2px solid #667eea;" />
@@ -1101,7 +1098,7 @@
                 <div class="graph-builder-split">
                     <div class="data-side">
                         <h3 style="font-size: 1.5rem;">Cairo Climate Data</h3>
-                        <p style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 1rem;">Click to plot temperature points (rainfall is prefilled)</p>
+                        <p style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 1rem;">Click to plot temperature, drag to adjust rainfall</p>
                         <table class="horizontal-data-table compact">
                             <thead>
                                 <tr>
@@ -1159,7 +1156,6 @@
                             <button onclick="checkGraphAccuracy()" class="btn-primary">Check My Graph</button>
                         </div>
                         <div class="feedback" id="feedback-4" style="margin-top: 1rem;"></div>
-                        <button id="continue-btn-4" onclick="screenManager.nextScreen()" class="btn-primary btn-large" style="margin-top: 1rem; display: none;">Continue →</button>
                     </div>
 
                     <div class="graph-side">
@@ -1280,7 +1276,6 @@
                             <button onclick="checkGraphAccuracy2()" class="btn-primary">Check My Graph</button>
                         </div>
                         <div class="feedback" id="feedback-4b-graph" style="margin-top: 1rem;"></div>
-                        <button id="continue-btn-4b" onclick="screenManager.nextScreen()" class="btn-primary btn-large" style="margin-top: 1rem; display: none;">Continue →</button>
                     </div>
 
                     <div class="graph-side">
@@ -2073,11 +2068,6 @@
             </div>
         </section>
     </main>
-
-    <!-- Tooltip overlay for graph interactions -->
-    <div id="graph-tooltip" class="graph-tooltip">
-        <div id="tooltip-content"></div>
-    </div>
 
     <!-- Footer -->
     <footer>
