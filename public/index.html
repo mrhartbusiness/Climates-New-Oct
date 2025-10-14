@@ -2028,43 +2028,94 @@
 
         <!-- Course Complete -->
         <section id="module-complete" class="module">
-            <div class="completion-card">
-                <h2>🎉 Congratulations!</h2>
-                <h3>You've Mastered Climate & Climate Graphs!</h3>
+            <div class="certificate-wrapper">
+                <button class="certificate-print-button" onclick="window.print()">🖨️ Print Certificate</button>
+                <button class="certificate-restart-button" onclick="restartCourse()">🔄 Take Course Again</button>
+                
+                <div class="certificate-container">
+                    <div class="certificate-watermark">CERTIFIED</div>
+                    <div class="certificate-border">
+                        <div class="certificate-header">
+                            <div class="certificate-icon">🏆</div>
+                            <h1 class="certificate-title">CERTIFICATE OF ACHIEVEMENT</h1>
+                            <p class="certificate-subtitle">Climate & Climate Graphs Mastery</p>
+                        </div>
 
-                <div class="achievements-summary">
-                    <div class="achievement-stat">
-                        <span class="stat-number" id="totalPoints">0</span>
-                        <span class="stat-label">Total Points</span>
-                    </div>
-                    <div class="achievement-stat">
-                        <span class="stat-number">7/7</span>
-                        <span class="stat-label">Modules Complete</span>
-                    </div>
-                    <div class="achievement-stat">
-                        <span class="stat-number" id="badgeCount">0</span>
-                        <span class="stat-label">Badges Earned</span>
+                        <div class="certificate-body">
+                            <p class="certificate-text">This is to certify that</p>
+
+                            <div class="certificate-student-name" id="certificateStudentName">Student Name</div>
+
+                            <p class="certificate-text">
+                                has successfully completed the comprehensive course on<br>
+                                <strong>Climate Zones and Climate Graph Interpretation</strong><br>
+                                for UK Year 8 Geography
+                            </p>
+
+                            <div class="certificate-stats-section">
+                                <div class="certificate-stat-item">
+                                    <div class="certificate-stat-value" id="certificateTotalPoints">0</div>
+                                    <div class="certificate-stat-label">Points Earned</div>
+                                </div>
+                                <div class="certificate-stat-item">
+                                    <div class="certificate-stat-value" id="certificateBadgeCount">0</div>
+                                    <div class="certificate-stat-label">Badges Earned</div>
+                                </div>
+                                <div class="certificate-stat-item">
+                                    <div class="certificate-stat-value" id="certificateAccuracyScore">100%</div>
+                                    <div class="certificate-stat-label">Accuracy Score</div>
+                                </div>
+                                <div class="certificate-stat-item">
+                                    <div class="certificate-stat-value" id="certificateTotalRetries">0</div>
+                                    <div class="certificate-stat-label">Total Retries</div>
+                                </div>
+                            </div>
+
+                            <div class="certificate-achievement-section">
+                                <div class="certificate-achievement-title">Learning Outcomes Achieved:</div>
+                                <div class="certificate-achievement-grid">
+                                    <div class="certificate-achievement-item">
+                                        ✓ Understanding the difference between weather and climate
+                                    </div>
+                                    <div class="certificate-achievement-item">
+                                        ✓ Identifying the five major climate zones
+                                    </div>
+                                    <div class="certificate-achievement-item">
+                                        ✓ Reading and interpreting climate graphs
+                                    </div>
+                                    <div class="certificate-achievement-item">
+                                        ✓ Creating climate graphs from data
+                                    </div>
+                                    <div class="certificate-achievement-item">
+                                        ✓ Analyzing temperature and rainfall patterns
+                                    </div>
+                                    <div class="certificate-achievement-item">
+                                        ✓ Matching climates to real-world locations
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="certificate-course-details">
+                                <p><strong>Course Duration:</strong> 1 Hour Interactive Learning</p>
+                                <p><strong>Curriculum:</strong> UK Year 8 Geography (Ages 12-13)</p>
+                                <p><strong>Topics Covered:</strong> Tropical, Arid, Temperate, Polar, and Mediterranean Climates</p>
+                            </div>
+                        </div>
+
+                        <div class="certificate-footer">
+                            <div class="certificate-signature-section">
+                                <div class="certificate-signature-line"></div>
+                                <div class="certificate-signature-name">Climate Learning Hub</div>
+                                <div class="certificate-signature-title">Educational Platform</div>
+                            </div>
+
+                            <div class="certificate-date-section">
+                                <div class="certificate-date-label">Date of Completion</div>
+                                <div class="certificate-date-value" id="certificateCompletionDate">1st January 2025</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-                <div class="earned-badges" id="earnedBadges"></div>
-
-                <h3>What You've Learned:</h3>
-                <ul class="learning-outcomes">
-                    <li>✓ The difference between weather and climate</li>
-                    <li>✓ Five major climate zones and their characteristics</li>
-                    <li>✓ How to read and interpret climate graphs</li>
-                    <li>✓ How to identify climates from graph data</li>
-                    <li>✓ Real-world applications of climate knowledge</li>
-                </ul>
-
-                <button onclick="generateCertificate()" class="btn-primary btn-large">
-                    🏆 View & Print Your Certificate
-                </button>
-
-                <button onclick="restartCourse()" class="btn-secondary" style="margin-top: 15px;">
-                    🔄 Take the Course Again
-                </button>
             </div>
         </section>
     </main>
