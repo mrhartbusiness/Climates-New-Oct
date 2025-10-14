@@ -2324,19 +2324,8 @@ function completeCourse() {
     showModule(currentModule);
     updateProgress();
 
-    // Update final stats
-    document.getElementById('totalPoints').textContent = points;
-    document.getElementById('badgeCount').textContent = badges.length;
-
-    // Show earned badges
-    const earnedBadgesDiv = document.getElementById('earnedBadges');
-    earnedBadgesDiv.innerHTML = '<h3>Your Badges:</h3>';
-    badges.forEach(badge => {
-        const badgeElement = document.createElement('div');
-        badgeElement.className = 'earned-badge';
-        badgeElement.textContent = badge;
-        earnedBadgesDiv.appendChild(badgeElement);
-    });
+    // Generate and populate the certificate with current user data
+    generateCertificate();
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -2435,16 +2424,6 @@ function generateCertificate() {
         return;
     }
 
-    // Prepare data
-    const certificateData = {
-        studentName: studentName.trim(),
-        completionDate: completionDate,
-        totalPoints: points.toString(),
-        badges: badges.length.toString(),
-        totalRetries: totalRetries.toString(),
-        accuracyScore: accuracyPercentage + '%'
-    };
-
     // Debug log
     console.log('=== GENERATING CERTIFICATE ===');
     console.log('Current student name:', studentName);
@@ -2452,35 +2431,21 @@ function generateCertificate() {
     console.log('Current badges:', badges.length);
     console.log('Total retries:', totalRetries);
     console.log('Accuracy:', accuracyPercentage + '%');
-    console.log('Certificate data object:', certificateData);
 
-    try {
-        // Store data in both sessionStorage and localStorage for reliability
-        Object.keys(certificateData).forEach(key => {
-            sessionStorage.setItem(key, certificateData[key]);
-            localStorage.setItem(key, certificateData[key]);
-            console.log(`✓ Saved ${key}:`, certificateData[key]);
-        });
+    // Populate certificate with user data
+    document.getElementById('certificateStudentName').textContent = studentName.trim();
+    document.getElementById('certificateTotalPoints').textContent = points;
+    document.getElementById('certificateBadgeCount').textContent = badges.length;
+    document.getElementById('certificateTotalRetries').textContent = totalRetries;
+    document.getElementById('certificateAccuracyScore').textContent = accuracyPercentage + '%';
+    document.getElementById('certificateCompletionDate').textContent = completionDate;
 
-        // Verify data was saved
-        console.log('=== VERIFICATION ===');
-        console.log('SessionStorage studentName:', sessionStorage.getItem('studentName'));
-        console.log('LocalStorage studentName:', localStorage.getItem('studentName'));
-        console.log('SessionStorage totalPoints:', sessionStorage.getItem('totalPoints'));
-        console.log('LocalStorage totalPoints:', localStorage.getItem('totalPoints'));
-
-        // Open certificate page in new tab
-        const certWindow = window.open('certificate.html', '_blank');
-
-        if (!certWindow) {
-            alert('⚠️ Pop-up blocked! Please allow pop-ups for this site and try again.');
-        } else {
-            console.log('✓ Certificate window opened successfully');
-        }
-    } catch (error) {
-        console.error('Error generating certificate:', error);
-        alert('Error generating certificate. Please check the console for details.');
+    // Navigate to certificate screen using screenManager
+    if (typeof screenManager !== 'undefined') {
+        screenManager.nextScreen();
     }
+
+    console.log('✓ Certificate populated with user data and screen shown');
 }
 
 // Restart Course
@@ -2510,10 +2475,24 @@ function restartCourse() {
         quizAnswered = {};
         finalAnswered = {};
 
-        showModule(0);
+        // Clear localStorage
+        localStorage.removeItem('climateHub_currentScreen');
+        localStorage.removeItem('studentName');
+
+        // Navigate to first screen using screenManager
+        if (typeof screenManager !== 'undefined') {
+            screenManager.showScreen(0);
+        } else {
+            showModule(0);
+        }
+        
         updateProgress();
-        document.getElementById('achievementBadges').innerHTML = '';
-        document.getElementById('studentName').value = '';
+        
+        // Clear student name input
+        const studentNameInput = document.getElementById('studentName');
+        if (studentNameInput) {
+            studentNameInput.value = '';
+        }
 
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
