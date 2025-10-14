@@ -2440,8 +2440,12 @@ function generateCertificate() {
     document.getElementById('certificateAccuracyScore').textContent = accuracyPercentage + '%';
     document.getElementById('certificateCompletionDate').textContent = completionDate;
 
-    // Show the certificate (it's already in module-complete, which is shown by completeCourse)
-    console.log('✓ Certificate populated with user data');
+    // Navigate to certificate screen using screenManager
+    if (typeof screenManager !== 'undefined') {
+        screenManager.nextScreen();
+    }
+
+    console.log('✓ Certificate populated with user data and screen shown');
 }
 
 // Restart Course
@@ -2471,10 +2475,24 @@ function restartCourse() {
         quizAnswered = {};
         finalAnswered = {};
 
-        showModule(0);
+        // Clear localStorage
+        localStorage.removeItem('climateHub_currentScreen');
+        localStorage.removeItem('studentName');
+
+        // Navigate to first screen using screenManager
+        if (typeof screenManager !== 'undefined') {
+            screenManager.showScreen(0);
+        } else {
+            showModule(0);
+        }
+        
         updateProgress();
-        document.getElementById('achievementBadges').innerHTML = '';
-        document.getElementById('studentName').value = '';
+        
+        // Clear student name input
+        const studentNameInput = document.getElementById('studentName');
+        if (studentNameInput) {
+            studentNameInput.value = '';
+        }
 
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }

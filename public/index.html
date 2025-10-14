@@ -1528,40 +1528,94 @@
 
         <!-- CERTIFICATE SCREEN -->
         <section id="screen-certificate" class="screen">
-            <div class="content-card" style="text-align: center; max-width: 900px; margin: 0 auto;">
-                <div style="font-size: 5rem; margin-bottom: 1rem;">🏆</div>
-                <h2 style="font-size: 3rem; margin-bottom: 2rem;">Course Complete!</h2>
+            <div class="certificate-wrapper">
+                <button class="certificate-print-button" onclick="window.print()">🖨️ Print Certificate</button>
+                <button class="certificate-restart-button" onclick="restartCourse()">🔄 Take Course Again</button>
+                
+                <div class="certificate-container">
+                    <div class="certificate-watermark">CERTIFIED</div>
+                    <div class="certificate-border">
+                        <div class="certificate-header">
+                            <div class="certificate-icon">🏆</div>
+                            <h1 class="certificate-title">CERTIFICATE OF ACHIEVEMENT</h1>
+                            <p class="certificate-subtitle">Climate & Climate Graphs Mastery</p>
+                        </div>
 
-                <div id="certificate" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 3rem; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.3);">
-                    <h3 style="font-size: 2.5rem; margin-bottom: 1rem;">Climate Learning Hub</h3>
-                    <p style="font-size: 1.3rem; margin-bottom: 2rem;">Certificate of Achievement</p>
+                        <div class="certificate-body">
+                            <p class="certificate-text">This is to certify that</p>
 
-                    <div style="background: rgba(255,255,255,0.2); padding: 2rem; border-radius: 12px; margin: 2rem 0;">
-                        <p style="font-size: 1.5rem; margin-bottom: 0.5rem;">This certifies that</p>
-                        <h4 id="certStudentName" style="font-size: 3rem; margin: 1rem 0; font-weight: 700;"></h4>
-                        <p style="font-size: 1.3rem; margin-top: 1rem;">has successfully completed the Climate Learning Course</p>
+                            <div class="certificate-student-name" id="certificateStudentName">Student Name</div>
+
+                            <p class="certificate-text">
+                                has successfully completed the comprehensive course on<br>
+                                <strong>Climate Zones and Climate Graph Interpretation</strong><br>
+                                for UK Year 8 Geography
+                            </p>
+
+                            <div class="certificate-stats-section">
+                                <div class="certificate-stat-item">
+                                    <div class="certificate-stat-value" id="certificateTotalPoints">0</div>
+                                    <div class="certificate-stat-label">Points Earned</div>
+                                </div>
+                                <div class="certificate-stat-item">
+                                    <div class="certificate-stat-value" id="certificateBadgeCount">0</div>
+                                    <div class="certificate-stat-label">Badges Earned</div>
+                                </div>
+                                <div class="certificate-stat-item">
+                                    <div class="certificate-stat-value" id="certificateAccuracyScore">100%</div>
+                                    <div class="certificate-stat-label">Accuracy Score</div>
+                                </div>
+                                <div class="certificate-stat-item">
+                                    <div class="certificate-stat-value" id="certificateTotalRetries">0</div>
+                                    <div class="certificate-stat-label">Total Retries</div>
+                                </div>
+                            </div>
+
+                            <div class="certificate-achievement-section">
+                                <div class="certificate-achievement-title">Learning Outcomes Achieved:</div>
+                                <div class="certificate-achievement-grid">
+                                    <div class="certificate-achievement-item">
+                                        ✓ Understanding the difference between weather and climate
+                                    </div>
+                                    <div class="certificate-achievement-item">
+                                        ✓ Identifying the five major climate zones
+                                    </div>
+                                    <div class="certificate-achievement-item">
+                                        ✓ Reading and interpreting climate graphs
+                                    </div>
+                                    <div class="certificate-achievement-item">
+                                        ✓ Creating climate graphs from data
+                                    </div>
+                                    <div class="certificate-achievement-item">
+                                        ✓ Analyzing temperature and rainfall patterns
+                                    </div>
+                                    <div class="certificate-achievement-item">
+                                        ✓ Matching climates to real-world locations
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="certificate-course-details">
+                                <p><strong>Course Duration:</strong> 1 Hour Interactive Learning</p>
+                                <p><strong>Curriculum:</strong> UK Year 8 Geography (Ages 12-13)</p>
+                                <p><strong>Topics Covered:</strong> Tropical, Arid, Temperate, Polar, and Mediterranean Climates</p>
+                            </div>
+                        </div>
+
+                        <div class="certificate-footer">
+                            <div class="certificate-signature-section">
+                                <div class="certificate-signature-line"></div>
+                                <div class="certificate-signature-name">Climate Learning Hub</div>
+                                <div class="certificate-signature-title">Educational Platform</div>
+                            </div>
+
+                            <div class="certificate-date-section">
+                                <div class="certificate-date-label">Date of Completion</div>
+                                <div class="certificate-date-value" id="certificateCompletionDate">1st January 2025</div>
+                            </div>
+                        </div>
                     </div>
-
-                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin: 2rem 0;">
-                        <div style="background: rgba(255,255,255,0.2); padding: 1.5rem; border-radius: 12px;">
-                            <div id="certPoints" style="font-size: 2.5rem; font-weight: 700;"></div>
-                            <div style="font-size: 1.1rem; opacity: 0.9;">Total Points</div>
-                        </div>
-                        <div style="background: rgba(255,255,255,0.2); padding: 1.5rem; border-radius: 12px;">
-                            <div id="certRetries" style="font-size: 2.5rem; font-weight: 700;"></div>
-                            <div style="font-size: 1.1rem; opacity: 0.9;">Total Retries</div>
-                        </div>
-                        <div style="background: rgba(255,255,255,0.2); padding: 1.5rem; border-radius: 12px;">
-                            <div id="certAccuracy" style="font-size: 2.5rem; font-weight: 700;"></div>
-                            <div style="font-size: 1.1rem; opacity: 0.9;">First-Try Accuracy</div>
-                            <div class="accuracy-stats" style="font-size: 0.9rem; opacity: 0.8; margin-top: 0.5rem;"></div>
-                        </div>
-                    </div>
-
-                    <p style="font-size: 1.1rem; opacity: 0.9; margin-top: 2rem;">Awarded on <span id="certDate"></span></p>
                 </div>
-
-                <button onclick="window.print()" class="btn-primary btn-large" style="margin-top: 2rem;">Print Certificate 🖨️</button>
             </div>
         </section>
 
